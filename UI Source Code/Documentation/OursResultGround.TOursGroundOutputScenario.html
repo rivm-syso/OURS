@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursResultGround: Class TOursGroundOutputScenario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursGroundOutputScenario"></span><h1 class="cio">Class TOursGroundOutputScenario</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursResultGround.html">OursResultGround</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursGroundOutputScenario = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class for reading and storing the ground properties for a scenario.</p>
+<p>
+ Remark: <a class="normal" href="OursResultGround.TOursGroundOutputScenario.html#data">data</a> fields need to start with 'F'. Otherwise TJson.JsonToObject won't work.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursGroundOutputScenario</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputScenario.html#FName">FName</a></b>: String;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputScenario.html#FProbability">FProbability</a></b>: Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputScenario.html#FData">FData</a></b>: <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputScenario.html#FCoordinates">FCoordinates</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursResultGround.TOursGroundOutputScenario.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="OursResultGround.TOursGroundOutputScenario.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputScenario.html#ToJsonString">ToJsonString</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputScenario.html#AsText">AsText</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursResultGround.TOursGroundOutputScenario.html#FromJsonString">FromJsonString</a></b>(AJsonString: string): <a  href="OursResultGround.TOursGroundOutputScenario.html">TOursGroundOutputScenario</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputScenario.html#Name">Name</a></b>: String read <a  href="OursResultGround.TOursGroundOutputScenario.html#FName">FName</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FName">FName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputScenario.html#data">data</a></b>: <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a> read <a  href="OursResultGround.TOursGroundOutputScenario.html#FData">FData</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FData">FData</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputScenario.html#probability">probability</a></b>: Double read <a  href="OursResultGround.TOursGroundOutputScenario.html#FProbability">FProbability</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FProbability">FProbability</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputScenario.html#coordinates">coordinates</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputScenario.html#FCoordinates">FCoordinates</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FCoordinates">FCoordinates</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FName"></span><code><b>FName</b>: String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FProbability"></span><code><b>FProbability</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FData"></span><code><b>FData</b>: <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FCoordinates"></span><code><b>FCoordinates</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Destructor</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToJsonString"></span><code>function <b>ToJsonString</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the <a class="normal" href="OursResultGround.TOursGroundOutputScenario.html#data">data</a> to a JSON string.</p>
+<p>
+ The point will be used as decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsText"></span><code>function <b>AsText</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the <a class="normal" href="OursResultGround.TOursGroundOutputScenario.html#data">data</a> to a readable text string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FromJsonString"></span><code>class function <b>FromJsonString</b>(AJsonString: string): <a  href="OursResultGround.TOursGroundOutputScenario.html">TOursGroundOutputScenario</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates an instance of the class and fills it with <a class="normal" href="OursResultGround.TOursGroundOutputScenario.html#data">data</a> read from the given JSON string.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Name"></span><code>property <b>Name</b>: String read <a  href="OursResultGround.TOursGroundOutputScenario.html#FName">FName</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FName">FName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="data"></span><code>property <b>data</b>: <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a> read <a  href="OursResultGround.TOursGroundOutputScenario.html#FData">FData</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FData">FData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="probability"></span><code>property <b>probability</b>: Double read <a  href="OursResultGround.TOursGroundOutputScenario.html#FProbability">FProbability</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FProbability">FProbability</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="coordinates"></span><code>property <b>coordinates</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputScenario.html#FCoordinates">FCoordinates</a> write <a  href="OursResultGround.TOursGroundOutputScenario.html#FCoordinates">FCoordinates</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

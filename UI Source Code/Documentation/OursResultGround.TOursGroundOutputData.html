@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursResultGround: Class TOursGroundOutputData</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursGroundOutputData"></span><h1 class="cio">Class TOursGroundOutputData</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursResultGround.html">OursResultGround</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursGroundOutputData = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class for reading and storing the data for a ground scenario.</p>
+<p>
+ Remark: data fields need to start with 'F'. Otherwise TJson.JsonToObject won't work.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursGroundOutputData</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FLithology">FLithology</a></b>: TArray&lt;String&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FDepth">FDepth</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FE">FE</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FV">FV</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FRho">FRho</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FDamping">FDamping</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FVar_depth">FVar_depth</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FVar_E">FVar_E</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FVar_v">FVar_v</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FVar_rho">FVar_rho</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultGround.TOursGroundOutputData.html#FVar_damping">FVar_damping</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ArrayAsText">ArrayAsText</a></b>(prefix: string; anArray: TArray&lt;Extended&gt;; DecCnt: Integer): string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ArrayAsText">ArrayAsText</a></b>(prefix: string; anArray: TArray&lt;String&gt;): string; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ArrayToJson">ArrayToJson</a></b>(prefix: string; anArray: TArray&lt;string&gt;; includeLastComma: Boolean): string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ArrayToJson">ArrayToJson</a></b>(prefix: string; anArray: TArray&lt;Extended&gt;; ensureFloat, includeLastComma: Boolean): string; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ToJsonForFem">ToJsonForFem</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#ToJsonString">ToJsonString</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultGround.TOursGroundOutputData.html#AsText">AsText</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursResultGround.TOursGroundOutputData.html#FromJsonString">FromJsonString</a></b>(AJsonString: string): <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#lithology">lithology</a></b>: TArray&lt;String&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FLithology">FLithology</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FLithology">FLithology</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#depth">depth</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FDepth">FDepth</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FDepth">FDepth</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#E">E</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FE">FE</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FE">FE</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#v">v</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FV">FV</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FV">FV</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#rho">rho</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FRho">FRho</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FRho">FRho</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#damping">damping</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FDamping">FDamping</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FDamping">FDamping</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#var_depth">var_depth</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_depth">FVar_depth</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_depth">FVar_depth</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#var_E">var_E</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_E">FVar_E</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_E">FVar_E</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#var_v">var_v</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_v">FVar_v</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_v">FVar_v</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#var_rho">var_rho</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_rho">FVar_rho</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_rho">FVar_rho</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultGround.TOursGroundOutputData.html#var_damping">var_damping</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_damping">FVar_damping</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_damping">FVar_damping</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FLithology"></span><code><b>FLithology</b>: TArray&lt;String&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FDepth"></span><code><b>FDepth</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FE"></span><code><b>FE</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FV"></span><code><b>FV</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FRho"></span><code><b>FRho</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FDamping"></span><code><b>FDamping</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FVar_depth"></span><code><b>FVar_depth</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FVar_E"></span><code><b>FVar_E</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FVar_v"></span><code><b>FVar_v</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FVar_rho"></span><code><b>FVar_rho</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FVar_damping"></span><code><b>FVar_damping</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="ArrayAsText"></span><code>function <b>ArrayAsText</b>(prefix: string; anArray: TArray&lt;Extended&gt;; DecCnt: Integer): string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts an array of floats to a text string.</p>
+<p>
+ The result starts with &lt;prefix&gt;. The values are separated by a semicolon. <br> The number of decimals is given by &lt;decCnt&gt; and the point is used as decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="ArrayAsText"></span><code>function <b>ArrayAsText</b>(prefix: string; anArray: TArray&lt;String&gt;): string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts an array of floats to a text string.</p>
+<p>
+ The result starts with &lt;prefix&gt;. The values are separated by a semicolon. <br> The point is used as decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="ArrayToJson"></span><code>function <b>ArrayToJson</b>(prefix: string; anArray: TArray&lt;string&gt;; includeLastComma: Boolean): string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts an array of strings to a JSON string.</p>
+<p>
+ The result starts with 8 spaces followed by the prefix. The values are separated by a comma. <br> The values from the array are enclosed in brackets and all texts are within double quotes. <br> If includeLastComma is True an comma will be added to the result.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="ArrayToJson"></span><code>function <b>ArrayToJson</b>(prefix: string; anArray: TArray&lt;Extended&gt;; ensureFloat, includeLastComma: Boolean): string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts an array of floats to a JSON string.</p>
+<p>
+ The result starts with 8 spaces followed by the prefix. The values are separated by a comma. <br> The point is used as decimal separator. The values from the array are enclosed in brackets and at least 1 value will contain a decimal seperator (to prevent issues with the FEM script). <br> If includeLastComma is True an comma will be added to the result.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToJsonForFem"></span><code>function <b>ToJsonForFem</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the data to a JSON string suitable for the FEM-calculation.</p>
+<p>
+ The FEM script does not accept an array of numbers without at least one value with a decimal separator. This routine will ensure at least one value has a decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToJsonString"></span><code>function <b>ToJsonString</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the data to a JSON string.</p>
+<p>
+ The point will be used as decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsText"></span><code>function <b>AsText</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the data to a text string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FromJsonString"></span><code>class function <b>FromJsonString</b>(AJsonString: string): <a  href="OursResultGround.TOursGroundOutputData.html">TOursGroundOutputData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates an instance of the class and fills it with data read from the given JSON string.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="lithology"></span><code>property <b>lithology</b>: TArray&lt;String&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FLithology">FLithology</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FLithology">FLithology</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="depth"></span><code>property <b>depth</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FDepth">FDepth</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FDepth">FDepth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="E"></span><code>property <b>E</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FE">FE</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FE">FE</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="v"></span><code>property <b>v</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FV">FV</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FV">FV</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="rho"></span><code>property <b>rho</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FRho">FRho</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FRho">FRho</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="damping"></span><code>property <b>damping</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FDamping">FDamping</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FDamping">FDamping</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="var_depth"></span><code>property <b>var_depth</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_depth">FVar_depth</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_depth">FVar_depth</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="var_E"></span><code>property <b>var_E</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_E">FVar_E</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_E">FVar_E</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="var_v"></span><code>property <b>var_v</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_v">FVar_v</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_v">FVar_v</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="var_rho"></span><code>property <b>var_rho</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_rho">FVar_rho</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_rho">FVar_rho</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="var_damping"></span><code>property <b>var_damping</b>: TArray&lt;Extended&gt; read <a  href="OursResultGround.TOursGroundOutputData.html#FVar_damping">FVar_damping</a> write <a  href="OursResultGround.TOursGroundOutputData.html#FVar_damping">FVar_damping</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

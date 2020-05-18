@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursCalcMain: Class TOursMainCalculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursMainCalculator"></span><h1 class="cio">Class TOursMainCalculator</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursCalcMain.html">OursCalcMain</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursMainCalculator = class(<a class="normal" href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class responsible for executing the Phyton script and loading and storing the results.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a></li>
+<li class="thisitem">TOursMainCalculator</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>internal const <b><a  href="OursCalcMain.TOursMainCalculator.html#NAME_MODULE">NAME_MODULE</a></b> = 'deformule.py';</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#CreateJsonString">CreateJsonString</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_snelheid">_snelheid</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_treinklasse">_treinklasse</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_brontype">_brontype</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_aantaltreinenPerWeek">_aantaltreinenPerWeek</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_Vd">_Vd</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_CgeoZ">_CgeoZ</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_CgeoX">_CgeoX</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_scenarioKansen">_scenarioKansen</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_R">_R</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_Bron">_Bron</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_FEM">_FEM</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#_Hgebouw">_Hgebouw</a></b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#GetModuleName">GetModuleName</a></b>: string; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcMain.TOursMainCalculator.html#Execute">Execute</a></b>: Boolean; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="NAME_MODULE"></span><code>internal const <b>NAME_MODULE</b> = 'deformule.py';</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Name of the corresponding Python script.</p>
+<p>
+ This script needs to be present in the Python folder, which is located in the program folder.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="CreateJsonString"></span><code>function <b>CreateJsonString</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON input file for the calculation.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_snelheid"></span><code>function <b>_snelheid</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the speeds of all measurements for the receptor/source.</p>
+<p>
+ The speed is the average of the speed during day, evening and night.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_treinklasse"></span><code>function <b>_treinklasse</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the train classes of all measurements for the receptor/source.</p>
+<p>
+ Value 1 indicates passenger train and value 2 indicates freight train.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_brontype"></span><code>function <b>_brontype</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the sourcetype for the receptor/source.</p>
+<p>
+ The result contains only 1 value. <br> - 1 = track (welded rail) <br> - 2 = switch <br> - 3 = weld <br> - 4 = crossing</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_aantaltreinenPerWeek"></span><code>function <b>_aantaltreinenPerWeek</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the flow of trains per week voor day, evening and night for the receptor/source.</p>
+<p>
+ Value 1 indicates passenger train and value 2 indicates freight train.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_Vd"></span><code>function <b>_Vd</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the ?? Vd ?? for the receptor/source.</p>
+<p>
+ Fixed value: 'false'.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_CgeoZ"></span><code>function <b>_CgeoZ</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the CgeoZ for the receptor/source.</p>
+<p>
+ Currently unknown; fixed value:[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_CgeoX"></span><code>function <b>_CgeoX</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part of the CgeoX for the receptor/source.</p>
+<p>
+ Currently unknown; fixed value:[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_scenarioKansen"></span><code>function <b>_scenarioKansen</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part with the probabilities of the ground scenario's for the receptor/source.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_R"></span><code>function <b>_R</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part with the distance between receptor and source.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_Bron"></span><code>function <b>_Bron</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part with measurement data for all measurements for each train for the receptor/source.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_FEM"></span><code>function <b>_FEM</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part with FEM results for all ground scenario's for the receptor/source.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_Hgebouw"></span><code>function <b>_Hgebouw</b>(AResults: <a  href="OursData.TOursResults.html">TOursResults</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates the JSON part with building results for all ground scenario's for the receptor/source.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetModuleName"></span><code>function <b>GetModuleName</b>: string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the module name.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Execute"></span><code>function <b>Execute</b>: Boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Executes the Python script and loads and stores all results.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: F_Main</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit F_Main</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Uses">Uses</a></div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section">Types</div><div class="one_section">Constants</div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+Mainform for the application.</p>
+<p>
+ The main dialogue has 3 different regions: <br> - Button row on top of the dialogue <br> - Page control in the middle of the dialogue <br> - Page control on the bottom of the dialogue. <br> <br> The top button row is only available when started in test-mode. It gives the user control over the program flow and enables control of execution for each calculation step: <br> - [Open] enables the user to open a XML-file <br> - [Calculate] calculates the full project <br> - [Save] stores the results in the output XML-file and TXT-file for detailed results. <br> <br> The page control in the middle is only visible in test-mode and shows all input data, itermediate results and final results: <br> - &quot;Input&quot; displays the input XML-file. <br> - &quot;Project&quot; displays the extracted project information and the calculation settings. <br> - &quot;Receptors&quot; displays the receptor points loaded from the XML-file. <br> - &quot;Tracks&quot; displays the tracks, track parts and trains loaded from the XML-file. <br> - &quot;Sources&quot; displays for each receptor point the calculated point sources, including the relevant measurement data from the database. <br> - &quot;Ground&quot; displays the retrieved ground data. <br> - &quot;FEM&quot; displays the results of the FEM-calculations for each ground scenario. <br> - &quot;Postprocessing&quot; displays the results of the post-processed FEM-calculations. <br> - &quot;Uncertainty&quot; displays the results of uncertainty of ground data and FEM-calculations. <br> - &quot;Building&quot; displays the results from the Building module. <br> - &quot;Results&quot; displays the final results calculated by the main formula. <br> - &quot;Output&quot; displays the output XML-file. <br> <br> The bottom page control has 2 purposes. The first page (&quot;Messages&quot;) is always visible (except in silent-mode) and gives information on progress, errors and warnings for the user. This information is always included in the XML output. <br> The other pages, only visible in test-mode, show the contents of the database distributed with the software (&quot;OURS.sqlite&quot; located in the program folder). <br> <br> For command line options see <a class="normal" href="OursMessage.TOursMessageList.html#ShowUsage">OursMessage.TOursMessageList.ShowUsage</a></p>
+<span id="PasDoc-Uses"></span><h2 class="uses">Uses</h2>
+<ul class="useslist"><li>Forms</li><li>StdCtrls</li><li>ComCtrls</li><li>Controls</li><li>ExtCtrls</li><li>Classes</li><li>Generics.Collections</li><li><a  href="F_Stamtabel.html">F_StamTabel</a></li><li><a  href="OursCalcBase.html">OursCalcBase</a></li><li><a  href="OursData.html">OursData</a></li><li><a  href="OursMessage.html">OursMessage</a></li><li>Vcl.Dialogs</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="F_Main.TfrmMain.html"><code>TfrmMain</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-Variables"></span><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="F_Main.html#frmMain">frmMain</a></b>: <a  href="F_Main.TfrmMain.html">TfrmMain</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="frmMain"></span><code><b>frmMain</b>: <a  href="F_Main.TfrmMain.html">TfrmMain</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Pointer to the mainform. Execution will start when dialogue is created.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

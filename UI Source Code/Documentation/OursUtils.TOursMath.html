@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursUtils: Class TOursMath</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursMath"></span><h1 class="cio">Class TOursMath</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursUtils.html">OursUtils</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursMath = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+This class contains some math routines.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursMath</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>internal const <b><a  href="OursUtils.TOursMath.html#_eps">_eps</a></b> = 1E-5;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursUtils.TOursMath.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#dist">dist</a></b>(const px1, py1, px2, py2: Double): Double; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#dist">dist</a></b>(const p1, p2: <a  href="OursTypes.TRPoint.html">TRPoint</a>): Double; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#DistanceToLine">DistanceToLine</a></b>(const P: <a  href="OursTypes.TRPoint.html">TRPoint</a>; const p1, p2: <a  href="OursTypes.TRPoint.html">TRPoint</a>; out Px, Py: Double): Double; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#DistanceToLine">DistanceToLine</a></b>(const P: <a  href="OursTypes.TRPoint.html">TRPoint</a>; polyline: <a  href="OursTypes.TRPoints.html">TRPoints</a>; out Px, Py, len: Double): Double; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#LengthLine">LengthLine</a></b>(const polyline: <a  href="OursTypes.TRPoints.html">TRPoints</a>): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#gt">gt</a></b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#gt">gt</a></b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#gt">gt</a></b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#ge">ge</a></b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#ge">ge</a></b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#ge">ge</a></b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#lt">lt</a></b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#lt">lt</a></b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#lt">lt</a></b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#le">le</a></b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#le">le</a></b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#le">le</a></b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#eq">eq</a></b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#eq">eq</a></b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursMath.html#eq">eq</a></b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="_eps"></span><code>internal const <b>_eps</b> = 1E-5;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<code>_eps</code>' gives the precision with which doubles are compared.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor will raise exception as creation of an instance of this class is not allowed.</p>
+<p>
+ Class only contains class functions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="dist"></span><code>class function <b>dist</b>(const px1, py1, px2, py2: Double): Double; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<a class="normal" href="OursUtils.TOursMath.html#dist">dist</a>' calculates the distance between two points</p>
+<p>
+ These points are given as 4 seperate double values (px1, py1) and (px2, py2)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="dist"></span><code>class function <b>dist</b>(const p1, p2: <a  href="OursTypes.TRPoint.html">TRPoint</a>): Double; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<code>dist</code>' calculates the distance between two points</p>
+<p>
+ These points are given as 2 co-ordinate pairs in 2 <a class="normal" href="OursTypes.TRPoint.html">TRPoint</a> structures.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DistanceToLine"></span><code>class function <b>DistanceToLine</b>(const P: <a  href="OursTypes.TRPoint.html">TRPoint</a>; const p1, p2: <a  href="OursTypes.TRPoint.html">TRPoint</a>; out Px, Py: Double): Double; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<a class="normal" href="OursUtils.TOursMath.html#DistanceToLine">DistanceToLine</a>' calculates the shortest distance from a point to a line</p>
+<p>
+ The point is given by 'P' and the line is given by P1 and P2. <br> Px and Py contains the co-ordinate of this nearest point.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DistanceToLine"></span><code>class function <b>DistanceToLine</b>(const P: <a  href="OursTypes.TRPoint.html">TRPoint</a>; polyline: <a  href="OursTypes.TRPoints.html">TRPoints</a>; out Px, Py, len: Double): Double; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<code>DistanceToLine</code>' calculates the shortest distance from a point to a polyline</p>
+<p>
+ The point is given by 'P' and the polyline is given by polyline (list of <a class="normal" href="OursTypes.TRPoints.html">TRPoints</a>). <br> Px and Py contains the co-ordinate of this nearest point and 'len' contains the distance over the line from the beginning to (Px, Py).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LengthLine"></span><code>class function <b>LengthLine</b>(const polyline: <a  href="OursTypes.TRPoints.html">TRPoints</a>): Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+'<code>LengthLine</code>' calculates the length of a polyline</p>
+<p>
+ The line is given by polyline (list of <a class="normal" href="OursTypes.TRPoints.html">TRPoints</a>).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="gt"></span><code>class function <b>gt</b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="gt"></span><code>class function <b>gt</b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="gt"></span><code>class function <b>gt</b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ge"></span><code>class function <b>ge</b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ge"></span><code>class function <b>ge</b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ge"></span><code>class function <b>ge</b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is greater than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="lt"></span><code>class function <b>lt</b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="lt"></span><code>class function <b>lt</b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="lt"></span><code>class function <b>lt</b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="le"></span><code>class function <b>le</b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="le"></span><code>class function <b>le</b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="le"></span><code>class function <b>le</b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a is smaller than or equal to b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="eq"></span><code>class function <b>eq</b>(a, b: Double): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a equals b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="eq"></span><code>class function <b>eq</b>(a, b: Extended): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a equals b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="eq"></span><code>class function <b>eq</b>(a, b: Integer): Boolean; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a equals b</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

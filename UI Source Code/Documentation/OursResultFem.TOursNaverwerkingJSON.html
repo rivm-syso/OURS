@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursResultFem: Class TOursNaverwerkingJSON</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursNaverwerkingJSON"></span><h1 class="cio">Class TOursNaverwerkingJSON</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursResultFem.html">OursResultFem</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursNaverwerkingJSON = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class to read and store results from the FEM module.</p>
+<p>
+ Note: data fields need to start with 'F'. Otherwise TJson.JsonToObject won't work.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursNaverwerkingJSON</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#FY">FY</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#FY_ratio">FY_ratio</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc">Fc</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc_ratio">Fc_ratio</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#Ffase">Ffase</a></b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursResultFem.TOursNaverwerkingJSON.html#FJSON">FJSON</a></b>: string;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#ToJsonString">ToJsonString</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#AsText">AsText</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#GetJSON">GetJSON</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#FromJsonString">FromJsonString</a></b>(AJsonString: string): <a  href="OursResultFem.TOursNaverwerkingJSON.html">TOursNaverwerkingJSON</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#Y">Y</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY">FY</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY">FY</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#Y_ratio">Y_ratio</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY_ratio">FY_ratio</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY_ratio">FY_ratio</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#c">c</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc">Fc</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc">Fc</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#c_ratio">c_ratio</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc_ratio">Fc_ratio</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc_ratio">Fc_ratio</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursResultFem.TOursNaverwerkingJSON.html#fase">fase</a></b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Ffase">Ffase</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Ffase">Ffase</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FY"></span><code><b>FY</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FY_ratio"></span><code><b>FY_ratio</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="Fc"></span><code><b>Fc</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="Fc_ratio"></span><code><b>Fc_ratio</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="Ffase"></span><code><b>Ffase</b>: TArray&lt;Extended&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FJSON"></span><code><b>FJSON</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ToJsonString"></span><code>function <b>ToJsonString</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the data to a JSON string.</p>
+<p>
+ The point will be used as decimal separator.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsText"></span><code>function <b>AsText</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the data to a readable text string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetJSON"></span><code>function <b>GetJSON</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the raw JSON string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FromJsonString"></span><code>class function <b>FromJsonString</b>(AJsonString: string): <a  href="OursResultFem.TOursNaverwerkingJSON.html">TOursNaverwerkingJSON</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates an instance of the class and fills it with data read from the given JSON string.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Y"></span><code>property <b>Y</b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY">FY</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY">FY</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Y_ratio"></span><code>property <b>Y_ratio</b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY_ratio">FY_ratio</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#FY_ratio">FY_ratio</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="c"></span><code>property <b>c</b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc">Fc</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc">Fc</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="c_ratio"></span><code>property <b>c_ratio</b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc_ratio">Fc_ratio</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Fc_ratio">Fc_ratio</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="fase"></span><code>property <b>fase</b>: TArray&lt;Extended&gt; read <a  href="OursResultFem.TOursNaverwerkingJSON.html#Ffase">Ffase</a> write <a  href="OursResultFem.TOursNaverwerkingJSON.html#Ffase">Ffase</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

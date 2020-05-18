@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursTypes: Class TFrequency</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TFrequency"></span><h1 class="cio">Class TFrequency</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursTypes.html">OursTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TFrequency = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class which describes a Spectrum.</p>
+<p>
+ It gives the <a class="normal" href="OursTypes.TFrequency.html#size">size</a> and the relevant bans values (lower, middle and upper).</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TFrequency</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetSize">GetSize</a></b>: Integer; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetExact">GetExact</a></b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetNominal">GetNominal</a></b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetFieldname">GetFieldname</a></b>(Index: Integer): string; static;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetLower">GetLower</a></b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursTypes.TFrequency.html#GetUpper">GetUpper</a></b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursTypes.TFrequency.html#Create">Create</a></b>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#size">size</a></b>: Integer read <a  href="OursTypes.TFrequency.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#f_nominal">f_nominal</a></b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetNominal">GetNominal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#f_upper">f_upper</a></b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetUpper">GetUpper</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#f_lower">f_lower</a></b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetLower">GetLower</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#f_exact">f_exact</a></b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetExact">GetExact</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="OursTypes.TFrequency.html#f_fieldname">f_fieldname</a></b>[Index:Integer]: string read <a  href="OursTypes.TFrequency.html#GetFieldname">GetFieldname</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>class function <b>GetSize</b>: Integer; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the number of supported frequency bands</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#size">size</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetExact"></span><code>class function <b>GetExact</b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the exact frequency for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#f_exact">f_exact</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetNominal"></span><code>class function <b>GetNominal</b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the nominal frequency for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#f_nominal">f_nominal</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetFieldname"></span><code>class function <b>GetFieldname</b>(Index: Integer): string; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the fieldname for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#f_fieldname">f_fieldname</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetLower"></span><code>class function <b>GetLower</b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the lower frequency for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#f_lower">f_lower</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetUpper"></span><code>class function <b>GetUpper</b>(Index: Integer): Double; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the upper frequency for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TFrequency.html#f_upper">f_upper</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor will raise exception as creation of an instance of this class is not allowed.</p>
+<p>
+ Class only contains class functions.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="size"></span><code>class property <b>size</b>: Integer read <a  href="OursTypes.TFrequency.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the number of supported frequency bands.</p>
+<p>
+ Result is 6 for 1/1-octave and 18 for 1/3-octaves. The spectrum type is stored in the database and retrieved with <a class="normal" href="OursDatabase.TOursDatabase.html#GetSpectrumType">TOursDatabase.GetSpectrumType</a>: <br> - 1 = 1/1-octave <br> - 2 = 1/3-octave.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="f_nominal"></span><code>class property <b>f_nominal</b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetNominal">GetNominal</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the nominal frequency for a given frequency band</p>
+<p>
+ - For 1/1-ocatves the results are: <i>2.0, 4.0, 8.0, 16.0, 31.5, 63.0</i> <br> - For 1/3-ocatves the results are: <i>1.6, 2.0, 2.5, 3.2, 4.0, 5.0, 6.3, 8.0, 10.0, 12.5, 16.0, 20.0, 25.0, 31.5, 40.0, 50.0, 63.0, 80.0</i></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="f_upper"></span><code>class property <b>f_upper</b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetUpper">GetUpper</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the upper frequency for a given frequency band</p>
+<p>
+ For 1/1-octaves: <i>&lt;exact frequency&gt; * 2&circ;(1/2)</i> <br> For 1/3-octaves: <i>&lt;exact frequency&gt; * 2&circ;(1/6)</i></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="f_lower"></span><code>class property <b>f_lower</b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetLower">GetLower</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the lower frequency for a given frequency band</p>
+<p>
+ For 1/1-octaves: <i>&lt;exact frequency&gt; / 2&circ;(1/2)</i> <br> For 1/3-octaves: <i>&lt;exact frequency&gt; / 2&circ;(1/6)</i></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="f_exact"></span><code>class property <b>f_exact</b>[Index:Integer]: Double read <a  href="OursTypes.TFrequency.html#GetExact">GetExact</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the exact frequency for a given frequency band</p>
+<p>
+ The values are calculated based on 1000 Hz. <br> - For 1/1-ocatves the results are: <i>2.0, 4.0, 7.9, 15.8, 31.6, 63.1</i> <br> - For 1/3-ocatves the results are: <i>1.6, 2.0, 2.5, 3.2, 4.0, 5.0, 6.3, 7.9, 10.0, 12.6, 15.8, 20.0, 25.1, 31.6, 39.8, 50.1, 63.1, 79.4</i></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="f_fieldname"></span><code>class property <b>f_fieldname</b>[Index:Integer]: string read <a  href="OursTypes.TFrequency.html#GetFieldname">GetFieldname</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the fieldname for a given frequency band</p>
+<p>
+ This field name is the index number of the frequency band starting with '1'. <br> - For 1/1-ocatves the results are: <i>'1', '2', '3', '4', '5', '6'</i> <br> - For 1/3-ocatves the results are: <i>'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'</i></p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>
