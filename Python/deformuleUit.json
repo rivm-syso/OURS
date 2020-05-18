@@ -1,0 +1,146 @@
+{
+    "AlleTreinen": {
+        "Fundering": {
+            "Vmax": 0.02,
+            "Vmax_Dir": "zz",
+            "Vmax_Fdom": "8 Hz",
+            "Vmax_sigma": 0.006,
+            "Vtop": 0.05,
+            "Vtop_Dir": "zz",
+            "Vtop_Fdom": "8 Hz",
+            "Vtop_Vd": 0.11,
+            "Vtop_sigma": 0.014,
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        },
+        "Gebouw": {
+            "Vmax": 0.05,
+            "Vmax_Dir": "zz",
+            "Vmax_Fdom": "8 Hz",
+            "Vmax_sigma": 0.017,
+            "Vper": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Vper_sigma": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        },
+        "Maaiveld": {
+            "Vrms": 0.01,
+            "Vrms_sigma": 0.003,
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        }
+    },
+    "Goederen": {
+        "Fundering": {
+            "Vmax": 0.0,
+            "Vmax_Dir": "",
+            "Vmax_Fdom": "",
+            "Vmax_sigma": 0.0,
+            "Vtop": 0.0,
+            "Vtop_Dir": "",
+            "Vtop_Fdom": "",
+            "Vtop_Vd": 0.0,
+            "Vtop_sigma": 0.0,
+            "variatiecoeffs": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "Gebouw": {
+            "Vmax": 0.0,
+            "Vmax_Dir": "",
+            "Vmax_Fdom": "",
+            "Vmax_sigma": 0.0,
+            "Vper": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Vper_sigma": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "variatiecoeffs": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "Maaiveld": {
+            "Vrms": 0.0,
+            "Vrms_sigma": 0.0,
+            "variatiecoeffs": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        }
+    },
+    "Reizigers": {
+        "Fundering": {
+            "Vmax": 0.02,
+            "Vmax_Dir": "zz",
+            "Vmax_Fdom": "8 Hz",
+            "Vmax_sigma": 0.006,
+            "Vtop": 0.05,
+            "Vtop_Dir": "zz",
+            "Vtop_Fdom": "8 Hz",
+            "Vtop_Vd": 0.11,
+            "Vtop_sigma": 0.014,
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        },
+        "Gebouw": {
+            "Vmax": 0.05,
+            "Vmax_Dir": "zz",
+            "Vmax_Fdom": "8 Hz",
+            "Vmax_sigma": 0.017,
+            "Vper": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Vper_sigma": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        },
+        "Maaiveld": {
+            "Vrms": 0.01,
+            "Vrms_sigma": 0.003,
+            "variatiecoeffs": [
+                0.36,
+                0.3,
+                -0.34
+            ]
+        }
+    }
+}
