@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursTypes: Class TSpectrum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TSpectrum"></span><h1 class="cio">Class TSpectrum</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursTypes.html">OursTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TSpectrum = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class that stores spectrum values.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TSpectrum</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursTypes.TSpectrum.html#_size">_size</a></b>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursTypes.TSpectrum.html#_octaves">_octaves</a></b>: array of Double;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursTypes.TSpectrum.html#GetSize">GetSize</a></b>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursTypes.TSpectrum.html#GetValue">GetValue</a></b>(Index: Integer): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursTypes.TSpectrum.html#SetValue">SetValue</a></b>(Index: Integer; const Value: Double);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursTypes.TSpectrum.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="OursTypes.TSpectrum.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursTypes.TSpectrum.html#AsText">AsText</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursTypes.TSpectrum.html#AsJsonText">AsJsonText</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursTypes.TSpectrum.html#FillValue">FillValue</a></b>(const Value: Double);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursTypes.TSpectrum.html#FillValues">FillValues</a></b>(const Value: <a  href="OursTypes.TSpectrum.html">TSpectrum</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursTypes.TSpectrum.html#FillFromArray">FillFromArray</a></b>(AnArray: TArray&lt;Extended&gt;);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursTypes.TSpectrum.html#AssignFromArray">AssignFromArray</a></b>(AnArray: TArray&lt;Extended&gt;);</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursTypes.TSpectrum.html#size">size</a></b>: Integer read <a  href="OursTypes.TSpectrum.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursTypes.TSpectrum.html#Value">Value</a></b>[Index:Integer]: Double read <a  href="OursTypes.TSpectrum.html#GetValue">GetValue</a> write <a  href="OursTypes.TSpectrum.html#SetValue">SetValue</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_size"></span><code><b>_size</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private field which contains the number of supportd frequency bands</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_octaves"></span><code><b>_octaves</b>: array of Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private field which contains the values for each frequency band</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetSize"></span><code>function <b>GetSize</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the number of supported frequency bands</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TSpectrum.html#size">size</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="GetValue"></span><code>function <b>GetValue</b>(Index: Integer): Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private function which returns the <a class="normal" href="OursTypes.TSpectrum.html#Value">value</a> for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TSpectrum.html#Value">value</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="SetValue"></span><code>procedure <b>SetValue</b>(Index: Integer; const Value: Double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Private procedure to set the <a class="normal" href="OursTypes.TSpectrum.html#Value">value</a> for a given frequency band</p>
+<p>
+ Used by property <a class="normal" href="OursTypes.TSpectrum.html#Value">value</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor: depending on the configuration it will <code>create</code> a spectrum for 1/1/-octave or 1/3-octave.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Destructor.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsText"></span><code>function <b>AsText</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the contents as text.</p>
+<p>
+ As decimal separator the user defined setting is used and the values are seperated by a semicolon.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsJsonText"></span><code>function <b>AsJsonText</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the contents as JSON text.</p>
+<p>
+ As decimal separator '.' is used and the values are seperated by a comma and a space. The values are enclosed between brackets.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FillValue"></span><code>procedure <b>FillValue</b>(const Value: Double);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Fills each frequency band with the given <a class="normal" href="OursTypes.TSpectrum.html#Value">value</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FillValues"></span><code>procedure <b>FillValues</b>(const Value: <a  href="OursTypes.TSpectrum.html">TSpectrum</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Copies the values for each frequency band from the given spectrum.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FillFromArray"></span><code>procedure <b>FillFromArray</b>(AnArray: TArray&lt;Extended&gt;);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates an instance of <a class="normal" href="OursTypes.TSpectrum.html">TSpectrum</a> and fills it with the values from AnArray.</p>
+<p>
+ If AnArray has more or less values than <a class="normal" href="OursTypes.TSpectrum.html">TSpectrum</a>, the results in nil.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AssignFromArray"></span><code>procedure <b>AssignFromArray</b>(AnArray: TArray&lt;Extended&gt;);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Copies the values from AnArray.</p>
+<p>
+ If AnArray has less values the resulting values will be set to zero.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="size"></span><code>property <b>size</b>: Integer read <a  href="OursTypes.TSpectrum.html#GetSize">GetSize</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gives the number of frequency bands.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Value"></span><code>property <b>Value</b>[Index:Integer]: Double read <a  href="OursTypes.TSpectrum.html#GetValue">GetValue</a> write <a  href="OursTypes.TSpectrum.html#SetValue">SetValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gives the <code>value</code> for a given frequency band.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

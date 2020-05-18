@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursUtils: Class TOursConv</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursConv"></span><h1 class="cio">Class TOursConv</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursUtils.html">OursUtils</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursConv = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+This class contains converter functions for text to value.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursConv</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursUtils.TOursConv.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursConv.html#AsFloat">AsFloat</a></b>(const value: string; default: Double = 0.0): Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursConv.html#AsInteger">AsInteger</a></b>(const value: string; default: Integer = 0): Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursUtils.TOursConv.html#FormatJSON">FormatJSON</a></b>(const JsonStr: string): string;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor will raise exception as creation of an instance of this class is not allowed.</p>
+<p>
+ Class only contains class functions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsFloat"></span><code>class function <b>AsFloat</b>(const value: string; default: Double = 0.0): Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+This class function converts a text to a double.</p>
+<p>
+ The function accepts any text and converts all dots and commas to the local decimal separator before converting it to a double. If conversion fails, 'default' is returned.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AsInteger"></span><code>class function <b>AsInteger</b>(const value: string; default: Integer = 0): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+This class function converts a text to a integer.</p>
+<p>
+ If conversion fails, 'default' is returned.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="FormatJSON"></span><code>class function <b>FormatJSON</b>(const JsonStr: string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+This class function formats a JSON string for better reading.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

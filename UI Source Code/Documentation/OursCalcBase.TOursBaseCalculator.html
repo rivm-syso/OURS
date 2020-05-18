@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursCalcBase: Class TOursBaseCalculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursBaseCalculator"></span><h1 class="cio">Class TOursBaseCalculator</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursCalcBase.html">OursCalcBase</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursBaseCalculator = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+This is the base class for all Python calculators.</p>
+<p>
+ Use the class functions to retrieve the corresponding calculators.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursBaseCalculator</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="OursCalcBase.TOursBaseCalculator.html#FProcessInfo">FProcessInfo</a></b>: TProcessInformation;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>internal const <b><a  href="OursCalcBase.TOursBaseCalculator.html#_exitcode_terminated">_exitcode_terminated</a></b> = 999;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>internal const <b><a  href="OursCalcBase.TOursBaseCalculator.html#_exitcode_noResult">_exitcode_noResult</a></b> = 998;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><b><a  href="OursCalcBase.TOursBaseCalculator.html#FCanceled">FCanceled</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><b><a  href="OursCalcBase.TOursBaseCalculator.html#FProject">FProject</a></b>: <a  href="OursData.TOursProject.html">TOursProject</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code><b><a  href="OursCalcBase.TOursBaseCalculator.html#FMessageList">FMessageList</a></b>: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#AddChildProcesses">AddChildProcesses</a></b>(aList: TList&lt;DWORD&gt;; aPID: DWORD): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursCalcBase.TOursBaseCalculator.html#EndModule">EndModule</a></b>(aPID: DWORD = 0);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#RunModule">RunModule</a></b>(progStr, params, outputFile: string): Cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#TempAvailable">TempAvailable</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetModuleName">GetModuleName</a></b>: string; virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#SaveInFile">SaveInFile</a></b>(inputJSON: string; out inFile: string): Boolean; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#OutFolderAvailable">OutFolderAvailable</a></b>(out outFolder: string): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetParams">GetParams</a></b>(const inStr, outStr: string): string; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetGroundCalculator">GetGroundCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetFemCalculator">GetFemCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetFemDerivedCalculator">GetFemDerivedCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetFemUncertaintyCalculator">GetFemUncertaintyCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetBuildingCalculator">GetBuildingCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursCalcBase.TOursBaseCalculator.html#GetMainCalculator">GetMainCalculator</a></b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#ProgAvailable">ProgAvailable</a></b>(out progStr: string): Boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="OursCalcBase.TOursBaseCalculator.html#Execute">Execute</a></b>: Boolean; virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="OursCalcBase.TOursBaseCalculator.html#Terminate">Terminate</a></b>; virtual;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>property <b><a  href="OursCalcBase.TOursBaseCalculator.html#Modulename">Modulename</a></b>: string read <a  href="OursCalcBase.TOursBaseCalculator.html#GetModuleName">GetModuleName</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FProcessInfo"></span><code><b>FProcessInfo</b>: TProcessInformation;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Enables access to the process handle and thread for terminating the calculation.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="_exitcode_terminated"></span><code>internal const <b>_exitcode_terminated</b> = 999;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Exitcode in case the calculation is terminated by the user.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="_exitcode_noResult"></span><code>internal const <b>_exitcode_noResult</b> = 998;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Exitcode in case the script does not produce results. Probably due to an unsuspected error in the script.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FCanceled"></span><code><b>FCanceled</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Indicates if the calculation is canceled by the user.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FProject"></span><code><b>FProject</b>: <a  href="OursData.TOursProject.html">TOursProject</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Reference to the OURS project.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="FMessageList"></span><code><b>FMessageList</b>: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Reference to the OURS message list to report progress and other messages.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="AddChildProcesses"></span><code>function <b>AddChildProcesses</b>(aList: TList&lt;DWORD&gt;; aPID: DWORD): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds all child processes of aPID to aList.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="EndModule"></span><code>procedure <b>EndModule</b>(aPID: DWORD = 0);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Ends a process with aPID.</p>
+<p>
+ Running Python creates an unknown number of child processes. To successfully <a class="normal" href="OursCalcBase.TOursBaseCalculator.html#Terminate">terminate</a> a calculation all child processes need to be identified and terminated seperately.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="RunModule"></span><code>function <b>RunModule</b>(progStr, params, outputFile: string): Cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Starts the process &quot;progStr&quot; with parameters &quot;params&quot; and waits until the process is ended.</p>
+<p>
+ The function returns the exitcode of the process. 0 indicates success.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="TempAvailable"></span><code>function <b>TempAvailable</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Indicates if the OURS folder for temporary files is present and writable.</p>
+<p>
+ The OURS folder for temporary files is a folder located in the Windows temp-folder. The name of this folder is 'OURS_' followed by the process-id.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetModuleName"></span><code>function <b>GetModuleName</b>: string; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Abstract function to retrieve the module name (filename of the Python script).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SaveInFile"></span><code>function <b>SaveInFile</b>(inputJSON: string; out inFile: string): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Save the JSON string to a file and returns success.</p>
+<p>
+ If the data is successfully saved &quot;inFile&quot; contains the name of the file. <br> The file is placed in the program tempfolder and is called &quot;input.json&quot;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="OutFolderAvailable"></span><code>function <b>OutFolderAvailable</b>(out outFolder: string): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Determines the name of the output folder and returns if this folder exists.</p>
+<p>
+ The output folder is located in the program tempfolder and is &quot;OUT&quot;. <br> If the folder already exists, any files in it will be deleted.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="GetParams"></span><code>function <b>GetParams</b>(const inStr, outStr: string): string; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the command line parameters which will start the Python script.</p>
+<p>
+ Python prefers '/' as path delimeter and not '\': all backslashes will be replaced.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetGroundCalculator"></span><code>class function <b>GetGroundCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the ground data.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFemCalculator"></span><code>class function <b>GetFemCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the fem calculations.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFemDerivedCalculator"></span><code>class function <b>GetFemDerivedCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the fem post processing.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFemUncertaintyCalculator"></span><code>class function <b>GetFemUncertaintyCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the ground uncertainty calculation.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetBuildingCalculator"></span><code>class function <b>GetBuildingCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the building calculations.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMainCalculator"></span><code>class function <b>GetMainCalculator</b>(const aProject: <a  href="OursData.TOursProject.html">TOursProject</a>; const aMessageList: <a  href="OursMessage.TOursMessageList.html">TOursMessageList</a>): <a  href="OursCalcBase.TOursBaseCalculator.html">TOursBaseCalculator</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates and returns the calculator for the main formula.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ProgAvailable"></span><code>function <b>ProgAvailable</b>(out progStr: string): Boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Checks if python.exe and the python script (<a class="normal" href="OursCalcBase.TOursBaseCalculator.html#Modulename">modulename</a>) exist.</p>
+<p>
+ python.exe and the Python script given by <a class="normal" href="OursCalcBase.TOursBaseCalculator.html#Modulename">ModuleName</a> need to be located in the folder Python which is located in the OURS program folder.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Execute"></span><code>function <b>Execute</b>: Boolean; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Executes the Python script and loads/stores results. Needs to be implemented in each ancestor.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Terminate"></span><code>procedure <b>Terminate</b>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Method is called if the user cancels the calculation.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="Modulename"></span><code>property <b>Modulename</b>: string read <a  href="OursCalcBase.TOursBaseCalculator.html#GetModuleName">GetModuleName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Property to return the module name. The getter needs to be implemented in each ancestor.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

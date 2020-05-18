@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OURS_UI: OursDatabase: Class TOursDatabase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>OURS_UI</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TOursDatabase"></span><h1 class="cio">Class TOursDatabase</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="OursDatabase.html">OursDatabase</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TOursDatabase = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+<code>TOursDatabase</code> is a class object with routines to access the default database.</p>
+<p>
+ Trying to <a class="normal" href="OursDatabase.TOursDatabase.html#Create">create</a> an instance of this class will raise an exception.<br><br> The database format is SQLite, located in the program folder and it is named &quot;OURS.sqlite&quot;. The database is only used for reading general settings and data. No data is written to the database.</p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TOursDatabase</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class var <b><a  href="OursDatabase.TOursDatabase.html#_DB">_DB</a></b>: TSQLiteDatabase;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>internal const <b><a  href="OursDatabase.TOursDatabase.html#_DBNAME">_DBNAME</a></b> = 'OURS.sqlite';</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="OursDatabase.TOursDatabase.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#DBname">DBname</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#DB">DB</a></b>: TSQLiteDatabase;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <b><a  href="OursDatabase.TOursDatabase.html#DBTableNames">DBTableNames</a></b>(aList: TStrings);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetFullTableContents">GetFullTableContents</a></b>(const tableName: string): TSQLiteTable;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#DBExists">DBExists</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetValueAsInteger">GetValueAsInteger</a></b>(tableName, fieldname: string; id: integer): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetDescriptionFromId">GetDescriptionFromId</a></b>(tableName: string; id: integer): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetIdFromName">GetIdFromName</a></b>(tableName: string; name: string): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetTableFromSQL">GetTableFromSQL</a></b>(aSQL: string): TSQLiteTable;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetMaxCalcDepth">GetMaxCalcDepth</a></b>: Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetMaxCalcDistance">GetMaxCalcDistance</a></b>: Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetMinLayerThickness">GetMinLayerThickness</a></b>: Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetMinElementSize">GetMinElementSize</a></b>: Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetSpectrumType">GetSpectrumType</a></b>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetLowFreq">GetLowFreq</a></b>: Double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetHighFreq">GetHighFreq</a></b>: Double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="OursDatabase.TOursDatabase.html#GetCalcType">GetCalcType</a></b>: integer;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_DB"></span><code>class var <b>_DB</b>: TSQLiteDatabase;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Pointer to the SQLite database.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="_DBNAME"></span><code>internal const <b>_DBNAME</b> = 'OURS.sqlite';</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Name of the SQLite database.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Constructor private. No creation outside the class.</p>
+<p>
+ Only use class functions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="DBname"></span><code>class function <b>DBname</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns full path and name of the SQLite database.</p>
+<p>
+ The database needs to be present in the program folder.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Strict Private" title="Strict Private"></a></td>
+<td class="itemcode"><span id="DB"></span><code>class function <b>DB</b>: TSQLiteDatabase;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the pointer to the SQLite database.</p>
+<p>
+ If needed the database will be openend.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DBTableNames"></span><code>class procedure <b>DBTableNames</b>(aList: TStrings);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Gives a list of all tables in the database.</p>
+<p>
+ aList needs to be created. Nil is not allowed.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetFullTableContents"></span><code>class function <b>GetFullTableContents</b>(const tableName: string): TSQLiteTable;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Creates a table containing all data for the given table.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DBExists"></span><code>class function <b>DBExists</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if the database exists.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetValueAsInteger"></span><code>class function <b>GetValueAsInteger</b>(tableName, fieldname: string; id: integer): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns integer value from a given table, field and id-value.</p>
+<p>
+ The executed SQL-script is: <i>SELECT &lt;fieldname&gt; FROM &lt;tabelname&gt; WHERE id = &lt;id&gt;;</i></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetDescriptionFromId"></span><code>class function <b>GetDescriptionFromId</b>(tableName: string; id: integer): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns name and description from a given table and id-value.</p>
+<p>
+ The executed SQL-script is: <i>SELECT name, description FROM &lt;tabelname&gt; WHERE id = &lt;id&gt;;</i> <br> The results is: &quot;<i>&lt;name&gt; - &lt;description&gt;</i>&quot;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetIdFromName"></span><code>class function <b>GetIdFromName</b>(tableName: string; name: string): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the id value for the name field of a given table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT id FROM &lt;tabelname&gt; WHERE name = &quot;&lt;name&gt;&quot;;</i> <br> If name is empty or not found, the result is -1.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetTableFromSQL"></span><code>class function <b>GetTableFromSQL</b>(aSQL: string): TSQLiteTable;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Executes the given SQL and returns the result as SQLiteTable.</p>
+<p>
+ For instance: <br> <i>SELECT * FROM measurement WHERE category_id=2 AND sourcetype_id=1</i>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMaxCalcDepth"></span><code>class function <b>GetMaxCalcDepth</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the maximum calculation depth from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT max_calc_depth FROM parameters;</i> <br> The default result is 30m.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMaxCalcDistance"></span><code>class function <b>GetMaxCalcDistance</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the maximum calculation distance from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT max_calc_dist FROM parameters;</i> <br> The default result is 25m.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMinLayerThickness"></span><code>class function <b>GetMinLayerThickness</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the minimum ground layer thickness from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT min_ground_thickness FROM parameters;</i> <br> The default result is 0.5m.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetMinElementSize"></span><code>class function <b>GetMinElementSize</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the minimum element size in metre for the FEM calculation.</p>
+<p>
+ The executed SQL-script is: <i>SELECT min_element_size FROM parameters;</i> <br> The default result is 0.05m.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetSpectrumType"></span><code>class function <b>GetSpectrumType</b>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the spectrum type from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT spectrumtype FROM parameters;</i> <br> The default result is 1 (=1/1-octave). Result 2 means 1/3-octave.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetLowFreq"></span><code>class function <b>GetLowFreq</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the lowest frequency from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT lowfreq FROM parameters;</i> <br> The default result is 1 Hz.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetHighFreq"></span><code>class function <b>GetHighFreq</b>: Double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the highest frequency from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT highfreq FROM parameters;</i> <br> The default result is 63 Hz.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCalcType"></span><code>class function <b>GetCalcType</b>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the selected FEM calculation method from the parameters table.</p>
+<p>
+ The executed SQL-script is: <i>SELECT calctype FROM parameters;</i> <br> The default result is 2. Possible values are:<br> 1 = Central differences <br> 2 = Harmonic response <br> 3 = FEM-module decides if 1 or 2 is used.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>
