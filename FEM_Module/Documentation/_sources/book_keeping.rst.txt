@@ -1,0 +1,10 @@
+book\_keeping module
+====================
+
+This module includes functions that take care of the bookkeeping.
+Bookkeeping consists of assigning equation numbers to degrees of freedom.
+
+.. automodule:: book_keeping
+   :members:
+   :undoc-members:
+   :show-inheritance:

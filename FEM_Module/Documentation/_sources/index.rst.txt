@@ -1,0 +1,201 @@
+.. axyFEM documentation master file, created by
+   sphinx-quickstart on Sat Aug 17 21:27:51 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+axiFEM\ :sup:`2` 's documentation
+=================================
+
+*Authors:* `Sven Lentzen <http://www.linkedin.com/in/svenlentzen/>`_
+           
+*Version:* 1.0 beta
+
+*License:* `level.Tools <http://www.leveltools.nl/>`_
+
+*Last updated*: |today|
+
+
+    .. _element:
+    .. figure:: ./_static/axiFEM_logo2.png
+        :width: 600px
+        :align: left
+        :figclass: align-left
+
+axiFEM\ :sup:`2` computes the cross compliance of top surface of layered soils.
+The computations are based on the axi-symmetric Finite Element Method.
+
+To run the code::   
+
+	/> axifem2 -i <input_file> -o <output_file> -r <process_file>
+	
+The arguments have the following meaning:
+
+	* *-i*: path to the input JSON file
+	* *-o*: path to the output JSON file
+	* *-r*: path to the ASCII file with process updates
+
+Example: 
+
+.. code-block:: python
+
+    /> axifem2 -i ./input.json -o ./output.json -r ./process.txt
+
+
+The input JSON file has the following structure:
+   
+.. code-block:: json
+
+	{
+		"Name":"Soil1",
+		"MaxCalcDist":25,
+		"MaxCalcDepth":20,
+		"MinLayerThickness":0.5,
+		"LowFreq":2,
+		"HighFreq":63,
+		"CalcType":1,
+		"Ground":{
+			"Depth":[0,5,20],
+			"E":[12218362.22,19232349.91,19092817.25],
+			"Lithology":["6\/5\/4","4\/5","4\/5"],
+			"damping":[0.018,0.063,0.049],
+			"rho":[1404.74,1552.14,1515.39],
+			"v":[0.22,0.23,0.49]
+		}
+	}
+
+where the attributes have the following meaning:
+
+       * *Name*: Name of the project
+       * *MaxCalcDist*: Maximum distance of calculation [m]
+       * *MaxCalcDepth*: Maximum depth of calculation [m]
+       * *MinLayerThickness*:  Minimum layer thickness for the vertical discretisation [m]
+       * *LowFreq*: Minimum frequency of interest [Hz]
+       * *HighFreq*: Maximum frequency of interest [Hz]
+       * *CalcType*: Type of calculation 1=CentDiff; 2=HarmResp
+       * *Depth*: Depth of each layer's top side [m]
+       * *E*: Young's modulus of each layer [Pa]
+       * *Lithology*: Lithological description of each layer 
+       * *damping*: Damping ratio of each layer [-]
+       * *rho*: Mass density of each layer [kg/m\ :sup:`3`]
+       * *v*: Poisson ratio of each layer [-]
+	   
+In the figure below, the soil layers with all geometric parameters are illustrated.
+	   
+    .. _element:
+    .. figure:: ./_static/soil_layers.png
+        :width: 600px
+        :align: left
+        :figclass: align-left
+
+It is assumed that beyond *MaxCalcDist* and below *MaxCalcDepth* the soil behaves as a infinite continuum.
+Therefore at these domain borders non-reflective boundary conditions are assumed.	   
+	   
+The output JSON file has the following structure:
+   
+.. code-block:: json
+
+	{
+		"Frequency":[
+			2.0,
+			5.0,
+			10.0
+		],
+		"Rcoord":[
+			10.0,
+			15.0
+		],
+		"RDisp_imag":[
+			[
+				0.123,
+				0.125,
+				0.130
+			],
+			[
+				-0.012,
+				-0.010,
+				-0.008
+			]
+		],
+		"RDisp_real":[
+			[
+				1.204,
+				1.305,
+				1.256
+			],
+			[
+				2.123,
+				2.045,
+				1.999
+			]
+		],
+		"ZDisp_imag":[
+			[
+				0.579,
+				0.584,
+				0.595
+			],
+			[
+				1.123,
+				1.458,
+				1.897
+			]
+		],
+		"ZDisp_real":[
+			[
+				4.597,
+				4.987,
+				5.301
+			],
+			[
+				6.789,
+				6.918,
+				7.002
+			]
+		]
+	}
+		
+where the attributes have the following meaning:
+
+       * *Frequency*: List of frequencies [Hz]
+       * *Rcoord*: List of radial coordinates [m] 
+       * *RDisp_imag*: Imaginary part of the compliance in radial direction for each Frequency and Rcoord [m/N]
+       * *RDisp_real*: Real part of the compliance in radial direction for each Frequency and Rcoord [m/N]
+       * *ZDisp_imag*: Imaginary part of the compliance in vertical direction for each Frequency and Rcoord [m/N]
+       * *ZDisp_real*: Real part of the compliance in vertical direction for each Frequency and Rcoord [m/N]
+ 
+**Error codes**
+
+.. code-block:: python
+
+    exit(-101) input JSON file cannot be found
+    exit(-102) could not write process updates to ASCII file
+    exit(-103) could not write to output JSON file
+    exit(-111) not all required keys are found in the input JSON file
+    exit(-112) not all "Ground" keys in input JSON file have equal length
+    exit(-113) one or more inputs have invalid values, see process ASCII file for information
+
+
+Content
+=======
+
+.. toctree::
+   :maxdepth: 2
+
+   
+   main
+   book_keeping
+   fem_routines
+   input_output
+   mesh
+   numerical_routines
+   wave_velocity
+   references
+  
+
+
+Indices
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

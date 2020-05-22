@@ -1,0 +1,9 @@
+main module
+===========
+
+This constitutes the main module, in which the input data is read, the solution is generated and where it is finally exported into an output file
+
+.. automodule:: main
+   :members:
+   :undoc-members:
+   :show-inheritance:

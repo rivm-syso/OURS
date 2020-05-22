@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>book_keeping module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="fem_routines module" href="fem_routines.html" />
+    <link rel="prev" title="main module" href="main.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="book-keeping-module">
+<h1>book_keeping module<a class="headerlink" href="#book-keeping-module" title="Permalink to this headline">¶</a></h1>
+<p>This module includes functions that take care of the bookkeeping.
+Bookkeeping consists of assigning equation numbers to degrees of freedom.</p>
+<span class="target" id="module-book_keeping"></span><dl class="function">
+<dt id="book_keeping.connectivity">
+<code class="sig-prename descclassname">book_keeping.</code><code class="sig-name descname">connectivity</code><span class="sig-paren">(</span><em class="sig-param">elements</em>, <em class="sig-param">node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#book_keeping.connectivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the equation numbers of each dof in each element (i.e. connectivity matrix)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] with the node numbers of each finite element corner (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>node_id</strong> – (int) array [<em>NP</em>, 2] with the equation number of the radial and vertical displacement of each node (<em>NP</em>: total number of nodes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(int) array [<em>NE</em>, 8] equation numbers of each dof in each element</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="book_keeping.mapping">
+<code class="sig-prename descclassname">book_keeping.</code><code class="sig-name descname">mapping</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">bounds</em><span class="sig-paren">)</span><a class="headerlink" href="#book_keeping.mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign each degree of freedom of each node to an equation number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>bounds</strong> – <p>(int) parameter to determine the set of boundary conditions</p>
+<ul>
+<li><p>bounds == 0: left = symmetric, bottom = fixed, right = free</p></li>
+<li><p>bounds == 1: left = symmetric, bottom = fixed, right = infinite</p></li>
+<li><p>bounds == 2: left = symmetric, bottom = infinite, right = infinite</p></li>
+<li><p>bounds == 3: left = symmetric, bottom = infinite, right = infinite</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(int) array [<em>NP</em>, 2] equation numbers of the radial and vertical displacement of each node</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="main.html" title="previous chapter">main module</a></li>
+      <li>Next: <a href="fem_routines.html" title="next chapter">fem_routines module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/book_keeping.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,11 @@
+numerical\_routines module
+==========================
+
+This module contains functions that take care of solving the differential equations. Not only do they actually solve the
+dynamics equations in either the frequency or the time domain. They are also used to set up all required parameters and to
+perform the post processing.
+
+.. automodule:: numerical_routines
+   :members:
+   :undoc-members:
+   :show-inheritance:

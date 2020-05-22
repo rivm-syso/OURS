@@ -1,0 +1,50 @@
+.. axyFEM documentation master file, created by
+   sphinx-quickstart on Sat Aug 17 21:27:51 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+AxiFEM's documentation!
+=======================
+
+*Author:* `Sven Lentzen <sven.lentzen@leveltools.nl>`_
+
+*Version:* 1.0 beta
+
+*License:* `level.Tools <http://www.leveltools.nl/>`_
+
+*Last updated*: |today|
+
+AxiFEM
+======
+
+Axisymmetric Finite Element code to compute the transmission through layered soils.
+
+To run the code::
+
+    /> axifem.exe -i <input_file> -o <output> -r <textfile>
+	
+The arguments have the following meaning:
+
+	* *-i*: blablabla
+	* *-o*: blablabla
+	* *-r*: blablabla
+
+.. toctree::
+   :maxdepth: 2
+   
+   main
+   book_keeping
+   fem_routines
+   input_output
+   mesh
+   numerical_routines
+   wave_velocity
+  
+
+
+Content
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
