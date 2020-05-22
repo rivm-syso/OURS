@@ -1,0 +1,20 @@
+naverwerking.py
+1	unknown error
+101	cannot open input file
+102	cannot open or save to output file
+201     FEM model not long enough for this building on this distance
+
+Hgebouw.py
+1	unknown error
+101	cannot open input file
+102	cannot open or save to output file
+
+deformule.py
+1	unknown error
+101	cannot open input file
+102	cannot open or save to output file
+201	number of traintypes not coherent with number of train velocities
+202	number of trains per day-evening-night unclear
+203	number of trains per day-evening-night wrong
+
+
