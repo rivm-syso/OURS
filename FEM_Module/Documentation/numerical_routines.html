@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>numerical_routines module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="wave_velocity module" href="wave_velocity.html" />
+    <link rel="prev" title="mesh module" href="mesh.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="numerical-routines-module">
+<h1>numerical_routines module<a class="headerlink" href="#numerical-routines-module" title="Permalink to this headline">¶</a></h1>
+<p>This module contains functions that take care of solving the differential equations. Not only do they actually solve the
+dynamics equations in either the frequency or the time domain. They are also used to set up all required parameters and to
+perform the post processing.</p>
+<span class="target" id="module-numerical_routines"></span><dl class="function">
+<dt id="numerical_routines.central_differences">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">central_differences</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">node_id</em>, <em class="sig-param">glob_stiff</em>, <em class="sig-param">hyst_damp</em>, <em class="sig-param">inf_damp</em>, <em class="sig-param">lumped_mass</em>, <em class="sig-param">ext_force</em>, <em class="sig-param">data</em>, <em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.central_differences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate the computed acceleration through time using the central difference scheme</p>
+<p>The central difference scheme is based on the following approximations</p>
+<div class="math">
+<p><img src="_images/math/7b7c95280eb54980d00e45ee109307e4c599d70b.png" alt="\begin{eqnarray}
+    \mathbf{x}^{n+1} &amp; = &amp; \mathbf{x}^n + \dot{\mathbf{x}}^{n+\frac{1}{2}}\,\Delta t \nonumber\\
+    \dot{\mathbf{x}}^{n+\frac{1}{2}} &amp; = &amp; \dot{\mathbf{x}}^{n-\frac{1}{2}}+\ddot{\mathbf{x}}^n\,\Delta t \nonumber
+\end{eqnarray}"/></p>
+</div><p>where <img class="math" src="_images/math/b4ed9c2e208e08edeca8b1550ec0840acd090276.png" alt="\Delta t"/> is the (constant) time increment, <img class="math" src="_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> is the time increment number and a dot on top of
+a variable denotes one differentiation in time (e.g. <img class="math" src="_images/math/b18a4c7e3fa6270ba284d9de81f8b3d1419e0240.png" alt="\dot{\mathbf{x}}"/> denoted the velocity vector).</p>
+<p>The acceleration is computed as</p>
+<div class="math">
+<p><img src="_images/math/621714cbac11beeb66db7c1e707cb637489342a3.png" alt="\ddot{\mathbf{x}}^n = \mathbf{M}^{-1}_{\ell}\left(\mathbf{F}^n -
+\left(\mathbf{K}+\mathbf{K}_{\infty}\right)\mathbf{x}^n -
+\mathbf{C}_h\left( \dfrac{||\mathbf{x}^n||}{||\dot{\mathbf{x}}^{n-\frac{1}{2}}||}
+\dot{\mathbf{x}}^{n-\frac{1}{2}}\right) - \mathbf{C}_{\infty}\dot{\mathbf{x}}^{n-\frac{1}{2}} \right)"/></p>
+</div><p>where <img class="math" src="_images/math/45d4a6fb73e968f9effcbf58f3d58dd81b997c42.png" alt="\mathbf{K}"/> and <img class="math" src="_images/math/d2d24cceec286d62f9a8ef2cf041e678c9c391d0.png" alt="\mathbf{K}_{\infty}"/> are the global stiffness matrix and the stiffness matrix
+due to infinity boundary conditions. The remaining matrices <img class="math" src="_images/math/0750a9a61dea8b076baa74be43c2d00b3ed8ff68.png" alt="\mathbf{M}_{\ell}"/>, <img class="math" src="_images/math/3ffbadb48848d29063d3d1f685c42b1cfbaccdb9.png" alt="\mathbf{C}_h"/>, and
+<img class="math" src="_images/math/31a7f84f8a20271f271663abf72e4ac5cd8b7ea5.png" alt="\mathbf{C}_{\infty}"/> are the lumped mass matrix, the hysteretic damping matrix and the viscous damping
+matrix due to infinity boundary conditions. Finally <img class="math" src="_images/math/d0fdd2411a0ba9823e9ef1ab94256a799bd363f1.png" alt="\mathbf{F}"/> denotes the external force vector. As
+external force white noise is chosen, which is obtained by superimposing single sines.</p>
+<p>In order to obtain the hysteretic damping forces, <img class="math" src="_images/math/3ffbadb48848d29063d3d1f685c42b1cfbaccdb9.png" alt="\mathbf{C}_h"/> should be multiplied with
+<img class="math" src="_images/math/c6b7390a31cdb01a6df0f22a054bf28e1bf0ad0c.png" alt="i\mathbf{x}"/>, but this is not directly possible during the the integration in the time domain. Therefore
+<img class="math" src="_images/math/c6b7390a31cdb01a6df0f22a054bf28e1bf0ad0c.png" alt="i\mathbf{x}"/> is approximated with a vector in the same direction as the velocity
+(<img class="math" src="_images/math/32c78bad3c423b800c0ab62cee59db40f3d5329d.png" alt="i\omega\mathbf{x}"/>), but with the magnitude equal to <img class="math" src="_images/math/5369e693370bbbd19fea43055b8f96596bff42a6.png" alt="\mathbf{x}"/> <a class="reference internal" href="references.html#muravskii-2004" id="id1">[6]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [NP, 2] with the radial and vertical coordinate of each node (NP: total number of nodes)</p></li>
+<li><p><strong>node_id</strong> – (int) array [NP, 2] with the equation number of the radial and vertical displacement of each node</p></li>
+<li><p><strong>glob_stiff</strong> – (float) csr_matrix [NEQ, NEQ] global stiffness matrix (NEQ: total number of equations)</p></li>
+<li><p><strong>hyst_damp</strong> – (float) csr_matrix [NEQ, NEQ] global hysteretic stiffness matrix</p></li>
+<li><p><strong>inf_damp</strong> – (float) csr_matrix [NEQ, NEQ] viscous damping matrix due to infinite boundaries</p></li>
+<li><p><strong>lumped_mass</strong> – (float) array [NEQ] with diagonal components of the lumped mass matrix</p></li>
+<li><p><strong>ext_force</strong> – (float) array [NEQ] with global external unit force vector</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>file_name</strong> – (string) full path to the txt-file describing the determined FEM parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dict) with the transfer compliance in radial and vertical direction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.frequency_sampling">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">frequency_sampling</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.frequency_sampling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine frequencies at which harmonic response analysis is performed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – (dict) with FEM input parameters</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [NFREQ] with frequencies (NFREQ: total number of frequencies)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.harmonic_response">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">harmonic_response</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">node_id</em>, <em class="sig-param">glob_stiff</em>, <em class="sig-param">hyst_damp</em>, <em class="sig-param">inf_damp</em>, <em class="sig-param">consistent_mass</em>, <em class="sig-param">ext_force</em>, <em class="sig-param">data</em>, <em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.harmonic_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve the harmonic response equation for pre-selected frequencies</p>
+<div class="math">
+<p><img src="_images/math/0265a163b6580ae42b32758632fb6ed19c404d27.png" alt="\dfrac{\mathbf{x}}{\hat{F}} = \dfrac{\mathbf{F}_e}{-\mathbf{M}_c\,\omega^2+
+i\mathbf{C}_{\infty}\,\omega+\left(\mathbf{K}+\mathbf{K}_{\infty}+i\mathbf{C}_h\right)}"/></p>
+</div><p>where <img class="math" src="_images/math/81df128c099c70dbc2c8ee3e0cbcb98546b8ebd0.png" alt="\mathbf{F}_e"/> and <img class="math" src="_images/math/f08158476cb55e03cc8643afc1e10a56da446a3a.png" alt="\hat{F}"/> are the external unit force vector and the force amplitude,
+<img class="math" src="_images/math/250a9b7b4ef094434e158032f888577592ed1cca.png" alt="\mathbf{M}_c"/>, <img class="math" src="_images/math/31a7f84f8a20271f271663abf72e4ac5cd8b7ea5.png" alt="\mathbf{C}_{\infty}"/>, <img class="math" src="_images/math/3ffbadb48848d29063d3d1f685c42b1cfbaccdb9.png" alt="\mathbf{C}_h"/>, <img class="math" src="_images/math/45d4a6fb73e968f9effcbf58f3d58dd81b997c42.png" alt="\mathbf{K}"/> and
+<img class="math" src="_images/math/d2d24cceec286d62f9a8ef2cf041e678c9c391d0.png" alt="\mathbf{K}_{\infty}"/> are the consistent mass matrix, the viscous damping matrix due to infinite boundary
+conditions, the hysteretic damping matrix, the stiffness matrix and the stiffness matrix due to infinite boundary
+conditions, respectively. Finally <img class="math" src="_images/math/16cb1e006199f0853a2dc67ea814446a38beb54e.png" alt="\omega"/> an <img class="math" src="_images/math/5aa339d4daf45a810dda332e3c80a0698e526e04.png" alt="i"/> are the circular frequency for which the harmonic
+response is computed, and the complex unity.</p>
+<p>The interface to the <em>pardiso</em> solver does not support complex arithmetic (yet). Therefore, when this solver is
+chosen (<code class="docutils literal notranslate"><span class="pre">data[&quot;SolverType&quot;]=3</span></code>) the symmetric complex matrix to be solved
+<img class="math" src="_images/math/0627bbaac77c87e68514524ac4b354fe5d11b558.png" alt="\mathbf{A}_c = \mathbf{A}_r+i\mathbf{A}_r"/> is transformed into a anti-symmetric real one
+<img class="math" src="_images/math/d4be8a92a9b790627c3730d1f6fc474ab4ae97d5.png" alt="\mathbf{B}_r"/>, while doubling the total number of unknowns, which now include the real parts of the unknowns
+followed by the imaginary parts.</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/3dc28bad199b48b29f9f38a1bfd65b9844333c9f.png" alt="\mathbf{B}_r = \begin{bmatrix}
+    \mathbf{A}_r &amp; -\mathbf{A}_i \\
+    \mathbf{A}_i &amp; \mathbf{A}_r
+\end{bmatrix}"/></p>
+</div></div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [NP, 2] with the radial and vertical coordinate of each node (NP: total number of nodes)</p></li>
+<li><p><strong>node_id</strong> – (int) array [NP, 2] with the equation number of the radial and vertical displacement of each node</p></li>
+<li><p><strong>glob_stiff</strong> – (float) csr_matrix [NEQ, NEQ] global stiffness matrix (NEQ: total number of equations)</p></li>
+<li><p><strong>hyst_damp</strong> – (float) csr_matrix [NEQ, NEQ] global hysteretic stiffness matrix</p></li>
+<li><p><strong>inf_damp</strong> – (float) csr_matrix [NEQ, NEQ] viscous damping matrix due to infinite boundaries</p></li>
+<li><p><strong>consistent_mass</strong> – (float) csr_matrix [NEQ, NEQ] with the global consistent mass matrix</p></li>
+<li><p><strong>ext_force</strong> – (float) array [NEQ] with global external unit force vector</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>file_name</strong> – (string) full path to the txt-file describing the determined FEM parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dict) with the transfer compliance in radial and vertical direction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.max_time_step">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">max_time_step</code><span class="sig-paren">(</span><em class="sig-param">glob_stiff</em>, <em class="sig-param">lumped_mass</em>, <em class="sig-param">factor</em>, <em class="sig-param">tolerance</em>, <em class="sig-param">max_iterations</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.max_time_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to determine the maximum time step at which central differences is stable</p>
+<p>In linear analysis the central difference method is unconditionally stable when the chosen time step (for
+integrating through time) <img class="math" src="_images/math/7bd57b84ca25c7f75b04b1b4f4f163640f486164.png" alt="\Delta t\le \frac{2}{\omega_{max}}"/>, where <img class="math" src="_images/math/7530c4ce857f10c617fa893e82e9668ac031a961.png" alt="\omega_{max}"/> is the maximum
+circular frequency of the system.</p>
+<p>The procedure to determine the maximum circular frequency is based on the power method, which is an iterative method</p>
+<div class="math">
+<p><img src="_images/math/68c840467949739a34a6854a07f3e3442cecb118.png" alt="\mathbf{x}^{(k)} = \left(\mathbf{M}^{-1}\mathbf{K}\right)^k\mathbf{x}^{0}"/></p>
+</div><p>where <img class="math" src="_images/math/787bf6f61991675cb2675f10315c8b1211f318a7.png" alt="\mathbf{M}"/> and <img class="math" src="_images/math/45d4a6fb73e968f9effcbf58f3d58dd81b997c42.png" alt="\mathbf{K}"/> are the global mass and stiffness matrix, and
+<img class="math" src="_images/math/9148d9be1c9b674727618bf074cda9b1744c221c.png" alt="\mathbf{x}^{(k)}"/> is the eigenvector obtained at the <img class="math" src="_images/math/c279824074ed8acc9cd963e930735f542462edec.png" alt="k^{th}"/> iteration. As initial vector
+<img class="math" src="_images/math/13cb4fbcab8354947cdbd7f023f0a0f9d272c95f.png" alt="\mathbf{x}^{(0)}"/> a random vector is chosen. The eigenvalue at the <img class="math" src="_images/math/c279824074ed8acc9cd963e930735f542462edec.png" alt="k^{th}"/> iteration is computed as</p>
+<div class="math">
+<p><img src="_images/math/313d613baadd505022ea70f68c5fba9431cf2f9d.png" alt="\lambda^{(k)} = \mathbf{x}^{(k)} \cdot \mathbf{x}^{(k-1)}"/></p>
+</div><p>Relative convergence is checked on the eigenvalue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>glob_stiff</strong> – (float) csr_matrix [NEQ, NEQ] global stiffness matrix (NEQ: total number of equations)</p></li>
+<li><p><strong>lumped_mass</strong> – (float) array [NEQ] with diagonal components of the lumped mass matrix</p></li>
+<li><p><strong>factor</strong> – (float) safety for determining time step</p></li>
+<li><p><strong>tolerance</strong> – (float) iteration tolerance to determine the highest eigenfrequency</p></li>
+<li><p><strong>max_iterations</strong> – (int) maximum number of iterations to determine the highest eigenfrequency</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) time step [s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.pick_method">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">pick_method</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">glob_stiff</em>, <em class="sig-param">lumped_mass</em>, <em class="sig-param">consistent_mass</em>, <em class="sig-param">hyst_damp</em>, <em class="sig-param">inf_damp</em>, <em class="sig-param">ext_force</em>, <em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.pick_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to estimate the required CPU time to perform the simulation using central difference and harmonic response
+analysis. The fastest method is then chosen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>glob_stiff</strong> – (float) csr_matrix [NEQ, NEQ] global stiffness matrix (NEQ: total number of equations)</p></li>
+<li><p><strong>lumped_mass</strong> – (float) array [NEQ] with diagonal components of the lumped mass matrix</p></li>
+<li><p><strong>consistent_mass</strong> – (float) csr_matrix [NEQ, NEQ] with the global consistent mass matrix</p></li>
+<li><p><strong>hyst_damp</strong> – (float) scr_matrix [NEQ, NEQ] with the global hysteretic damping matrix</p></li>
+<li><p><strong>inf_damp</strong> – (float) scr_matrix [NEQ, NEQ] with the viscous damping matrix due to infinite boundaries</p></li>
+<li><p><strong>ext_force</strong> – (float) array [NEQ] with global external unit force vector</p></li>
+<li><p><strong>file_name</strong> – (string) full path to the txt-file describing the determined FEM parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dict) with the update data dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.tfestimate">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">tfestimate</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.tfestimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to compute the transfer function between input x and output y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – (float) array [NS] with the input trace (NS: total number of samples)</p></li>
+<li><p><strong>y</strong> – (float) array [NS] with the output trace</p></li>
+<li><p><strong>args</strong> – optional arguments (valid for scipy.signal.csd and scipy.signal.welch)</p></li>
+<li><p><strong>kwargs</strong> – optional arguments (valid for scipy.signal.csd and scipy.signal.welch)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(complex, float) arrays [NF] with transfer spectrum and frequencies (NF number of frequencies)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="numerical_routines.time_sampling">
+<code class="sig-prename descclassname">numerical_routines.</code><code class="sig-name descname">time_sampling</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">glob_stiff</em>, <em class="sig-param">lumped_mass</em><span class="sig-paren">)</span><a class="headerlink" href="#numerical_routines.time_sampling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine time stepping parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>glob_stiff</strong> – (float) csr_matrix [NEQ, NEQ] global stiffness matrix (NEQ: total number of equations)</p></li>
+<li><p><strong>lumped_mass</strong> – (float) array [NEQ] with diagonal components of the lumped mass matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float, int, int, float) with time step [s], total number of steps, interval at which output is generated,</p>
+</dd>
+</dl>
+<p>end time [s]</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mesh.html" title="previous chapter">mesh module</a></li>
+      <li>Next: <a href="wave_velocity.html" title="next chapter">wave_velocity module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/numerical_routines.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

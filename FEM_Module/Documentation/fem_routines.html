@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>fem_routines module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="input_output module" href="input_output.html" />
+    <link rel="prev" title="book_keeping module" href="book_keeping.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="fem-routines-module">
+<h1>fem_routines module<a class="headerlink" href="#fem-routines-module" title="Permalink to this headline">¶</a></h1>
+<p>This module includes finite element functions <a class="reference internal" href="references.html#bathe-2006" id="id1">[1]</a>. On finite element level there are functions that generate matrices and
+vectors, and on global level there are functions that assemble the elemental components into one an overall system.</p>
+<p>All routines are based on a linear axisymmetric element with a nodal numbering as illustrated in the figure below.</p>
+<blockquote>
+<div><div class="align-center figure" id="element">
+<a class="reference internal image-reference" href="_images/element.png"><img alt="_images/element.png" src="_images/element.png" style="width: 200px;" /></a>
+</div>
+</div></blockquote>
+<span class="target" id="module-fem_routines"></span><dl class="function">
+<dt id="fem_routines.consistent_mass_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">consistent_mass_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">elements</em>, <em class="sig-param">elem_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.consistent_mass_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the global consistent mass matrix for 4-noded axisymmetric finite elements based on the exact integration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] with the node numbers of each finite element corner (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>elem_id</strong> – (int) array [<em>NE</em>, 8] with the equation number of each dof in each element</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) csr_matrix [<em>NEQ</em>, <em>NEQ</em>] global consistent mass matrix (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.elem_mass_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">elem_mass_matrix</code><span class="sig-paren">(</span><em class="sig-param">xyz</em>, <em class="sig-param">rho</em>, <em class="sig-param">elem_type</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.elem_mass_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the mass matrix for a 4-noded axi-symmetric element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xyz</strong> – (float) array [4, 2] with the radial and vertical coordinate of each node of the element</p></li>
+<li><p><strong>rho</strong> – (float) mass density in the element</p></li>
+<li><p><strong>elem_type</strong> – <p>(int) parameter to determine the consistency of the mass</p>
+<ul>
+<li><p>elem_type == 1: consistent mass matrix with integration points at nodes</p></li>
+<li><p>elem_type == 2: consistent mass matrix with exact numerical integration</p></li>
+<li><p>elem_type == 3: lumped mass matrix obtained by summing rows of consistent mass matrix with exact integration</p></li>
+<li><p>elem_type == 4: consistent mass matrix obtained with 1 integration point</p></li>
+<li><p>elem_type == 5: lumped mass matrix obtained by summing rows of consistent mass matrix with 1 integration point</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [8] or [16] element mass matrix in one direction (size depends on consistency)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.elem_stiff_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">elem_stiff_matrix</code><span class="sig-paren">(</span><em class="sig-param">xyz</em>, <em class="sig-param">e</em>, <em class="sig-param">nu</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.elem_stiff_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the stiffness matrix for a 4-noded axi-symmetric element.</p>
+<p>The finite element is fully integrated and is based on EAS or incompatible modes. The enhanced strains are
+implemented as suggested by <a class="reference internal" href="references.html#simo-rifai-1990" id="id2">[2]</a>. An additional strain field is added to the iso-parametric one
+by introducing the EAS parameters <img class="math" src="_images/math/2f5aa019312e1bbc969deab8dca8b00f76025404.png" alt="\alpha"/> which are statically condensated on element level. The enhanced
+strains are determined as <img class="math" src="_images/math/80544744e306039e1ac81ef804300054df32b98a.png" alt="\mathbf{M}_{\alpha} \alpha"/> with</p>
+<div class="math">
+<p><img src="_images/math/a4202a322f0897236d7f193bf1ee75062567bad1.png" alt="\mathbf{M}_{\alpha} = \begin{bmatrix}
+        \xi-\bar{\xi} &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; \eta-\bar{\eta} &amp; 0 &amp; 0 &amp; 0 \\
+        0 &amp; 0 &amp; \xi-\bar{\xi} &amp; \eta-\bar{\eta} &amp; 0 \\
+        0 &amp; 0 &amp; 0 &amp; 0 &amp; \xi\eta\dfrac{J(\xi)}{r(\xi)J(0)}
+    \end{bmatrix}"/></p>
+</div><p>The natural coordinates are denoted as <img class="math" src="_images/math/4b0fcdf5bbee5b94367e76452870b31d7c74f348.png" alt="\xi"/> and <img class="math" src="_images/math/97db043c7cba573ac389b71add78b048077e8a13.png" alt="\eta"/>, and the area averaged coordinates are denoted
+with a bar on top. The Jacobian determinant is denoted as <img class="math" src="_images/math/32c06f8c59d4bd3d13eedea7765a8a74a11f2383.png" alt="J"/>. The enhanced strain components are
+<img class="math" src="_images/math/3c862338c71f7e53e5aa3dc00487034881ded52d.png" alt="[\varepsilon_{xx}, \varepsilon_{zz}, \varepsilon_{xz}, \varepsilon_{\varphi}]"/>.</p>
+<p>For the sake of numerical efficiency, the finite element is analytically integrated assuming that it is undistored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xyz</strong> – (float) array [4, 2] with the radial and vertical coordinate of each node of the element</p></li>
+<li><p><strong>e</strong> – (float) Young’s modulus in the element</p></li>
+<li><p><strong>nu</strong> – (float) Poisson ratio in the element</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [64] element stiffness matrix as a 1D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.external_force">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">external_force</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">node_id</em>, <em class="sig-param">r0</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.external_force" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the global external unit force vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>node_id</strong> – (int) array [<em>NP</em>, 2] with the equation number of the radial and vertical displacement of each node</p></li>
+<li><p><strong>r0</strong> – (float) outer radius of the force application area</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [<em>NEQ</em>] global external force vector (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.glob_stiff_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">glob_stiff_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">elements</em>, <em class="sig-param">elem_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.glob_stiff_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the global stiffness matrix for 4-noded axisymmetric finite elements. This routine is optimized for meshes
+with a homogeneous finite element geometry distribution within the layers. The element stiffness matrices can be
+expressed by analytical equations. This makes the assembly of the global stiffness matrix very fast, and could, if
+necessary, lead to major CPU time reduction for very large systems in an explicit environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] with the node numbers of each finite element corner (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>elem_id</strong> – (int) array [<em>NE</em>, 8] with the equation number of each dof in each element</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) csr_matrix [<em>NEQ</em>, <em>NEQ</em>] global stiffness matrix (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.hyst_damp_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">hyst_damp_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">elements</em>, <em class="sig-param">elem_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.hyst_damp_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the global hysteretic damping matrix. This matrix is constructed in the same way as the global stiffness
+matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] with the node numbers of each finite element corner (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>elem_id</strong> – (int) array [<em>NE</em>, 8] with the equation number of each dof in each element</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) csr_matrix [<em>NEQ</em>, <em>NEQ</em>] global hysteretic damping matrix (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.inf_damp_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">inf_damp_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">node_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em>, <em class="sig-param">etype</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.inf_damp_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the viscous damping matrix at the infinite boundaries.</p>
+<p>When modelling infinite boundaries, additional viscous damping is introduced at these boundaries to compensate for
+the reflected waves <a class="reference internal" href="references.html#lysmer-kuhlemeyer-1969" id="id3">[3]</a>.</p>
+<p>In radial direction the additional damping is determined as</p>
+<div class="math">
+<p><img src="_images/math/e3d1c7fe219614dabccf9fbaded44fc431572986.png" alt="C_r = \int{\rho V_p dA}"/></p>
+</div><p>where the mass density and the compressive/primary wave speed are denoted as <img class="math" src="_images/math/27dc86f9f1b1c3435b2403a869b5870c582facea.png" alt="\rho"/> and <img class="math" src="_images/math/70bdb5c509a569e9fc814299f3f8d27e4c1f57b9.png" alt="V_p"/>,
+respectively</p>
+<p>In vertical direction the additional stiffness is determined as</p>
+<div class="math">
+<p><img src="_images/math/45c178ad5ed24ebcfda294cd410b1df9af09f40d.png" alt="C_z = \int{\rho V_s dA}"/></p>
+</div><p>where the shear/secondary wave speed is denoted as <img class="math" src="_images/math/2990374fde94f327b7f4f669dc47cb1224709586.png" alt="V_s"/>.</p>
+<p>For the sake of numerical efficiency, the finite boundary element is analytically integrated assuming that is either
+directed along the radial axis or along the vertical axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>node_id</strong> – (int) array [<em>NP</em>, 2] with the equation number of the radial and vertical displacement of each node</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+<li><p><strong>etype</strong> – <p>(int) parameter to determine the consistency of the matrix</p>
+<ul>
+<li><p>type == 0: lumped stiffness matrix</p></li>
+<li><p>type == 1: consistent stiffness matrix</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) csr_matrix [<em>NEQ</em>, <em>NEQ</em>] global viscous damping matrix due to infinite boundaries (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.inf_stiff_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">inf_stiff_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">node_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em>, <em class="sig-param">etype</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.inf_stiff_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the stiffness matrix at the infinite boundaries</p>
+<p>When modelling infinite boundaries, additional viscous damping is introduced at these boundaries. In order to
+avoid rigid body modes, additional stiffness has to be introduced as well <a class="reference internal" href="references.html#kellezi-2000" id="id4">[4]</a>.</p>
+<p>In radial direction the additional stiffness is determined as</p>
+<div class="math">
+<p><img src="_images/math/f2bb66429b771d6c5569677ea1d8883f64a4c477.png" alt="K_r = \int{\dfrac{\rho V^2_p}{2r}}dA"/></p>
+</div><p>where the distance to the source, the mass density, and the compressive/primary wave speed are denoted as
+<img class="math" src="_images/math/79a3d439d28652c547386f39b555d90d3aaf102d.png" alt="r"/>, <img class="math" src="_images/math/27dc86f9f1b1c3435b2403a869b5870c582facea.png" alt="\rho"/>, and <img class="math" src="_images/math/70bdb5c509a569e9fc814299f3f8d27e4c1f57b9.png" alt="V_p"/>, respectively.</p>
+<p>In vertical direction the additional stiffness is determined as</p>
+<div class="math">
+<p><img src="_images/math/b18fedecfed2bdde6d43b9ae7376351c6196c3ad.png" alt="K_z = \int{\dfrac{\rho V^2_s}{2r}}dA"/></p>
+</div><p>where the shear/secondary wave speed is denoted as <img class="math" src="_images/math/2990374fde94f327b7f4f669dc47cb1224709586.png" alt="V_s"/>.</p>
+<p>For the sake of numerical efficiency, the finite boundary element is analytically integrated assuming that is either
+directed along the radial axis or along the vertical axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>node_id</strong> – (int) array [<em>NP</em>, 2] with the equation number of the radial and vertical displacement of each node</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+<li><p><strong>etype</strong> – <p>(int) parameter to determine the consistency of the matrix</p>
+<ul>
+<li><p>type == 0: lumped stiffness matrix</p></li>
+<li><p>type == 1: consistent stiffness matrix</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) csr_matrix [<em>NEQ</em>, <em>NEQ</em>] global stiffness due to infinite boundaries (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="fem_routines.lumped_mass_matrix">
+<code class="sig-prename descclassname">fem_routines.</code><code class="sig-name descname">lumped_mass_matrix</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">elements</em>, <em class="sig-param">elem_id</em>, <em class="sig-param">data</em>, <em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#fem_routines.lumped_mass_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the global lumped mass matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] with the radial and vertical coordinate of each node (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] with the node numbers of each finite element corner (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>elem_id</strong> – (int) array [<em>NE</em>, 8] with the equation number of each dof in each element</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] with number of elements in radial and vertical direction of each soil layer (<em>NL</em>: total number of layers)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [<em>NEQ</em>] diagonal components of the global lumped mass matrix (<em>NEQ</em>: total number of equations)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="book_keeping.html" title="previous chapter">book_keeping module</a></li>
+      <li>Next: <a href="input_output.html" title="next chapter">input_output module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/fem_routines.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

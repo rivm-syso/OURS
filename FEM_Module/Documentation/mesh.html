@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>mesh module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="numerical_routines module" href="numerical_routines.html" />
+    <link rel="prev" title="input_output module" href="input_output.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="mesh-module">
+<h1>mesh module<a class="headerlink" href="#mesh-module" title="Permalink to this headline">¶</a></h1>
+<p>This module contains functions that deal with generating a finite element mesh.</p>
+<p>The numbering of the nodes (black) and of the finite elements (red) is illustrated in the figure below.</p>
+<blockquote>
+<div><div class="align-left figure" id="element">
+<a class="reference internal image-reference" href="_images/meshing.png"><img alt="_images/meshing.png" src="_images/meshing.png" style="width: 600px;" /></a>
+</div>
+</div></blockquote>
+<p>The nodes are numbered from the symmetry-axis outwards and from the top to the bottom. The elements however,
+are numbered from the top to the bottom, from the symmetry-axis outward while staying within the same soil layer.
+Ones all elements are numbered within one soil layer, then the elements in the layer below are numbered.</p>
+<p>This numbering is introduced for efficiency reasons. The element properties remain equal within one column in one layer.
+With this numbering the element matrices are only computed once for each column in each layer, and are subsequently used for each finite element in a column.</p>
+<span class="target" id="module-mesh"></span><dl class="function">
+<dt id="mesh.elem_nodes">
+<code class="sig-prename descclassname">mesh.</code><code class="sig-name descname">elem_nodes</code><span class="sig-paren">(</span><em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#mesh.elem_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to generate element list with the nodal numbers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] number of finite elements per layer in each direction (radial, vertical)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(int) array [<em>NE</em>, 4] nodal numbers of each element (<em>NE</em>: total number of elements)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mesh.element_size">
+<code class="sig-prename descclassname">mesh.</code><code class="sig-name descname">element_size</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#mesh.element_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to determine finite element dimensions per layer. This is based on the assumption that a particular number
+of elements (normally at least 10 for linear elements <a class="reference internal" href="references.html#bazant-1978" id="id1">[5]</a>) are required to resolve waves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – (dict) with FEM input parameters</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [<em>NL</em>] maximum finite element size per layer (<em>NL</em>: number of soil layers)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mesh.elements_per_layer">
+<code class="sig-prename descclassname">mesh.</code><code class="sig-name descname">elements_per_layer</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">max_elem_size</em><span class="sig-paren">)</span><a class="headerlink" href="#mesh.elements_per_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to determine the number of finite elements per layer in each direction. This is on one hand decided by the
+required number of elements per wavelength, on the other hand by the maximum element size ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>max_elem_size</strong> – (float) array [<em>NL</em>] maximum finite element size per layer (<em>NL</em>: number of soil layers)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(int) array [<em>NL</em>, 2] number of finite elements per layer in each direction (radial, vertical)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mesh.node_coordinates">
+<code class="sig-prename descclassname">mesh.</code><code class="sig-name descname">node_coordinates</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">elem_count</em><span class="sig-paren">)</span><a class="headerlink" href="#mesh.node_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to generate the nodal coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] number of finite elements per layer in each direction (radial, vertical)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) array [<em>NP</em>, 2] nodal coordinates in radial and vertical direction (<em>NP</em>: total number of nodes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="input_output.html" title="previous chapter">input_output module</a></li>
+      <li>Next: <a href="numerical_routines.html" title="next chapter">numerical_routines module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/mesh.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

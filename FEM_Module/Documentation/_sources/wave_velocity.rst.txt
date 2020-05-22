@@ -1,0 +1,9 @@
+wave\_velocity module
+=====================
+
+This module contains functions that compute wave velocities :cite:`cremer_2005`.
+
+.. automodule:: wave_velocity
+   :members:
+   :undoc-members:
+   :show-inheritance:

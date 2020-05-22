@@ -1,0 +1,20 @@
+fem\_routines module
+====================
+
+This module includes finite element functions :cite:`bathe_2006`. On finite element level there are functions that generate matrices and
+vectors, and on global level there are functions that assemble the elemental components into one an overall system.
+
+All routines are based on a linear axisymmetric element with a nodal numbering as illustrated in the figure below.
+
+
+    .. _element:
+    .. figure:: ./_static/element.png
+        :width: 200px
+        :align: center
+        :figclass: align-center
+
+
+.. automodule:: fem_routines
+   :members:
+   :undoc-members:
+   :show-inheritance:

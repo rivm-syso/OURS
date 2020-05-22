@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>main module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="book_keeping module" href="book_keeping.html" />
+    <link rel="prev" title="axiFEM2 ‘s documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="main-module">
+<h1>main module<a class="headerlink" href="#main-module" title="Permalink to this headline">¶</a></h1>
+<p>This constitutes the main module, in which the input data is read, the solution is generated and where it is finally exported into an output file</p>
+<span class="target" id="module-main"></span><dl class="function">
+<dt id="main.axifem2">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">axifem2</code><span class="sig-paren">(</span><em class="sig-param">file_in</em>, <em class="sig-param">file_out</em>, <em class="sig-param">write_file</em><span class="sig-paren">)</span><a class="headerlink" href="#main.axifem2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function that reads the input, sets up the FEM model, performs the simulation and write the results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_in</strong> – (string) full path to the json-file describing the input for the FEM model</p></li>
+<li><p><strong>file_out</strong> – (string) full path to the json-file with the output of the FEM calculations</p></li>
+<li><p><strong>write_file</strong> – (string) full path to the txt-file describing the determined FEM parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(void)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">axiFEM<sup>2</sup> ‘s documentation</a></li>
+      <li>Next: <a href="book_keeping.html" title="next chapter">book_keeping module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/main.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

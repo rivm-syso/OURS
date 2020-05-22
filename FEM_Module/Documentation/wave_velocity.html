@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>wave_velocity module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="references" href="references.html" />
+    <link rel="prev" title="numerical_routines module" href="numerical_routines.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="wave-velocity-module">
+<h1>wave_velocity module<a class="headerlink" href="#wave-velocity-module" title="Permalink to this headline">¶</a></h1>
+<p>This module contains functions that compute wave velocities <a class="reference internal" href="references.html#cremer-2005" id="id1">[7]</a>.</p>
+<span class="target" id="module-wave_velocity"></span><dl class="function">
+<dt id="wave_velocity.p_wave_velocity">
+<code class="sig-prename descclassname">wave_velocity.</code><code class="sig-name descname">p_wave_velocity</code><span class="sig-paren">(</span><em class="sig-param">e</em>, <em class="sig-param">nu</em>, <em class="sig-param">rho</em><span class="sig-paren">)</span><a class="headerlink" href="#wave_velocity.p_wave_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to compute the compressive wave velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> – (float) Young’s modulus [N/m<sup>2</sup>]</p></li>
+<li><p><strong>nu</strong> – (float) Poisson ratio [-]</p></li>
+<li><p><strong>rho</strong> – (float) Mass density [kg/m<sup>3</sup>]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) Compressive wave velocity [m/s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="wave_velocity.s_wave_velocity">
+<code class="sig-prename descclassname">wave_velocity.</code><code class="sig-name descname">s_wave_velocity</code><span class="sig-paren">(</span><em class="sig-param">e</em>, <em class="sig-param">nu</em>, <em class="sig-param">rho</em><span class="sig-paren">)</span><a class="headerlink" href="#wave_velocity.s_wave_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to compute the shear wave velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> – (float) Young’s modulus [N/m<sup>2</sup>]</p></li>
+<li><p><strong>nu</strong> – (float) Poisson ratio [-]</p></li>
+<li><p><strong>rho</strong> – (float) Mass density [kg/m<sup>3</sup>]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(float) Shear wave velocity [m/s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="numerical_routines.html" title="previous chapter">numerical_routines module</a></li>
+      <li>Next: <a href="references.html" title="next chapter">references</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/wave_velocity.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,24 @@
+mesh module
+===========
+
+This module contains functions that deal with generating a finite element mesh.
+
+The numbering of the nodes (black) and of the finite elements (red) is illustrated in the figure below.
+
+    .. _element:
+    .. figure:: ./_static/meshing.png
+        :width: 600px
+        :align: left
+        :figclass: align-left
+
+The nodes are numbered from the symmetry-axis outwards and from the top to the bottom. The elements however,
+are numbered from the top to the bottom, from the symmetry-axis outward while staying within the same soil layer.
+Ones all elements are numbered within one soil layer, then the elements in the layer below are numbered.
+
+This numbering is introduced for efficiency reasons. The element properties remain equal within one column in one layer.
+With this numbering the element matrices are only computed once for each column in each layer, and are subsequently used for each finite element in a column.
+		
+.. automodule:: mesh
+   :members:
+   :undoc-members:
+   :show-inheritance:

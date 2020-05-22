@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>axiFEM2 ‘s documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="axifem2-s-documentation">
+<h1>axiFEM<sup>2</sup> ‘s documentation<a class="headerlink" href="#axifem2-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p><em>Authors:</em> <a class="reference external" href="http://www.linkedin.com/in/svenlentzen/">Sven Lentzen</a></p>
+<p><em>Version:</em> 1.0 beta</p>
+<p><em>License:</em> <a class="reference external" href="http://www.leveltools.nl/">level.Tools</a></p>
+<p><em>Last updated</em>: Nov 16, 2019</p>
+<blockquote>
+<div><div class="align-left figure" id="element">
+<a class="reference internal image-reference" href="_images/axiFEM_logo2.png"><img alt="_images/axiFEM_logo2.png" src="_images/axiFEM_logo2.png" style="width: 600px;" /></a>
+</div>
+</div></blockquote>
+<p>axiFEM<sup>2</sup> computes the cross compliance of top surface of layered soils.
+The computations are based on the axi-symmetric Finite Element Method.</p>
+<p>To run the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/&gt;</span> <span class="n">axifem2</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input_file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">r</span> <span class="o">&lt;</span><span class="n">process_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The arguments have the following meaning:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>-i</em>: path to the input JSON file</p></li>
+<li><p><em>-o</em>: path to the output JSON file</p></li>
+<li><p><em>-r</em>: path to the ASCII file with process updates</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">/&gt;</span> <span class="n">axifem2</span> <span class="o">-</span><span class="n">i</span> <span class="o">./</span><span class="nb">input</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">o</span> <span class="o">./</span><span class="n">output</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">r</span> <span class="o">./</span><span class="n">process</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>The input JSON file has the following structure:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="s2">&quot;Soil1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;MaxCalcDist&quot;</span><span class="p">:</span><span class="mi">25</span><span class="p">,</span>
+        <span class="nt">&quot;MaxCalcDepth&quot;</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span>
+        <span class="nt">&quot;MinLayerThickness&quot;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="nt">&quot;LowFreq&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;HighFreq&quot;</span><span class="p">:</span><span class="mi">63</span><span class="p">,</span>
+        <span class="nt">&quot;CalcType&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+        <span class="nt">&quot;Ground&quot;</span><span class="p">:{</span>
+                <span class="nt">&quot;Depth&quot;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+                <span class="nt">&quot;E&quot;</span><span class="p">:[</span><span class="mf">12218362.22</span><span class="p">,</span><span class="mf">19232349.91</span><span class="p">,</span><span class="mf">19092817.25</span><span class="p">],</span>
+                <span class="nt">&quot;Lithology&quot;</span><span class="p">:[</span><span class="s2">&quot;6\/5\/4&quot;</span><span class="p">,</span><span class="s2">&quot;4\/5&quot;</span><span class="p">,</span><span class="s2">&quot;4\/5&quot;</span><span class="p">],</span>
+                <span class="nt">&quot;damping&quot;</span><span class="p">:[</span><span class="mf">0.018</span><span class="p">,</span><span class="mf">0.063</span><span class="p">,</span><span class="mf">0.049</span><span class="p">],</span>
+                <span class="nt">&quot;rho&quot;</span><span class="p">:[</span><span class="mf">1404.74</span><span class="p">,</span><span class="mf">1552.14</span><span class="p">,</span><span class="mf">1515.39</span><span class="p">],</span>
+                <span class="nt">&quot;v&quot;</span><span class="p">:[</span><span class="mf">0.22</span><span class="p">,</span><span class="mf">0.23</span><span class="p">,</span><span class="mf">0.49</span><span class="p">]</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where the attributes have the following meaning:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Name</em>: Name of the project</p></li>
+<li><p><em>MaxCalcDist</em>: Maximum distance of calculation [m]</p></li>
+<li><p><em>MaxCalcDepth</em>: Maximum depth of calculation [m]</p></li>
+<li><p><em>MinLayerThickness</em>:  Minimum layer thickness for the vertical discretisation [m]</p></li>
+<li><p><em>LowFreq</em>: Minimum frequency of interest [Hz]</p></li>
+<li><p><em>HighFreq</em>: Maximum frequency of interest [Hz]</p></li>
+<li><p><em>CalcType</em>: Type of calculation 1=CentDiff; 2=HarmResp</p></li>
+<li><p><em>Depth</em>: Depth of each layer’s top side [m]</p></li>
+<li><p><em>E</em>: Young’s modulus of each layer [Pa]</p></li>
+<li><p><em>Lithology</em>: Lithological description of each layer</p></li>
+<li><p><em>damping</em>: Damping ratio of each layer [-]</p></li>
+<li><p><em>rho</em>: Mass density of each layer [kg/m<sup>3</sup>]</p></li>
+<li><p><em>v</em>: Poisson ratio of each layer [-]</p></li>
+</ul>
+</div></blockquote>
+<p>In the figure below, the soil layers with all geometric parameters are illustrated.</p>
+<blockquote>
+<div><div class="align-left figure" id="id1">
+<a class="reference internal image-reference" href="_images/soil_layers.png"><img alt="_images/soil_layers.png" src="_images/soil_layers.png" style="width: 600px;" /></a>
+</div>
+</div></blockquote>
+<p>It is assumed that beyond <em>MaxCalcDist</em> and below <em>MaxCalcDepth</em> the soil behaves as a infinite continuum.
+Therefore at these domain borders non-reflective boundary conditions are assumed.</p>
+<p>The output JSON file has the following structure:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="nt">&quot;Frequency&quot;</span><span class="p">:[</span>
+                <span class="mf">2.0</span><span class="p">,</span>
+                <span class="mf">5.0</span><span class="p">,</span>
+                <span class="mf">10.0</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;Rcoord&quot;</span><span class="p">:[</span>
+                <span class="mf">10.0</span><span class="p">,</span>
+                <span class="mf">15.0</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;RDisp_imag&quot;</span><span class="p">:[</span>
+                <span class="p">[</span>
+                        <span class="mf">0.123</span><span class="p">,</span>
+                        <span class="mf">0.125</span><span class="p">,</span>
+                        <span class="mf">0.130</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                        <span class="mf">-0.012</span><span class="p">,</span>
+                        <span class="mf">-0.010</span><span class="p">,</span>
+                        <span class="mf">-0.008</span>
+                <span class="p">]</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;RDisp_real&quot;</span><span class="p">:[</span>
+                <span class="p">[</span>
+                        <span class="mf">1.204</span><span class="p">,</span>
+                        <span class="mf">1.305</span><span class="p">,</span>
+                        <span class="mf">1.256</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                        <span class="mf">2.123</span><span class="p">,</span>
+                        <span class="mf">2.045</span><span class="p">,</span>
+                        <span class="mf">1.999</span>
+                <span class="p">]</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;ZDisp_imag&quot;</span><span class="p">:[</span>
+                <span class="p">[</span>
+                        <span class="mf">0.579</span><span class="p">,</span>
+                        <span class="mf">0.584</span><span class="p">,</span>
+                        <span class="mf">0.595</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                        <span class="mf">1.123</span><span class="p">,</span>
+                        <span class="mf">1.458</span><span class="p">,</span>
+                        <span class="mf">1.897</span>
+                <span class="p">]</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;ZDisp_real&quot;</span><span class="p">:[</span>
+                <span class="p">[</span>
+                        <span class="mf">4.597</span><span class="p">,</span>
+                        <span class="mf">4.987</span><span class="p">,</span>
+                        <span class="mf">5.301</span>
+                <span class="p">],</span>
+                <span class="p">[</span>
+                        <span class="mf">6.789</span><span class="p">,</span>
+                        <span class="mf">6.918</span><span class="p">,</span>
+                        <span class="mf">7.002</span>
+                <span class="p">]</span>
+        <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where the attributes have the following meaning:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Frequency</em>: List of frequencies [Hz]</p></li>
+<li><p><em>Rcoord</em>: List of radial coordinates [m]</p></li>
+<li><p><em>RDisp_imag</em>: Imaginary part of the compliance in radial direction for each Frequency and Rcoord [m/N]</p></li>
+<li><p><em>RDisp_real</em>: Real part of the compliance in radial direction for each Frequency and Rcoord [m/N]</p></li>
+<li><p><em>ZDisp_imag</em>: Imaginary part of the compliance in vertical direction for each Frequency and Rcoord [m/N]</p></li>
+<li><p><em>ZDisp_real</em>: Real part of the compliance in vertical direction for each Frequency and Rcoord [m/N]</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Error codes</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">101</span><span class="p">)</span> <span class="nb">input</span> <span class="n">JSON</span> <span class="nb">file</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">found</span>
+<span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">102</span><span class="p">)</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">write</span> <span class="n">process</span> <span class="n">updates</span> <span class="n">to</span> <span class="n">ASCII</span> <span class="nb">file</span>
+<span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">103</span><span class="p">)</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">write</span> <span class="n">to</span> <span class="n">output</span> <span class="n">JSON</span> <span class="nb">file</span>
+<span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">111</span><span class="p">)</span> <span class="ow">not</span> <span class="nb">all</span> <span class="n">required</span> <span class="n">keys</span> <span class="n">are</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">JSON</span> <span class="nb">file</span>
+<span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">112</span><span class="p">)</span> <span class="ow">not</span> <span class="nb">all</span> <span class="s2">&quot;Ground&quot;</span> <span class="n">keys</span> <span class="ow">in</span> <span class="nb">input</span> <span class="n">JSON</span> <span class="nb">file</span> <span class="n">have</span> <span class="n">equal</span> <span class="n">length</span>
+<span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">113</span><span class="p">)</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">inputs</span> <span class="n">have</span> <span class="n">invalid</span> <span class="n">values</span><span class="p">,</span> <span class="n">see</span> <span class="n">process</span> <span class="n">ASCII</span> <span class="nb">file</span> <span class="k">for</span> <span class="n">information</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="content">
+<h1>Content<a class="headerlink" href="#content" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="#"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_output.html">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="main.html" title="next chapter">main module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

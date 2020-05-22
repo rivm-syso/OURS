@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>input_output module</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mesh module" href="mesh.html" />
+    <link rel="prev" title="fem_routines module" href="fem_routines.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="input-output-module">
+<h1>input_output module<a class="headerlink" href="#input-output-module" title="Permalink to this headline">¶</a></h1>
+<p>This module includes functions that deal with reading and interpreting input data, and with writing diagnostics information
+and final results.</p>
+<span class="target" id="module-input_output"></span><dl class="function">
+<dt id="input_output.check_input">
+<code class="sig-prename descclassname">input_output.</code><code class="sig-name descname">check_input</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#input_output.check_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to check the input data for errors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>file_name</strong> – (string) full path of ASCII file to write error messages</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(void)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="input_output.read_input">
+<code class="sig-prename descclassname">input_output.</code><code class="sig-name descname">read_input</code><span class="sig-paren">(</span><em class="sig-param">file_name</em>, <em class="sig-param">write_file</em><span class="sig-paren">)</span><a class="headerlink" href="#input_output.read_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to read the FEM input parameter file. The output data has the following structure</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;MaxCalcDist&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">maximum</span> <span class="n">distance</span> <span class="n">of</span> <span class="n">calculation</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;MaxCalcDepth&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">maximum</span> <span class="n">depth</span> <span class="n">of</span> <span class="n">calculation</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;MinLayerThickness&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">minimum</span> <span class="n">layers</span> <span class="n">thickness</span> <span class="k">for</span> <span class="n">the</span> <span class="n">vertical</span> <span class="n">discretisation</span> <span class="p">(</span><span class="ow">not</span> <span class="n">used</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;LowFreq&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">minimum</span> <span class="n">frequency</span> <span class="n">of</span> <span class="n">interest</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;HighFreq&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">maximum</span> <span class="n">frequency</span> <span class="n">of</span> <span class="n">interest</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;CalcType&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">calculation</span> <span class="mi">1</span><span class="o">=</span><span class="n">centdiff</span><span class="p">,</span> <span class="mi">2</span><span class="o">=</span><span class="n">harmresp</span><span class="p">,</span> <span class="mi">3</span><span class="o">=</span><span class="n">programme</span> <span class="n">decides</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;SolverType&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span><span class="n">solver</span> <span class="nb">type</span> <span class="mi">1</span><span class="o">=</span><span class="n">scipy</span><span class="o">.</span><span class="n">spsolve</span><span class="p">,</span> <span class="mi">2</span><span class="o">=</span><span class="n">umfpack</span><span class="p">,</span> <span class="mi">3</span><span class="o">=</span><span class="n">pardiso</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;Depth&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span> <span class="k">with</span> <span class="n">depth</span> <span class="n">of</span> <span class="n">the</span> <span class="n">top</span> <span class="n">of</span> <span class="n">each</span> <span class="n">layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;E&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span> <span class="k">with</span> <span class="n">Young</span><span class="s1">&#39;s modulus per layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;Lithology&quot;</span><span class="p">]</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">with</span> <span class="n">lithology</span> <span class="n">per</span> <span class="n">layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;damping&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span> <span class="k">with</span> <span class="n">damping</span> <span class="n">ratio</span> <span class="n">per</span> <span class="n">layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span> <span class="k">with</span> <span class="n">mass</span> <span class="n">density</span> <span class="n">per</span> <span class="n">layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;v&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span> <span class="k">with</span> <span class="n">Poisson</span><span class="s1">&#39;s ratio per layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ground&quot;</span><span class="p">][</span><span class="s2">&quot;Thickness&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">array</span><span class="p">)</span> <span class="k">with</span> <span class="n">thickness</span> <span class="n">per</span> <span class="n">layer</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;NumLayers&quot;</span><span class="p">]</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">number</span> <span class="n">of</span> <span class="n">layers</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;Bounds&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span><span class="n">boundary</span> <span class="n">condition</span> <span class="nb">type</span> <span class="n">optional</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;TimeIncrementFactor&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">safety</span> <span class="n">factor</span> <span class="k">for</span> <span class="n">critical</span> <span class="n">time</span> <span class="n">step</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;TimeIncrementMaxIterations&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span><span class="n">maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">iterations</span> <span class="n">to</span> <span class="n">determine</span> <span class="n">critical</span> <span class="n">time</span> <span class="n">step</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;TimeIncrementTolerance&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">relative</span> <span class="n">tolerance</span> <span class="n">to</span> <span class="n">determine</span> <span class="n">critical</span> <span class="n">time</span> <span class="n">step</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">1E-5</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;TimeEndFactor&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">multiplication</span> <span class="n">factor</span> <span class="n">to</span> <span class="n">determine</span> <span class="n">simulation</span> <span class="n">end</span> <span class="n">time</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;ForceRadius&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">radius</span> <span class="n">at</span> <span class="n">which</span> <span class="n">force</span> <span class="ow">is</span> <span class="n">applied</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;MethodDecisionFactor&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">bias</span> <span class="n">factor</span> <span class="n">to</span> <span class="n">decide</span> <span class="n">which</span> <span class="n">method</span> <span class="ow">is</span> <span class="n">preferred</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;MaxElementRatio&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">maximum</span> <span class="n">finite</span> <span class="n">element</span> <span class="n">geometry</span> <span class="n">ratio</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;ElementsPerWave&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">number</span> <span class="n">of</span> <span class="n">elements</span> <span class="n">per</span> <span class="n">wave</span> <span class="k">for</span> <span class="n">discretization</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;FreqIncrementFactor&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">factor</span> <span class="n">to</span> <span class="n">scale</span> <span class="n">number</span> <span class="n">of</span> <span class="n">frequency</span> <span class="n">lines</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;ForcingFreqIncrement&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span><span class="n">frequency</span> <span class="n">increment</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">white</span> <span class="n">noise</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="mf">1E-2</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;ConsistentInfStiffness&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="o">*</span><span class="n">switch</span> <span class="k">for</span> <span class="n">consistent</span> <span class="ow">or</span> <span class="n">lumped</span> <span class="n">infinite</span> <span class="n">stiffness</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="bp">True</span><span class="p">]</span>
+<span class="n">data</span><span class="p">(</span><span class="s2">&quot;ConsistentInfDamping&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="o">*</span><span class="n">switch</span> <span class="k">for</span> <span class="n">consistent</span> <span class="ow">or</span> <span class="n">lumped</span> <span class="n">infinite</span> <span class="n">damping</span> <span class="p">[</span><span class="n">default</span> <span class="o">=</span> <span class="bp">True</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> – (string) full path of JSON file containing the FEM input parameters</p></li>
+<li><p><strong>write_file</strong> – (string) full path of TXT file to write the process updates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(dict) FEM input parameters</p>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The content of the data dictionary is directly read from the input JSON file. This list of parameters
+contains is more elaborate than the one described in the section about the input JSON file. The additional
+parameters can be seen as <em>expert</em> parameters to better tune the computations. These parameters can also be set in
+the input JSON file, e.g. for setting <code class="docutils literal notranslate"><span class="pre">SolverType=3</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;Name&quot;:&quot;Soil1&quot;,
+    &quot;MaxCalcDist&quot;:25,
+    ...
+    &quot;SolverType&quot;:3,
+    ...
+    &quot;Ground&quot;:{
+        &quot;Depth&quot;:[0,5,20],
+        &quot;E&quot;:[12218362.22,19232349.91,19092817.25],
+        &quot;Lithology&quot;:[&quot;6\/5\/4&quot;,&quot;4\/5&quot;,&quot;4\/5&quot;],
+        &quot;damping&quot;:[0.018,0.063,0.049],
+        &quot;rho&quot;:[1404.74,1552.14,1515.39],
+        &quot;v&quot;:[0.22,0.23,0.49]
+    }
+}
+</pre></div>
+</div>
+<p>Not setting these additional parameters leads to assuming the default values which are tuned to work work in most
+cases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;TimeIncrementFactor&quot;</span></code> <br>
+In linear analysis the central difference method (<code class="docutils literal notranslate"><span class="pre">centdiff</span></code>) is undoncitionally stable when the chosen time step
+(for integrating through time) <img class="math" src="_images/math/7bd57b84ca25c7f75b04b1b4f4f163640f486164.png" alt="\Delta t\le \frac{2}{\omega_{max}}"/>, where <img class="math" src="_images/math/7530c4ce857f10c617fa893e82e9668ac031a961.png" alt="\omega_{max}"/> is the
+maximum circular frequency of the system. The <code class="docutils literal notranslate"><span class="pre">&quot;TimeIncrementFactor&quot;</span></code> is a safety factor that changes the critical
+time step by this value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;TimeIncrementTolerance&quot;</span></code> <br>
+The procedure to determine the maximum circular frequency is based on the power method, which is an iterative
+method. Convergence of the method is established at iteration <img class="math" src="_images/math/9630132210b904754c9ab272b61cb527d12263ca.png" alt="k"/> by check the relative change of the maximum
+eigenfrequency</p>
+<p class="centered">
+<strong><img class="math" src="_images/math/52c3efa574982d1f5390b4002c5b55ac9183035c.png" alt="\dfrac{\lambda^{(k)}_{max}-\lambda^{(k-1)}_{max}}{\lambda^{(k)}_{max}} ="/> <code class="docutils literal notranslate"><span class="pre">&quot;TimeIncrementTolerance&quot;</span></code></strong></p><p><code class="docutils literal notranslate"><span class="pre">&quot;TimeEndFactor&quot;</span></code> <br>
+When the <code class="docutils literal notranslate"><span class="pre">centdiff</span></code> method is applied to eventually compute the transfer functions, the soil is excited by white
+noise and an explicit simulation of the resulting behaviour is performed. In order to approach a stationary solution
+the simulation has to be performed over a sufficiently long time period. Its length is determined by first computing
+the time it takes for a shear/secondary wave to travel from the point of excitation to the right side of the
+geometric domain in the top layer. Subsequently this time is multiplied with <code class="docutils literal notranslate"><span class="pre">&quot;TimeEndFactor&quot;</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;MethodDecisionFactor&quot;</span></code> <br>
+When <code class="docutils literal notranslate"><span class="pre">CalcType</span> <span class="pre">==</span> <span class="pre">3</span></code> the programme decides which method (<code class="docutils literal notranslate"><span class="pre">centdiff</span></code> or <code class="docutils literal notranslate"><span class="pre">harmresp</span></code>) is chosen based on the
+estimated CPU times for either method. For accuracy reasons it is recommended to apply the <code class="docutils literal notranslate"><span class="pre">harmresp</span></code> method. This
+bias towards <code class="docutils literal notranslate"><span class="pre">harmresp</span></code> can be expressed by <code class="docutils literal notranslate"><span class="pre">&quot;MethodDecisionFactor&quot;</span></code>. The method <code class="docutils literal notranslate"><span class="pre">centdiff</span></code> is only chosen if</p>
+<p class="centered">
+<strong><img class="math" src="_images/math/586dab9436f6f88e8858d597c98b36992f6b3b05.png" alt="\dfrac{t_1}{t_2} &lt;"/> <code class="docutils literal notranslate"><span class="pre">&quot;MethodDecisionFactor&quot;</span></code>,</strong></p><p>where <img class="math" src="_images/math/802e1ea255de5805b557aea4e0ad643e51ea0450.png" alt="t_1"/> is the estimated time for <code class="docutils literal notranslate"><span class="pre">centdiff</span></code> and <img class="math" src="_images/math/ce04a78dd6b12c1f38c161df6a42f7f1bbbea5c2.png" alt="t_2"/> the estimated time for <code class="docutils literal notranslate"><span class="pre">harmresp</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;MaxElementRatio&quot;</span></code> <br>
+In earlier times when iso-p elements were still popular (and they still are in most commercial explicit codes for
+efficiency reasons), finite elements suffered from severe distortion locking. In order to battle this, a maximum
+element distortion ratio of 3 is imposed. For rectangular elements this ratio is defined as the ratio between the
+longest and the shortest edge. With the presently deployed elements the element distortion demands are not that
+high, and for efficiency reasons the <code class="docutils literal notranslate"><span class="pre">&quot;MaxElementRatio&quot;</span></code> can be set higher.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;FreqIncrementFactor&quot;</span></code> <br>
+The frequencies at which the <code class="docutils literal notranslate"><span class="pre">harmresp</span></code> method determines the transfer functions are logarithmically distributed
+between <code class="docutils literal notranslate"><span class="pre">&quot;LowFreq&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;HighFreq&quot;</span></code>. The number of frequencies <img class="math" src="_images/math/9801d9da4593d17169ceb442f0ef3c197276c525.png" alt="n_f"/> is determined as</p>
+<p class="centered">
+<strong><img class="math" src="_images/math/b7b8c9d8e142726113a5895857ff39daa4cbb861.png" alt="n_f=\Bigg\lceil\log\left(\dfrac{f_{high}}{f_{low}}\right)-\log\left(1+\eta\right)\Bigg\rceil\cdot"/>
+<code class="docutils literal notranslate"><span class="pre">&quot;FreqIncrementFactor&quot;</span></code>,</strong></p><p>where <img class="math" src="_images/math/97db043c7cba573ac389b71add78b048077e8a13.png" alt="\eta"/> is the maximum between 0.1 and the average hysteretic damping in all layers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;ForcingFreqIncrement&quot;</span></code> <br>
+In the <code class="docutils literal notranslate"><span class="pre">centdiff</span></code> method, the soil is excited by white noise. This noise is generated by the superposition of
+single sines. The frequencies of these sines are capped at 110% of <code class="docutils literal notranslate"><span class="pre">&quot;HighFreq&quot;</span></code> and they are incremented by
+<code class="docutils literal notranslate"><span class="pre">&quot;ForcingFreqIncrement&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="input_output.write_model_info">
+<code class="sig-prename descclassname">input_output.</code><code class="sig-name descname">write_model_info</code><span class="sig-paren">(</span><em class="sig-param">file_name</em>, <em class="sig-param">data</em>, <em class="sig-param">max_elem_size</em>, <em class="sig-param">elem_count</em>, <em class="sig-param">nodes</em>, <em class="sig-param">elements</em>, <em class="sig-param">node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#input_output.write_model_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to write information of the model into an ASCII file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> – (string) full path of ASCII file to write the model info</p></li>
+<li><p><strong>data</strong> – (dict) with FEM input parameters</p></li>
+<li><p><strong>max_elem_size</strong> – (float) array [<em>NL</em>] maximum finite element size per layer (<em>NL</em>: number of soil layers)</p></li>
+<li><p><strong>elem_count</strong> – (int) array [<em>NL</em>, 2] number of finite elements per layer in each direction (radial, vertical)</p></li>
+<li><p><strong>nodes</strong> – (float) array [<em>NP</em>, 2] nodal coordinates in radial and vertical direction (<em>NP</em>: total number of nodes)</p></li>
+<li><p><strong>elements</strong> – (int) array [<em>NE</em>, 4] nodal numbers of each element (<em>NE</em>: total number of elements)</p></li>
+<li><p><strong>node_id</strong> – (int) array [<em>NP</em>, 2] equation numbers of the radial and vertical displacement of each node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(void)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="input_output.write_output">
+<code class="sig-prename descclassname">input_output.</code><code class="sig-name descname">write_output</code><span class="sig-paren">(</span><em class="sig-param">file_name</em>, <em class="sig-param">result</em><span class="sig-paren">)</span><a class="headerlink" href="#input_output.write_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to write the results in a JSON file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> – (string) full path to JSON file in which the results are written</p></li>
+<li><p><strong>result</strong> – (dict) containing the compliance spectra from excitation to response points</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(void)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/axiFEM_logo2-200.png" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html"></a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book_keeping.html">book_keeping module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fem_routines.html">fem_routines module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">input_output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">mesh module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numerical_routines.html">numerical_routines module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_velocity.html">wave_velocity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">references</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="fem_routines.html" title="previous chapter">fem_routines module</a></li>
+      <li>Next: <a href="mesh.html" title="next chapter">mesh module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, level.Tools.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/input_output.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

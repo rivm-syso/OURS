@@ -1,0 +1,15 @@
+input\_output module
+====================
+
+.. |br| raw:: html
+
+    <br>
+
+This module includes functions that deal with reading and interpreting input data, and with writing diagnostics information
+and final results.
+
+
+.. automodule:: input_output
+   :members:
+   :undoc-members:
+   :show-inheritance:
