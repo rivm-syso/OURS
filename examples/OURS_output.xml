@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OURS_Output version="V1.0">
+  <Project name="example" description="omschrijving van het project">
+    <Receptors>
+      <receptor>
+        <name>001</name>
+        <description>rekenpunt 001</description>
+        <source>
+          <name>001</name>
+          <description>track 001</description>
+          <distance>25</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.33</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.138</vmax_sigma>
+              <vtop>0.8</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>2.16</vtop_Vd>
+              <vtop_sigma>0.332</vtop_sigma>
+              <variatiecoeffs>0; 0.21; 0.36</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.95</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.42</vmax_sigma>
+              <vper>0.121; 0.095; 0.054</vper>
+              <vper_sigma>0.0395; 0.031; 0.018</vper_sigma>
+              <variatiecoeffs>0; 0.25; 0.37</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.21</vrms>
+              <vrms_sigmax>0.052</vrms_sigmax>
+              <variatiecoeffs>0; 0.21; 0.36</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.33</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.138</vmax_sigma>
+              <vtop>0.8</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>2.16</vtop_Vd>
+              <vtop_sigma>0.332</vtop_sigma>
+              <variatiecoeffs>0; 0.21; 0.36</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.95</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.42</vmax_sigma>
+              <vper>0.121; 0.095; 0.054</vper>
+              <vper_sigma>0.0395; 0.031; 0.018</vper_sigma>
+              <variatiecoeffs>0; 0.25; 0.37</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.21</vrms>
+              <vrms_sigmax>0.052</vrms_sigmax>
+              <variatiecoeffs>0; 0.21; 0.36</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>002</name>
+          <description>track 002</description>
+          <distance>35</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.16</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.07</vmax_sigma>
+              <vtop>0.39</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.07</vtop_Vd>
+              <vtop_sigma>0.169</vtop_sigma>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.45</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.233</vmax_sigma>
+              <vper>0.044; 0.034; 0.02</vper>
+              <vper_sigma>0.0226; 0.0176; 0.0104</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.09</vrms>
+              <vrms_sigmax>0.031</vrms_sigmax>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.16</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.07</vmax_sigma>
+              <vtop>0.39</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.07</vtop_Vd>
+              <vtop_sigma>0.169</vtop_sigma>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.45</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.233</vmax_sigma>
+              <vper>0.044; 0.034; 0.02</vper>
+              <vper_sigma>0.0226; 0.0176; 0.0104</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.09</vrms>
+              <vrms_sigmax>0.031</vrms_sigmax>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>003_PntSrc</name>
+          <description>Pointsource</description>
+          <distance>30</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.2</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.088</vmax_sigma>
+              <vtop>0.48</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.33</vtop_Vd>
+              <vtop_sigma>0.21</vtop_sigma>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.57</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.292</vmax_sigma>
+              <vper>0.055; 0.043; 0.025</vper>
+              <vper_sigma>0.0284; 0.0221; 0.0131</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.11</vrms>
+              <vrms_sigmax>0.037</vrms_sigmax>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.2</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.088</vmax_sigma>
+              <vtop>0.48</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.33</vtop_Vd>
+              <vtop_sigma>0.21</vtop_sigma>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.57</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.292</vmax_sigma>
+              <vper>0.055; 0.043; 0.025</vper>
+              <vper_sigma>0.0284; 0.0221; 0.0131</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.11</vrms>
+              <vrms_sigmax>0.037</vrms_sigmax>
+              <variatiecoeffs>0; 0.28; 0.33</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+      </receptor>
+      <receptor>
+        <name>002</name>
+        <description>rekenpunt 002</description>
+        <source>
+          <name>001</name>
+          <description>track 001</description>
+          <distance>15</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.43</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.196</vmax_sigma>
+              <vtop>1.04</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>2.91</vtop_Vd>
+              <vtop_sigma>0.47</vtop_sigma>
+              <variatiecoeffs>0; 0.18; 0.41</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>1.18</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.591</vmax_sigma>
+              <vper>0.151; 0.119; 0.068</vper>
+              <vper_sigma>0.0544; 0.0426; 0.0249</vper_sigma>
+              <variatiecoeffs>0; 0.23; 0.44</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.33</vrms>
+              <vrms_sigmax>0.098</vrms_sigmax>
+              <variatiecoeffs>0; 0.18; 0.41</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.43</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.196</vmax_sigma>
+              <vtop>1.04</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>2.91</vtop_Vd>
+              <vtop_sigma>0.47</vtop_sigma>
+              <variatiecoeffs>0; 0.18; 0.41</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>1.18</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.591</vmax_sigma>
+              <vper>0.151; 0.119; 0.068</vper>
+              <vper_sigma>0.0544; 0.0426; 0.0249</vper_sigma>
+              <variatiecoeffs>0; 0.23; 0.44</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.33</vrms>
+              <vrms_sigmax>0.098</vrms_sigmax>
+              <variatiecoeffs>0; 0.18; 0.41</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>002</name>
+          <description>track 002</description>
+          <distance>25</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.22</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.094</vmax_sigma>
+              <vtop>0.53</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.45</vtop_Vd>
+              <vtop_sigma>0.225</vtop_sigma>
+              <variatiecoeffs>0; 0.26; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.6</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.3</vmax_sigma>
+              <vper>0.058; 0.045; 0.027</vper>
+              <vper_sigma>0.0292; 0.0227; 0.0135</vper_sigma>
+              <variatiecoeffs>0; 0.34; 0.37</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.15</vrms>
+              <vrms_sigmax>0.045</vrms_sigmax>
+              <variatiecoeffs>0; 0.26; 0.33</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.22</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.094</vmax_sigma>
+              <vtop>0.53</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.45</vtop_Vd>
+              <vtop_sigma>0.225</vtop_sigma>
+              <variatiecoeffs>0; 0.26; 0.33</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.6</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.3</vmax_sigma>
+              <vper>0.058; 0.045; 0.027</vper>
+              <vper_sigma>0.0292; 0.0227; 0.0135</vper_sigma>
+              <variatiecoeffs>0; 0.34; 0.37</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.15</vrms>
+              <vrms_sigmax>0.045</vrms_sigmax>
+              <variatiecoeffs>0; 0.26; 0.33</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>003_PntSrc</name>
+          <description>Pointsource</description>
+          <distance>22.3606797749979</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.26</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.108</vmax_sigma>
+              <vtop>0.62</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.67</vtop_Vd>
+              <vtop_sigma>0.26</vtop_sigma>
+              <variatiecoeffs>0; 0.25; 0.34</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.68</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.34</vmax_sigma>
+              <vper>0.066; 0.051; 0.031</vper>
+              <vper_sigma>0.033; 0.0257; 0.0153</vper_sigma>
+              <variatiecoeffs>0; 0.34; 0.36</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.18</vrms>
+              <vrms_sigmax>0.053</vrms_sigmax>
+              <variatiecoeffs>0; 0.25; 0.34</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.26</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.108</vmax_sigma>
+              <vtop>0.62</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.67</vtop_Vd>
+              <vtop_sigma>0.26</vtop_sigma>
+              <variatiecoeffs>0; 0.25; 0.34</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.68</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.34</vmax_sigma>
+              <vper>0.066; 0.051; 0.031</vper>
+              <vper_sigma>0.033; 0.0257; 0.0153</vper_sigma>
+              <variatiecoeffs>0; 0.34; 0.36</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.18</vrms>
+              <vrms_sigmax>0.053</vrms_sigmax>
+              <variatiecoeffs>0; 0.25; 0.34</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+      </receptor>
+      <receptor>
+        <name>003</name>
+        <description>rekenpunt 003</description>
+        <source>
+          <name>001</name>
+          <description>track 001</description>
+          <distance>35</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.22</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.095</vmax_sigma>
+              <vtop>0.54</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.46</vtop_Vd>
+              <vtop_sigma>0.228</vtop_sigma>
+              <variatiecoeffs>0; 0.22; 0.36</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.66</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.301</vmax_sigma>
+              <vper>0.084; 0.066; 0.038</vper>
+              <vper_sigma>0.0283; 0.0222; 0.0129</vper_sigma>
+              <variatiecoeffs>0; 0.25; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.13</vrms>
+              <vrms_sigmax>0.036</vrms_sigmax>
+              <variatiecoeffs>0; 0.22; 0.36</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.22</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.095</vmax_sigma>
+              <vtop>0.54</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>1.46</vtop_Vd>
+              <vtop_sigma>0.228</vtop_sigma>
+              <variatiecoeffs>0; 0.22; 0.36</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.66</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.301</vmax_sigma>
+              <vper>0.084; 0.066; 0.038</vper>
+              <vper_sigma>0.0283; 0.0222; 0.0129</vper_sigma>
+              <variatiecoeffs>0; 0.25; 0.38</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.13</vrms>
+              <vrms_sigmax>0.036</vrms_sigmax>
+              <variatiecoeffs>0; 0.22; 0.36</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>002</name>
+          <description>track 002</description>
+          <distance>45</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.12</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.056</vmax_sigma>
+              <vtop>0.29</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>0.83</vtop_Vd>
+              <vtop_sigma>0.134</vtop_sigma>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.34</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.184</vmax_sigma>
+              <vper>0.033; 0.026; 0.015</vper>
+              <vper_sigma>0.0177; 0.0138; 0.0082</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.4</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.07</vrms>
+              <vrms_sigmax>0.03</vrms_sigmax>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.12</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.056</vmax_sigma>
+              <vtop>0.29</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>0.83</vtop_Vd>
+              <vtop_sigma>0.134</vtop_sigma>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.34</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.184</vmax_sigma>
+              <vper>0.033; 0.026; 0.015</vper>
+              <vper_sigma>0.0177; 0.0138; 0.0082</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.4</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.07</vrms>
+              <vrms_sigmax>0.03</vrms_sigmax>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+        <source>
+          <name>003_PntSrc</name>
+          <description>Pointsource</description>
+          <distance>41.2310562561766</distance>
+          <alleTreinen>
+            <fundering>
+              <vmax>0.14</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.065</vmax_sigma>
+              <vtop>0.34</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>0.96</vtop_Vd>
+              <vtop_sigma>0.156</vtop_sigma>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.4</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.212</vmax_sigma>
+              <vper>0.039; 0.03; 0.018</vper>
+              <vper_sigma>0.0205; 0.016; 0.0095</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.39</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.08</vrms>
+              <vrms_sigmax>0.033</vrms_sigmax>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </maaiveld>
+          </alleTreinen>
+          <goederen>
+            <fundering>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vtop>0</vtop>
+              <vtop_Dir/>
+              <vtop_Fdom/>
+              <vtop_Vd>0</vtop_Vd>
+              <vtop_sigma>0</vtop_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0</vmax>
+              <vmax_Dir/>
+              <vmax_Fdom/>
+              <vmax_sigma>0</vmax_sigma>
+              <vper>0; 0; 0</vper>
+              <vper_sigma>0; 0; 0</vper_sigma>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0</vrms>
+              <vrms_sigmax>0</vrms_sigmax>
+              <variatiecoeffs>0; 0; 0</variatiecoeffs>
+            </maaiveld>
+          </goederen>
+          <reizigers>
+            <fundering>
+              <vmax>0.14</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.065</vmax_sigma>
+              <vtop>0.34</vtop>
+              <vtop_Dir>zz</vtop_Dir>
+              <vtop_Fdom>8 Hz</vtop_Fdom>
+              <vtop_Vd>0.96</vtop_Vd>
+              <vtop_sigma>0.156</vtop_sigma>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </fundering>
+            <gebouw>
+              <vmax>0.4</vmax>
+              <vmax_Dir>zz</vmax_Dir>
+              <vmax_Fdom>8 Hz</vmax_Fdom>
+              <vmax_sigma>0.212</vmax_sigma>
+              <vper>0.039; 0.03; 0.018</vper>
+              <vper_sigma>0.0205; 0.016; 0.0095</vper_sigma>
+              <variatiecoeffs>0; 0.35; 0.39</variatiecoeffs>
+            </gebouw>
+            <maaiveld>
+              <vrms>0.08</vrms>
+              <vrms_sigmax>0.033</vrms_sigmax>
+              <variatiecoeffs>0; 0.29; 0.35</variatiecoeffs>
+            </maaiveld>
+          </reizigers>
+        </source>
+      </receptor>
+    </Receptors>
+  </Project>
+  <Messages>
+    <lines0>Info	6-04-2020 11:57:38	OURS started</lines0>
+    <lines1>Info	6-04-2020 11:57:38	Table "CATEGORY" loaded</lines1>
+    <lines2>Info	6-04-2020 11:57:38	Table "MEASUREMENT" loaded</lines2>
+    <lines3>Info	6-04-2020 11:57:38	Table "PARAMETERS" loaded</lines3>
+    <lines4>Info	6-04-2020 11:57:38	Table "SOURCETYPE" loaded</lines4>
+    <lines5>Info	6-04-2020 11:57:38	Table "SPECTRUM" loaded</lines5>
+    <lines6>Info	6-04-2020 11:57:38	Table "TRAINTYPE" loaded</lines6>
+    <lines7/>
+    <lines8>Info	6-04-2020 11:58:03	------------------------------------------------</lines8>
+    <lines9>Info	6-04-2020 11:58:03	Ground module started</lines9>
+    <lines10>Info	6-04-2020 12:08:17	Ground module done</lines10>
+    <lines11>Info	6-04-2020 12:08:17	------------------------------------------------</lines11>
+    <lines12>Info	6-04-2020 12:08:17	FEM calculation "Scenario 1"</lines12>
+    <lines13>Info	6-04-2020 12:10:45	FEM calculation "Scenario 2"</lines13>
+    <lines14>Info	6-04-2020 12:14:23	FEM calculation "Scenario 3"</lines14>
+    <lines15>Info	6-04-2020 12:16:23	FEM calculation "Scenario 4"</lines15>
+    <lines16>Info	6-04-2020 12:19:18	FEM calculation "Scenario 5"</lines16>
+    <lines17>Info	6-04-2020 12:23:05	FEM calculation "Scenario 6"</lines17>
+    <lines18>Info	6-04-2020 12:28:11	------------------------------------------------</lines18>
+    <lines19>Info	6-04-2020 12:28:14	FEM post processing receptor "001"</lines19>
+    <lines20>Info	6-04-2020 12:28:14	- Source "001", ground "Scenario 1"</lines20>
+    <lines21>Info	6-04-2020 12:28:17	- Source "001", ground "Scenario 2"</lines21>
+    <lines22>Info	6-04-2020 12:28:21	- Source "002", ground "Scenario 1"</lines22>
+    <lines23>Info	6-04-2020 12:28:24	- Source "002", ground "Scenario 2"</lines23>
+    <lines24>Info	6-04-2020 12:28:28	- Source "003_PntSrc", ground "Scenario 1"</lines24>
+    <lines25>Info	6-04-2020 12:28:31	- Source "003_PntSrc", ground "Scenario 2"</lines25>
+    <lines26>Info	6-04-2020 12:28:35	FEM post processing receptor "002"</lines26>
+    <lines27>Info	6-04-2020 12:28:35	- Source "001", ground "Scenario 3"</lines27>
+    <lines28>Info	6-04-2020 12:28:38	- Source "001", ground "Scenario 4"</lines28>
+    <lines29>Info	6-04-2020 12:28:41	- Source "002", ground "Scenario 3"</lines29>
+    <lines30>Info	6-04-2020 12:28:44	- Source "002", ground "Scenario 4"</lines30>
+    <lines31>Info	6-04-2020 12:28:47	- Source "003_PntSrc", ground "Scenario 3"</lines31>
+    <lines32>Info	6-04-2020 12:28:50	- Source "003_PntSrc", ground "Scenario 4"</lines32>
+    <lines33>Info	6-04-2020 12:28:56	FEM post processing receptor "003"</lines33>
+    <lines34>Info	6-04-2020 12:28:56	- Source "001", ground "Scenario 5"</lines34>
+    <lines35>Info	6-04-2020 12:29:00	- Source "001", ground "Scenario 6"</lines35>
+    <lines36>Info	6-04-2020 12:29:07	- Source "002", ground "Scenario 5"</lines36>
+    <lines37>Info	6-04-2020 12:29:10	- Source "002", ground "Scenario 6"</lines37>
+    <lines38>Info	6-04-2020 12:29:14	- Source "003_PntSrc", ground "Scenario 5"</lines38>
+    <lines39>Info	6-04-2020 12:29:17	- Source "003_PntSrc", ground "Scenario 6"</lines39>
+    <lines40>Info	6-04-2020 12:29:21	------------------------------------------------</lines40>
+    <lines41>Info	6-04-2020 12:29:21	FEM ground uncertainty receptor "001"</lines41>
+    <lines42>Info	6-04-2020 12:29:21	- Source "001", ground "Scenario 1"</lines42>
+    <lines43>Info	6-04-2020 12:29:24	- Source "001", ground "Scenario 2"</lines43>
+    <lines44>Info	6-04-2020 12:29:28	- Source "002", ground "Scenario 1"</lines44>
+    <lines45>Info	6-04-2020 12:29:32	- Source "002", ground "Scenario 2"</lines45>
+    <lines46>Info	6-04-2020 12:29:35	- Source "003_PntSrc", ground "Scenario 1"</lines46>
+    <lines47>Info	6-04-2020 12:29:39	- Source "003_PntSrc", ground "Scenario 2"</lines47>
+    <lines48>Info	6-04-2020 12:29:43	FEM ground uncertainty receptor "002"</lines48>
+    <lines49>Info	6-04-2020 12:29:43	- Source "001", ground "Scenario 3"</lines49>
+    <lines50>Info	6-04-2020 12:29:47	- Source "001", ground "Scenario 4"</lines50>
+    <lines51>Info	6-04-2020 12:29:51	- Source "002", ground "Scenario 3"</lines51>
+    <lines52>Info	6-04-2020 12:29:55	- Source "002", ground "Scenario 4"</lines52>
+    <lines53>Info	6-04-2020 12:29:59	- Source "003_PntSrc", ground "Scenario 3"</lines53>
+    <lines54>Info	6-04-2020 12:30:02	- Source "003_PntSrc", ground "Scenario 4"</lines54>
+    <lines55>Info	6-04-2020 12:30:06	FEM ground uncertainty receptor "003"</lines55>
+    <lines56>Info	6-04-2020 12:30:06	- Source "001", ground "Scenario 5"</lines56>
+    <lines57>Info	6-04-2020 12:30:09	- Source "001", ground "Scenario 6"</lines57>
+    <lines58>Info	6-04-2020 12:30:13	- Source "002", ground "Scenario 5"</lines58>
+    <lines59>Info	6-04-2020 12:30:17	- Source "002", ground "Scenario 6"</lines59>
+    <lines60>Info	6-04-2020 12:30:21	- Source "003_PntSrc", ground "Scenario 5"</lines60>
+    <lines61>Info	6-04-2020 12:30:25	- Source "003_PntSrc", ground "Scenario 6"</lines61>
+    <lines62>Info	6-04-2020 12:30:28	------------------------------------------------</lines62>
+    <lines63>Info	6-04-2020 12:30:28	Building module receptor "001"</lines63>
+    <lines64>Info	6-04-2020 12:30:28	- Source "001", ground "Scenario 1"</lines64>
+    <lines65>Info	6-04-2020 12:30:33	- Source "001", ground "Scenario 2"</lines65>
+    <lines66>Info	6-04-2020 12:30:38	- Source "002", ground "Scenario 1"</lines66>
+    <lines67>Info	6-04-2020 12:30:43	- Source "002", ground "Scenario 2"</lines67>
+    <lines68>Info	6-04-2020 12:30:47	- Source "003_PntSrc", ground "Scenario 1"</lines68>
+    <lines69>Info	6-04-2020 12:30:52	- Source "003_PntSrc", ground "Scenario 2"</lines69>
+    <lines70>Info	6-04-2020 12:30:57	Building module receptor "002"</lines70>
+    <lines71>Info	6-04-2020 12:30:57	- Source "001", ground "Scenario 3"</lines71>
+    <lines72>Info	6-04-2020 12:31:02	- Source "001", ground "Scenario 4"</lines72>
+    <lines73>Info	6-04-2020 12:31:06	- Source "002", ground "Scenario 3"</lines73>
+    <lines74>Info	6-04-2020 12:31:11	- Source "002", ground "Scenario 4"</lines74>
+    <lines75>Info	6-04-2020 12:31:15	- Source "003_PntSrc", ground "Scenario 3"</lines75>
+    <lines76>Info	6-04-2020 12:31:20	- Source "003_PntSrc", ground "Scenario 4"</lines76>
+    <lines77>Info	6-04-2020 12:31:24	Building module receptor "003"</lines77>
+    <lines78>Info	6-04-2020 12:31:25	- Source "001", ground "Scenario 5"</lines78>
+    <lines79>Info	6-04-2020 12:31:29	- Source "001", ground "Scenario 6"</lines79>
+    <lines80>Info	6-04-2020 12:31:34	- Source "002", ground "Scenario 5"</lines80>
+    <lines81>Info	6-04-2020 12:31:39	- Source "002", ground "Scenario 6"</lines81>
+    <lines82>Info	6-04-2020 12:31:43	- Source "003_PntSrc", ground "Scenario 5"</lines82>
+    <lines83>Info	6-04-2020 12:31:48	- Source "003_PntSrc", ground "Scenario 6"</lines83>
+    <lines84>Info	6-04-2020 12:31:52	------------------------------------------------</lines84>
+    <lines85>Info	6-04-2020 12:31:53	Main formula for receptor "001"</lines85>
+    <lines86>Info	6-04-2020 12:31:53	- Source "001"</lines86>
+    <lines87>Info	6-04-2020 12:32:00	- Source "002"</lines87>
+    <lines88>Info	6-04-2020 12:32:05	- Source "003_PntSrc"</lines88>
+    <lines89>Info	6-04-2020 12:32:10	Main formula for receptor "002"</lines89>
+    <lines90>Info	6-04-2020 12:32:10	- Source "001"</lines90>
+    <lines91>Info	6-04-2020 12:32:17	- Source "002"</lines91>
+    <lines92>Info	6-04-2020 12:32:22	- Source "003_PntSrc"</lines92>
+    <lines93>Info	6-04-2020 12:32:26	Main formula for receptor "003"</lines93>
+    <lines94>Info	6-04-2020 12:32:26	- Source "001"</lines94>
+    <lines95>Info	6-04-2020 12:32:34	- Source "002"</lines95>
+    <lines96>Info	6-04-2020 12:32:38	- Source "003_PntSrc"</lines96>
+    <lines97>Info	6-04-2020 12:32:43	------------------------------------------------</lines97>
+  </Messages>
+</OURS_Output>

@@ -1,0 +1,177 @@
+<OURS_Input version="V1.0">
+    <!-- Naming convention: PascalCase for elements and camelCase for attributes -->
+    <!-- Important: names of "elements" and "attributes" are case-sensitive!     -->
+    <Project>
+        <name>example</name>
+        <description>omschrijving van het project</description>
+        <vd>0</vd>
+        <Receptors>
+            <Receptor>
+                <name>001</name>
+                <description>rekenpunt 001</description>
+                <location>142000.0 443000.0 </location>
+                <Building>
+                    <bagId></bagId>                                     <!-- building id or empty -->
+                    <yearOfConstruction>1930</yearOfConstruction>       <!-- integer list or empty -->
+                    <apartment></apartment>                             <!-- integer list or empty, valid values: 0=false, 1=true -->
+                    <buildingHeight>5.6</buildingHeight>                <!-- float list or empty -->
+                    <numberOfFloors></numberOfFloors>                   <!-- integer list or empty -->
+                    <heightOfFloor>2.8</heightOfFloor>                  <!-- float list or empty -->
+                    <floorNumber></floorNumber>                         <!-- integer list or empty -->
+                    <wallLength>7.5</wallLength>                        <!-- float list or empty -->
+                    <facadeLength>8.0</facadeLength>                    <!-- float list or empty -->
+                    <varYearOfConstruction></varYearOfConstruction>     <!-- empty or same number of float values as "yearOfConstruction" -->
+                    <varApartment></varApartment>                       <!-- empty or same number of float values as "apartment -->
+                    <varBuildingHeight></varBuildingHeight>             <!-- empty or same number of float values as "buildingHeight" -->
+                    <varNumberOfFloors></varNumberOfFloors>             <!-- empty or same number of float values as "numberOfFloors" -->
+                    <varHeightOfFloor></varHeightOfFloor>               <!-- empty or same number of float values as "heightOfFloor" -->
+                    <varFloorNumber></varFloorNumber>                   <!-- empty or same number of float values as "floorNumber" -->
+                    <varWallLength></varWallLength>                     <!-- empty or same number of float values as "wallLength" -->
+                    <varFacadeLength></varFacadeLength>                 <!-- empty or same number of float values as "facadeLength" -->
+                </Building>
+                <Floor>
+                    <frequenciesQuarterSpan></frequenciesQuarterSpan>       <!-- float list or empty -->
+                    <frequenciesMidSpan></frequenciesMidSpan>               <!-- float list or empty -->
+                    <floorSpan></floorSpan>                                 <!-- float list or empty -->
+                    <woodenFloor></woodenFloor>                             <!-- integer list or empty, valid values: 0=false, 1=true -->
+                    <varFrequenciesQuarterSpan></varFrequenciesQuarterSpan> <!-- empty or same number of float values as "frequenciesQuarterSpan" -->
+                    <varFrequenciesMidSpan></varFrequenciesMidSpan>         <!-- empty or same number of float values as "frequenciesMidSpan" -->
+                    <varFloorSpan></varFloorSpan>                           <!-- empty or same number of float values as "floorSpan" -->
+                    <varWoodenFloor></varWoodenFloor>                       <!-- empty or same number of float values as "woodenFloor" -->
+                </Floor>
+            </Receptor>
+            <Receptor>
+                <name>002</name>
+                <description>rekenpunt 002</description>
+                <location>142010.0 443010.0 </location>
+            </Receptor>
+            <Receptor>
+                <name>003</name>
+                <description>rekenpunt 003</description>
+                <location>141990.0 442990.0 </location>
+            </Receptor>
+        </Receptors>
+        <Tracks>
+            <Track>
+                <!--
+                Each track generates 1 source for each receptor.
+                The source location is the nearest point on the track to the receptor.
+                Het sourcetype kan de volgende waarden hebben: track, switch, weld, crossing.
+                -->
+                <name>001</name>
+                <description>track 001</description>
+                <branch_id>23698</branch_id>
+                <kmstart>46810000</kmstart>
+                <kmend>47040000</kmend>
+                <sourcetype>track</sourcetype>
+                <location>142025.0 442500.0 142025.0 443500.0</location>
+                <Trackpart>
+                    <name>1_001</name>
+                    <description>trackpart 1_001</description>
+                    <kmstart>46810000</kmstart>
+                    <kmend>46980000</kmend>
+                    <superstructure_id>1</superstructure_id>
+                    <substructure_id>1</substructure_id>
+                    <cGeoX>0.8 0.9 1.0 1.0 1.1 1.2</cGeoX>
+                    <cGeoZ>1.2 1.1 1.0 1.0 0.9 0.8</cGeoX>
+                    <Train>
+                        <material_id>1</material_id>
+                        <qd>4.4</qd>
+                        <vd>100</vd>
+                        <qe>2.8</qe>
+                        <ve>100</ve>
+                        <qn>0.8</qn>
+                        <vn>100</vn>
+                    </Train>
+                    <Train>
+                        <material_id>2</material_id>
+                        <qd>5.6</qd>
+                        <vd>160</vd>
+                        <qe>3.4</qe>
+                        <ve>160</ve>
+                        <qn>1.2</qn>
+                        <vn>160</vn>
+                    </Train>
+                </Trackpart>
+                <Trackpart>
+                    <name>1_002</name>
+                    <description>trackpart 1_002</description>
+                    <kmstart>46980000</kmstart>
+                    <kmend>47040000</kmend>
+                    <superstructure_id>2</superstructure_id>
+                    <substructure_id>2</substructure_id>
+                    <Train>
+                        <material_id>3</material_id>
+                        <qd>4.4</qd>
+                        <vd>100</vd>
+                        <qe>2.8</qe>
+                        <ve>100</ve>
+                        <qn>0.8</qn>
+                        <vn>100</vn>
+                    </Train>
+                    <Train>
+                        <material_id>4</material_id>
+                        <qd>5.6</qd>
+                        <vd>160</vd>
+                        <qe>3.4</qe>
+                        <ve>160</ve>
+                        <qn>1.2</qn>
+                        <vn>160</vn>
+                    </Train>
+                </Trackpart>
+            </Track>
+            <Track>
+                <name>002</name>
+                <description>track 002</description>
+                <branch_id>17634</branch_id>
+                <kmstart>3420000</kmstart>
+                <kmend>3435872</kmend>
+                <sourcetype>track</sourcetype>
+                <location>142035.0 442510.0 142035.0 443510.0</location>
+                <Trackpart>
+                    <name>2_001</name>
+                    <description>trackpart 2_001</description>
+                    <kmstart>3420000</kmstart>
+                    <kmend>3435872</kmend>
+                    <superstructure_id>3</superstructure_id>
+                    <substructure_id>3</substructure_id>
+                    <Train>
+                        <material_id>5</material_id>
+                        <qd>5.6</qd>
+                        <vd>80</vd>
+                        <qe>3.4</qe>
+                        <ve>80</ve>
+                        <qn>1.2</qn>
+                        <vn>80</vn>
+                    </Train>
+                </Trackpart>
+            </Track>
+            <Track>
+                <name>003_PntSrc</name>
+                <description>Pointsource</description>
+                <branch_id>17634</branch_id>
+                <kmstart>3430000</kmstart>
+                <kmend>3430000</kmend>
+                <sourcetype>track</sourcetype>
+                <location>142030.0 443000.0</location>
+                <Trackpart>
+                    <name>3_001</name>
+                    <description>trackpart 2_001</description>
+                    <kmstart>3430000</kmstart>
+                    <kmend>3430000</kmend>
+                    <superstructure_id>3</superstructure_id>
+                    <substructure_id>3</substructure_id>
+                    <Train>
+                        <material_id>5</material_id>
+                        <qd>5.6</qd>
+                        <vd>80</vd>
+                        <qe>3.4</qe>
+                        <ve>80</ve>
+                        <qn>1.2</qn>
+                        <vn>80</vn>
+                    </Train>
+                </Trackpart>
+            </Track>
+        </Tracks>
+    </Project>
+</OURS_Input>
