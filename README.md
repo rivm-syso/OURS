@@ -1,4 +1,4 @@
-This is the repository containing the soude code, release an documentation of the Single calculation method foor railway vibrations.
+This is the repository containing the source code, release an documentation of the Single calculation method foor railway vibrations.
 
 The project was carried out by the Dutch National Institute for Public Health and the Environment by order of the ministry of Infrastucture and Water management.
 
