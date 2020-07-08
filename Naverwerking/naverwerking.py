@@ -35,8 +35,8 @@ def naverwerking(Res,Afstanden,Lengtes):
         listinput   = False;
         
     if "MaxFreqLimited" in Res:
-        MaxFreqLimited = Res["MaxFreqLimited"]; # met lengte aantaltreintypes
-        if MaxFreqLimited == 0:
+        MaxFreqLimited = Res["maxFreqLimited"]; # met lengte aantaltreintypes
+        if MaxFreqLimited <= 0:
            MaxFreqLimited = Frequency[-1];
     else:
         MaxFreqLimited = Frequency[-1];
@@ -59,7 +59,7 @@ def naverwerking(Res,Afstanden,Lengtes):
         # afstanden tussen GevraagdeAfstand en GevraagdeAfstand + 10 (10 meter
         # verder)
 
-        if Rcoord[-1] < GevraagdeAfstand + Lengte + .01:
+        if Rcoord[-1] < GevraagdeAfstand + Lengte:
             # print('FEM bodem niet lang genoeg voor deze gevraagde afstand')
             exit(201)
         # index bepalen van de punten in de gewenste afstandrange
