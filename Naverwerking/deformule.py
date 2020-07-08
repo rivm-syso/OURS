@@ -9,7 +9,6 @@ Todo:
 """
 
 import argparse
-import math
 import json
 import os
 import numpy as np
@@ -312,21 +311,45 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         return Verdeling
     
     
-    def shiftspectrum(Yin,Vin,Vuit):
-        shift=np.log2(Vuit/Vin);
-        lengte=len(Yin);
-        Y=np.zeros(lengte);
-        heleshift=int(np.floor(shift));
+    def shiftspectrum(RMSin,Vin,Vuit):
+        # verschuif een RMS spectrum (zoals Feq) vanwege snelheidsverschuiving
+        shift     = np.log2(Vuit/Vin);
+        lengte    = len(RMSin);
+        RMS       = np.zeros(lengte);
+        heleshift = int(np.floor(shift));
         if heleshift>=0:
-            Y[heleshift:lengte] = Yin[0:lengte-heleshift];
+            RMS[heleshift:lengte]   = RMSin[0:lengte-heleshift];
+            RMSlaagste              = 0;
         else:
-            Y[0:lengte+heleshift] = Yin[0-heleshift:lengte];
-        fracshift=np.mod(shift,1);
-        Ye  = Y**2;
-        Ye2 = Ye*(1-fracshift);
-        Ye2[1:lengte] = Ye2[1:lengte] + Ye[0:lengte-1]*fracshift;
-        Yuit=np.sqrt(Ye2);
-        return Yuit
+            RMS[0:lengte+heleshift] = RMSin[0-heleshift:lengte];
+            RMSlaagste              = RMSin[0-heleshift-1];
+        fracshift      = np.mod(shift,1);
+        MSe            = RMS**2;
+        MSe2           = MSe*(1-fracshift);
+        MSe2[1:lengte] = MSe2[1:lengte] + MSe[0:lengte-1]*fracshift;
+        MSe2[0]        = MSe2[0] + fracshift*RMSlaagste**2;
+        RMSuit         = np.sqrt(MSe2);
+        return RMSuit
+    
+    
+    def shiftCgeoSpectrum(Cin,Vin,Vuit):
+        # verschuif een H spectrum (zoals Cgeo) vanwege snelheidsverschuiving
+        shift     = np.log2(Vuit/Vin);
+        lengte    = len(Cin);
+        C         = np.ones(lengte);
+        heleshift = int(np.floor(shift));
+        if heleshift>=0:
+            C[heleshift:lengte]   = Cin[0:lengte-heleshift];
+            Claagste              = 1;
+        else:
+            C[0:lengte+heleshift] = Cin[0-heleshift:lengte];
+            Claagste              = Cin[0-heleshift-1];
+        fracshift    = np.mod(shift,1);
+        C2           = C*(1-fracshift);
+        C2[1:lengte] = C2[1:lengte] + C[0:lengte-1]*fracshift;
+        C2[0]        = C2[0] + fracshift*Claagste;
+        Cuit         = C2;
+        return Cuit
     
     
     def CovariantProduct(X,cov_X,Y,cov_Y):  # X,Y,factor zijn vectoren  
@@ -610,6 +633,11 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         Vmax_funderingFdomss = []; 
         Varcoefss            = np.zeros([9,aantalScenarios]);
         
+        # vertaalspoorligging (bij 130km/uur) naar snelheid van deze trein 
+        CgeoZtrein = shiftCgeoSpectrum(CgeoZ,130,snelheid[treintypenr]);
+        CgeoXtrein = shiftCgeoSpectrum(CgeoX,130,snelheid[treintypenr]);
+        #print(CgeoZtrein)
+        
         for scenario in range(aantalScenarios):
             FEMscenario     = FEM[scenario];
             HgebouwScenario = Hgebouw[scenario];
@@ -692,10 +720,10 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             Varcoefss[1,scenario] = DictOut['var'];      # totale bron onzekerheid
             
             # F en Y samenbrengen tot Vrms_maaiveld (de kernformule)
-            Vrms_maaiveldZ     = FZ * CgeoZ * Y *           axi2line;
-            Vrms_maaiveldX     = FX * CgeoX * Y * Y_ratio * axi2line;
-            cov_Vrms_maaiveldZ = CovariantProduct(FZ*CgeoZ, cov_FZ, Y*axi2line,         cov_Y);
-            cov_Vrms_maaiveldX = CovariantProduct(FX*CgeoX, cov_FX, Y*axi2line*Y_ratio, cov_Y);
+            Vrms_maaiveldZ     = FZ * CgeoZtrein * Y *           axi2line;
+            Vrms_maaiveldX     = FX * CgeoXtrein * Y * Y_ratio * axi2line;
+            cov_Vrms_maaiveldZ = CovariantProduct(FZ*CgeoZtrein, cov_FZ, Y*axi2line,         cov_Y);
+            cov_Vrms_maaiveldX = CovariantProduct(FX*CgeoXtrein, cov_FX, Y*axi2line*Y_ratio, cov_Y);
             
             # uitvoer van maaiveldniveau, tbv toekomstige regelgeving
             maxZ = np.sqrt(sum(Vrms_maaiveldZ**2))*1.05*1e3;    # 5% herstel van verlies door octaafbanddecompositie
@@ -733,8 +761,8 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             #Vvar   = (var_Vrms_maaiveldZ * dWk)**2;  # b9g question: dF en zo: 1 of 2 keer sig?  ik ga nu uit van 1 keer sig...
             Vvariantie =  (var_Vrms_maaiveldZ * Vmu)**2;
             # ten behoeve van bijdrage van bron aan onzekerheid
-            Fmu        =  FZ * CgeoZ * Y*axi2line;
-            Fvariantie = (FZ * CgeoZ * np.diagonal(cov_FZ))**2 *  Y**2*axi2line**2;
+            Fmu        =  FZ * CgeoZtrein * Y*axi2line;
+            Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 *  Y**2*axi2line**2;
 
             # Vrms_vloer z1:
             Hmu     = np.array(HgebouwScenario["Hzz1"]);
@@ -863,8 +891,8 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             DominanteBandFund[1] = DictOut['dominanteBand'];   
             Vrms_gebouwVar[1]    = DictOut['varH'];  # fundering apart
             Vrms_bodemVar[1]     = DictOut['varV'];  # vanuit oogpunt fundeirng
-            Fmu        =  FZ * CgeoZ * Y*axi2line;
-            Fvariantie = (FZ * CgeoZ * np.diagonal(cov_FZ))**2 * Y**2*axi2line**2;
+            Fmu        =  FZ * CgeoZtrein * Y*axi2line;
+            Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2*axi2line**2;
             DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar);
             Vrms_bronVar[1]      = DictOut['varV'];  # bron
             

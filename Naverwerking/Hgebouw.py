@@ -76,7 +76,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     wandlengte          = np.array(Gebouw["wandlengte"]);        # optioneel
     gevellengte         = np.array(Gebouw["gevellengte"]);       # optioneel
     var_bouwjaar        = np.array(Gebouw["var_bouwjaar"]);      # in jaren, 2*std
-    var_appartement     = np.array(Gebouw["var_appartement"]);   # als kans, tussen 0 en 1
+    var_appartement     = np.array(Gebouw["var_appartement"]);   # als kans, tussen 0 en 1; x% kans dat het iets anders is
     #var_aantalBouwlagen = np.array(Gebouw["var_aantalBouwlagen"]); # in aantallen bouwlagen. 2*std
     var_wandlengte      = np.array(Gebouw["var_wandlengte"]);    # in m,  2*std
     var_gevellengte     = np.array(Gebouw["var_gevellengte"]);   # in m,  2*std
@@ -84,7 +84,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     hout                       = np.array(Vloer["hout"]);                          # optioneel
     frequentiesMidspan         = np.array(Vloer["frequentiesMidspan"]);            # optioneel
     frequentiesQuarterspan     = np.array(Vloer["frequentiesQuarterspan"]);        # optioneel
-    var_hout                   = np.array(Vloer["var_hout"]);                      # als kans, tussen 0 en 1
+    var_hout                   = np.array(Vloer["var_hout"]);                      # als kans, tussen 0 en 1 x% kans dat het iets anders is
     var_frequentiesMidspan     = np.array(Vloer["var_frequentiesMidspan"]);        # varcoef eerste mode
     var_frequentiesQuarterspan = np.array(Vloer["var_frequentiesQuarterspan"]);    # varcoef eerste mode
     
@@ -115,7 +115,9 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     else:
         gebouwHoogte     = StandaardGebouwHoogte;
         var_gebouwHoogte = StandaardVar_gebouwHoogte;
-        
+    if var_gebouwHoogte==0:
+       var_gebouwHoogte=.01;
+    
     # vloerhoogte bepalen
     if "vloerHoogte" in Gebouw:
         vloerHoogte     = np.array(Gebouw["vloerHoogte"]); 
@@ -165,8 +167,8 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     if len(appartement)==0: appartement = 0;
     if len(bouwjaar)==0:    bouwjaar    = 0;
     if len(hout)==0:   # vloermateriaal onbekend, gaan we dus zelf verzinnen
-        hout     = 0;  # NB: zeta en var_zeta blijven de defaultwaarden voor onbekend
-        var_hout = .4;  # 40% kans dat het toch geen hout is
+        hout     = 0;  # zal wel nieuwbouw betreffen   NB: zeta en var_zeta blijven de defaultwaarden voor onbekend
+        var_hout = .4;  # 40% kans dat het toch geen beton is
         zeta     = zetaOnbekend;
         var_zeta = var_zetaOnbekend;     
         if bouwjaar < 1945: 
@@ -182,7 +184,10 @@ def Hgebouw(Bodem,Gebouw,Vloer):
                 var_zeta = var_zetaHout;           
     else:
         hout     = hout[0];
-        var_hout = var_hout[0];
+        if len(var_hout)==0:
+            var_hout = 0;   # blijkbaar weet ie het zeker
+        else:
+            var_hout = var_hout[0];
         if hout:
             zeta     = zetaHout;
             var_zeta = var_zetaHout;
@@ -245,7 +250,6 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     np.random.shuffle(wandlengteMC);
     np.random.shuffle(gevellengteMC);
     np.random.shuffle(zetaMC);
-
     # fase, Y en c zijn spectra, dus covariantie tussen banden meenemen
     # dat kan met np.random.multivariate, maar helaas alleen voor normale verdelingen
     # En dus helaas geen pseudorandom.
@@ -275,9 +279,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     Zg = np.swapaxes(ZgMC,0,1);     
     cZ = np.swapaxes(cZMC,0,1);
     cX = np.swapaxes(cXMC,0,1);
-    
-    
-   
+
     for i1 in range(MCgrootte):   # Monte Carlo over variaties, om covariantiematrix te kunnen maken
         # Hfundering
 #        gebouwdichtheidMC = np.random.lognormal(0,var_gebouwdichtheid) * gebouwdichtheid;
