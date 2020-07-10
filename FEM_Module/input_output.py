@@ -64,6 +64,9 @@ def read_input(file_name, write_file):
     target_length = len(data["Ground"][next(required_keys)])
     if not all(len(data["Ground"][key]) == target_length for key in required_keys):
         exit(-103)
+        
+    test=max(data["MaxCalcDist"],26.1)
+    data["MaxCalcDist"]=test
 
     to_delete = np.where(np.absolute(data["Ground"]["Depth"]) >= data["MaxCalcDepth"])
     data["Ground"]["Depth"] = np.delete(data["Ground"]["Depth"], to_delete, 0)
