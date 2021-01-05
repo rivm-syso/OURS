@@ -19,7 +19,7 @@ bovengrenzen = octaafbanden*math.sqrt(2);
 ondergrenzen = octaafbanden/math.sqrt(2);
 omega        = 2*np.pi*octaafbanden;
 
-MCgrootte    = 3*333;   # streven: 333
+MCgrootte    = 10; #3*333;   # streven: 333
 np.random.seed(1234);   # om te zorgen voor steeds dezelfde output, laatste cijfer kan nl. wat zwabberen
 
 # rekenwaardes
@@ -37,7 +37,7 @@ StandaardWandlengte          = 10;  # meter, diepte van de woning
 StandaardGevellengte         =  6;  # meter
 StandaardAantalBouwlagen     =  2;  # 2, dus BG en eerste verdieping (zonder dak)
 StandaardGebouwHoogte        =  5.6;# meter
-StandaardVloerHoogte         =  1;  # eerste verdieping
+StandaardVloerHoogte         =  2.8;  # eerste verdieping
 StandaardVar_wandlengte      =  1;  # in meters,  2*std
 StandaardVar_gevellengte     =  1;  # in meters, 2*std
 StandaardVar_aantalBouwlagen =  1;  # in aantalverdiepingen,  2*std
@@ -89,73 +89,70 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     var_frequentiesQuarterspan = np.array(Vloer["var_frequentiesQuarterspan"]);    # varcoef eerste mode
     
     # gebouwhoogte bepalen
-    if "gebouwHoogte" in Gebouw: 
-        gebouwHoogte = np.array(Gebouw["gebouwHoogte"]); 
-    else: 
-        gebouwHoogte = [];
-    if not len(gebouwHoogte)==0:
-        if "var_gebouwHoogte" in Gebouw:
-           var_gebouwHoogte = np.array(Gebouw["var_gebouwHoogte"]); 
-        else:
-           var_gebouwHoogte = [];
-        if len(var_gebouwHoogte)==0:
-           var_gebouwHoogte = StandaardVar_gebouwHoogte;
-    elif "aantalBouwlagen" in Gebouw:
-        aantalBouwlagen     = np.array(Gebouw["aantalBouwlagen"]);
-        var_aantalBouwlagen = np.array(Gebouw["var_aantalBouwlagen"]);
-        if not len(aantalBouwlagen)==0:
-            gebouwHoogte = aantalBouwlagen*2.8;
-            if not len(var_aantalBouwlagen)==0:
-                var_gebouwHoogte = var_aantalBouwlagen*2.8;
-            else:
-                var_gebouwHoogte = StandaardVar_gebouwHoogte;
-        else:
-            gebouwHoogte     = StandaardGebouwHoogte;
-            var_gebouwHoogte = StandaardVar_gebouwHoogte;        
+    # gebouwhoogte kan expliciet worden gegeven of via aantalBouwlagen
+    # evenzo voor onzekerheid daarvan
+    if "gebouwHoogte" in Gebouw:
+        gebouwHoogte     = np.array(Gebouw["gebouwHoogte"]); 
     else:
-        gebouwHoogte     = StandaardGebouwHoogte;
+        gebouwHoogte = [];
+    if len(gebouwHoogte)==0: 
+        if"aantalBouwlagen" in Gebouw:
+            aantalBouwlagen     = np.array(Gebouw["aantalBouwlagen"]); 
+            if not len(aantalBouwlagen)==0:
+               gebouwHoogte = aantalBouwlagen*2.8;     
+    if len(gebouwHoogte)==0: 
+        gebouwHoogte = StandaardGebouwHoogte;    
+       
+    if "var_gebouwHoogte" in Gebouw:
+        var_gebouwHoogte = np.array(Gebouw["var_gebouwHoogte"]); 
+    else:
+        var_gebouwHoogte = [];
+    if len(var_gebouwHoogte)==0:     
+        if "var_aantalBouwlagen" in Gebouw:
+            var_aantalBouwlagen = np.array(Gebouw["var_aantalBouwlagen"]);   
+            if not len(var_aantalBouwlagen)==0:
+               var_gebouwHoogte = var_aantalBouwlagen*2.8;
+    if len(var_gebouwHoogte)==0:  # maw: leeg
         var_gebouwHoogte = StandaardVar_gebouwHoogte;
     if var_gebouwHoogte==0:
-       var_gebouwHoogte=.01;
+       var_gebouwHoogte=.01;    
     
     # vloerhoogte bepalen
+    # vloerhoogte kan expliciet worden gegeven of via VerdiepingNr
+    # evenzo voor de onzekerheid ervan
     if "vloerHoogte" in Gebouw:
         vloerHoogte     = np.array(Gebouw["vloerHoogte"]); 
-        if "var_vloerHoogte" in Gebouw:
-            var_vloerHoogte = np.array(Gebouw["var_vloerHoogte"]); 
-        else:
-            var_vloerHoogte = [];
     else:
         vloerHoogte = [];
-    if not len(vloerHoogte)==0:
-        if len(var_vloerHoogte)==0:
-            var_vloerHoogte = StandaardVar_vloerHoogte;
-    elif "verdiepingNr" in Gebouw:
-        verdiepingNr     = np.array(Gebouw["verdiepingNr"]); 
-        if "var_verdiepingNr" in Gebouw:
-            var_verdiepingNr = np.array(Gebouw["var_verdiepingNr"]); 
-        else:
-            var_verdiepingNr = [];
-        if not len(verdiepingNr)==0:
-           vloerHoogte     = verdiepingNr*2.8;
-           if not len(var_verdiepingNr)==0:
-              var_vloerHoogte = var_verdiepingNr*2.8;
-           else:
-              var_vloerHoogte = StandaardVar_vloerHoogte;
-        else:
-           vloerHoogte = gebouwHoogte-2.8; 
-           var_vloerHoogte = StandaardVar_vloerHoogte;           
+    if len(vloerHoogte)==0: 
+        if"verdiepingNr" in Gebouw:
+            verdiepingNr     = np.array(Gebouw["verdiepingNr"]); 
+            if not len(verdiepingNr)==0:
+               vloerHoogte = verdiepingNr*2.8;     
+    if len(vloerHoogte)==0: 
+        vloerHoogte = np.max([0,gebouwHoogte-2.8]);    
+       
+    if "var_vloerHoogte" in Gebouw:
+        var_vloerHoogte = np.array(Gebouw["var_vloerHoogte"]); 
     else:
-        vloerHoogte = gebouwHoogte-2.8; 
+        var_vloerHoogte = [];
+    if len(var_vloerHoogte)==0:     
+        if "var_verdiepingNr" in Gebouw:
+            var_verdiepingNr = np.array(Gebouw["var_verdiepingNr"]);   
+            if not len(var_verdiepingNr)==0:
+               var_vloerHoogte = var_verdiepingNr*2.8;
+    if len(var_vloerHoogte)==0:  # maw: leeg
         var_vloerHoogte = StandaardVar_vloerHoogte;
-    
+    if var_vloerHoogte==0:
+       var_vloerHoogte=.01;
+       
     # vloeroverspanning bepalen
     if "vloerOverspanning" in Gebouw:
         vloerOverspanning     = np.array(Vloer["vloerOverspanning"]); 
         var_vloerOverspanning = np.array(Vloer["var_vloerOverspanning"]); 
     else:
         vloerOverspanning = [];
-        
+
     # lege invoer aanvullen met default waardes en berekeningen
     if len(wandlengte)==0:          wandlengte          = StandaardWandlengte;
     if len(gevellengte)==0:         gevellengte         = StandaardGevellengte;
@@ -201,9 +198,9 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         Vloerfreqsberekenen = False;  
         if len(frequentiesQuarterspan)==0:
             if hout:
-               frequentiesQuarterspan[0] = 4  *frequentiesMidspan[0];
+               frequentiesQuarterspan = np.array([4  *frequentiesMidspan[0]]);
             else:
-               frequentiesQuarterspan[0] = 2.8*frequentiesMidspan[0];
+               frequentiesQuarterspan = np.array([2.8*frequentiesMidspan[0]]);
         if len(var_frequentiesMidspan)==0:
             var_frequentiesMidspan = np.ones(len(frequentiesMidspan))*StandaardVar_frequenties;
         if len(var_frequentiesQuarterspan)==0:
@@ -240,7 +237,8 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     
     gebouwdichtheidMC = stats.lognorm.ppf(kansenreeks,var_gebouwdichtheid)             * gebouwdichtheid;
     gebouwhoogteMC    = stats.lognorm.ppf(kansenreeks,var_gebouwHoogte/gebouwHoogte/2) * gebouwHoogte;
-    vloerhoogteMC     = stats.lognorm.ppf(kansenreeks,var_vloerHoogte/vloerHoogte/2)   * vloerHoogte;
+    vloerhoogteMC     = stats.norm.ppf(kansenreeks,vloerHoogte,var_vloerHoogte/2);
+    vloerhoogteMC     = np.where(vloerhoogteMC<0,0,vloerhoogteMC); 
     wandlengteMC      = stats.lognorm.ppf(kansenreeks,var_wandlengte/wandlengte/2)     * wandlengte;
     gevellengteMC     = stats.lognorm.ppf(kansenreeks,var_gevellengte/gevellengte/2)   * gevellengte;
     zetaMC            = stats.lognorm.ppf(kansenreeks,var_zeta)                        * zeta;
@@ -301,7 +299,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         Hcxx = 1.0;   # doen we even niets mee, gaat over schuif en buig, beiden xx
         Hczx = vloerhoogteMC[i1]*omega/cZ[i1];  #  zwaaien, geometrische versterkin
         Hczz = 1.0;   # hoogteverzwakking
-        
+
         # eerste resultaten: maaiveld naar x-richting bovenste verdieping
         HxxmcArray[i1,:]  = Hfxx * Hcxx;         # 1x6
         HzxmcArray[i1,:]  = Hfr  * Hczx;         # 1x6
@@ -390,7 +388,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     
     # Hgebouw bepalen, legacy vanwege Bts
     Hfunvloer    = np.zeros([3,6]);  #  hier komen de drie overdrachten fundering naar vloer
-    Hfunvloer[0] = Hczx;  # zwaaien van het gebouw
+    Hfunvloer[0] = np.mean(HzxmcArray,axis=0) / Hfzz;   #    Hczx;  # zwaaien van het gebouw
     Hfunvloer[1] = np.mean(Hv1mcArray,axis=0);   # opslingering midspan
     Hfunvloer[2] = np.mean(Hv2mcArray,axis=0);   # opslingering midspan
     Hgebouw      = np.max(Hfunvloer,axis=0);  # volgens Level memo
