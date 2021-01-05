@@ -6,6 +6,8 @@ Created on Thu Sep 12 12:16:59 2019
 
 Todo:
     - meer sporen
+    
+Version 1.0.1.01
 """
 
 import argparse
@@ -249,6 +251,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         #mu     = np.exp(lmuSum/2 + lvaSum/8);
         sigma          = np.sqrt(sigmaSum**2/(4*muSum) + sigmaSum**4/(32*muSum**3) );
         dominanteBand  = np.argmax(muBand);
+        dominanteBandA = np.argmax(muBand/[1,1,1,1.2,1.8,2.7]);  # weging naar criterium SBR A
         
 #        mu             = np.sqrt(muSum - sigma**2);
 #        var            = sigma/mu;
@@ -264,7 +267,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         varV   = np.sqrt(sigmaSum**2/(4*muSum) + sigmaSum**4/(32*muSum**3) ) / gem;
         varH   = np.sqrt(abs(var**2 - varV**2)) * np.sign(var**2 - varV**2);
         
-        Verdeling = {'mu':mu, 'sigma':sigma, 'dominanteBand': dominanteBand, 'var': var, 'varV': varV, 'varH': varH};
+        Verdeling = {'mu':mu, 'sigma':sigma, 'dominanteBand': dominanteBand, 'var': var, 'varV': varV, 'varH': varH, 'dominanteBandA': dominanteBandA};
         return Verdeling
     
     def RSSmetCovarLognormaal(Ymu,Ycovar):   # de statistiek!
@@ -533,7 +536,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
 
     totaalaantaltreinen = np.zeros(aantaltreintypes);      # per type
     aantaltreinen       = np.zeros([aantaltreintypes,3]);  # per type, per dagdeel
-        
+
     if aantaltreintypes>1: 
         if np.ndim(aantaltreinenPW)==2:
             if np.size(aantaltreinenPW,axis=0)==aantaltreintypes and np.size(aantaltreinenPW,axis=1)==3:
@@ -571,7 +574,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             aantaltreinen = aantaltreinenPW;
         else:
             exit(203) # verkeerde lengte van een input
-    
+     
     if isinstance(R, list):         # indien scalar, dan list van maken
         aantalafstanden = len(R);   # doen we nu nog nix mee, zal UI nu moeten doen
     else:
@@ -614,7 +617,6 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         BronInfo = Bron[treintypenr];
         # constanten:
         aantalBronnen    = len(BronInfo);    # aantal gevonden bronmetingen, grootte van Bron
-
         VmaxMuss             = np.zeros(aantalScenarios);
         VmaxVarss            = np.zeros(aantalScenarios);
         VmaxDirss            = [];
@@ -788,7 +790,9 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar);
             Vrms_bronVar[1]   = DictOut['varV'];  # bron
 
-            # Vrms_vloer x1:
+            # Vrms_vloer zx:
+            Vmu        =  Vrms_maaiveldZ * dWd;
+            Vvariantie =  (var_Vrms_maaiveldZ * Vmu)**2;
             Hmu     = np.array(HgebouwScenario["Hzx"]);
             Hcovar  = np.array(HgebouwScenario["cov_Hzx"]);
             DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar);
@@ -861,20 +865,22 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             
             
             # Nu de fundering: Vtop (schade) en Vmaxfundering
-            Vrms_funderingMu  = np.zeros(2);
-            Vrms_funderingVar = np.zeros(2);
-            DominanteBandFund = [0,0];
+            Vrms_funderingMu   = np.zeros(2);
+            Vrms_funderingVar  = np.zeros(2);
+            DominanteBandFund  = [0,0];
+            DominanteBandFundA = [0,0];
             # horizontaal
             Vmu     = Vrms_maaiveldX;
             Vvariantie  =  (var_Vrms_maaiveldX * Vmu)**2;
             Hmu     = np.array(HgebouwScenario["Hfxx"]);
             Hcovar  = np.array(HgebouwScenario["cov_Hfxx"]);
             DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar);
-            Vrms_funderingMu[0]  = DictOut['mu'];
-            Vrms_funderingVar[0] = DictOut['var'];
-            DominanteBandFund[0] = DictOut['dominanteBand'];
-            Vrms_gebouwVar[0]    = DictOut['varH'];  # fundering apart
-            Vrms_bodemVar[0]     = DictOut['varV'];  # vanuit oogpunt fundeirng
+            Vrms_funderingMu[0]   = DictOut['mu'];
+            Vrms_funderingVar[0]  = DictOut['var'];
+            DominanteBandFund[0]  = DictOut['dominanteBand'];
+            DominanteBandFundA[0] = DictOut['dominanteBandA'];
+            Vrms_gebouwVar[0]     = DictOut['varH'];  # fundering apart
+            Vrms_bodemVar[0]      = DictOut['varV'];  # vanuit oogpunt fundeirng
             Fmu        =  FX * CgeoX * Y*axi2line * Y_ratio;
             Fvariantie = (FX * CgeoX * np.diagonal(cov_FX))**2 * Y**2*axi2line**2 * Y_ratio**2;
             DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar);
@@ -886,16 +892,16 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             Hmu     = np.array(HgebouwScenario["Hfzz"]);
             Hcovar  = np.array(HgebouwScenario["cov_Hfzz"]);
             DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar);
-            Vrms_funderingMu[1]  = DictOut['mu'];
-            Vrms_funderingVar[1] = DictOut['var'];
-            DominanteBandFund[1] = DictOut['dominanteBand'];   
-            Vrms_gebouwVar[1]    = DictOut['varH'];  # fundering apart
-            Vrms_bodemVar[1]     = DictOut['varV'];  # vanuit oogpunt fundeirng
+            Vrms_funderingMu[1]   = DictOut['mu'];
+            Vrms_funderingVar[1]  = DictOut['var'];
+            DominanteBandFund[1]  = DictOut['dominanteBand'];   
+            DominanteBandFundA[1] = DictOut['dominanteBandA'];
+            Vrms_gebouwVar[1]     = DictOut['varH'];  # fundering apart
+            Vrms_bodemVar[1]      = DictOut['varV'];  # vanuit oogpunt fundeirng
             Fmu        =  FZ * CgeoZtrein * Y*axi2line;
             Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2*axi2line**2;
             DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar);
-            Vrms_bronVar[1]      = DictOut['varV'];  # bron
-            
+            Vrms_bronVar[1]      = DictOut['varV'];  # bron            
             # Maximum bepalen van de twee trilrichtingen
             VrmsfunderingMax = np.max(Vrms_funderingMu);
             Imax             = np.argmax(Vrms_funderingMu);   
@@ -919,7 +925,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             richtingen  = ['xx','zz'];
             frequenties = ['2 Hz','4 Hz','8 Hz','16 Hz','32 Hz','63 Hz'];
             VtopDirss.append(richtingen[Imax]); # 1..4, zz zz zx xx
-            VtopFdomss.append(frequenties[DominanteBandFund[Imax]]);
+            VtopFdomss.append(frequenties[DominanteBandFundA[Imax]]);
             Vmax_funderingDirss.append(richtingen[Imax]); # 1..4, zz zz zx xx
             Vmax_funderingFdomss.append(frequenties[DominanteBandFund[Imax]]);
             
