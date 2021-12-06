@@ -24,7 +24,7 @@ def define_methods(input_file):
     keys = ["gamma", "vs", "OCR", "radius"]
     # possible key-values
     gamma_keys = ["Lengkeek", "Robertson", "all"]
-    vs_keys = ["Robertson", "Mayne", "Andrus", "Zang", "Ahmed", "all"]
+    vs_keys = ["Mayne", "Robertson", "Andrus", "Zang", "Ahmed", "all"]
     OCR_keys = ["Mayne", "Robertson"]
     rad = 600.
 
