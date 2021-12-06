@@ -57,6 +57,10 @@ class CPT:
         self.vertical_datum = []
         self.local_reference = []
         self.inclination_resultant = []
+        self.cpt_standard = []
+        self.quality_class = []
+        self.cpt_type = []
+        self.result_time = []
 
         # checks if file_path exits. If not creates file_path
         if not os.path.exists(out_fold):
@@ -112,6 +116,22 @@ class CPT:
         # parse local reference point
         key = 'local_reference'
         self.local_reference = cpt[key] if key in cpt else []
+
+        # parse quality class
+        key = "quality_class"
+        self.quality_class = cpt[key] if key in cpt else []
+
+        # parse cone penetrator type
+        key = "cone_penetrometer_type"
+        self.cpt_type = cpt[key] if key in cpt else []
+
+        # parse cpt standard
+        key = "cpt_standard"
+        self.cpt_standard = cpt[key] if key in cpt else []
+
+        # parse result time
+        key = "result_time"
+        self.result_time = cpt[key] if key in cpt else []
 
         # parse measurement type of pore pressure
         self.water_measurement_type = [water_measurement_type for water_measurement_type in self.__water_measurement_types
@@ -661,8 +681,11 @@ class CPT:
         self.poisson = np.zeros(len(self.lithology))
 
         for i, lit in enumerate(self.lithology):
+            # If below pwp level -> 0.495
+            if self.depth_to_reference[i] <= self.pwp:
+                self.poisson[i] = 0.495
             # if soft layer
-            if lit == "1" or lit == "2" or lit == "3":
+            elif lit == "1" or lit == "2" or lit == "3":
                 self.poisson[i] = 0.495
             elif lit == "4":
                 self.poisson[i] = 0.25
