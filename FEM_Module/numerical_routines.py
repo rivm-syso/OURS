@@ -157,7 +157,7 @@ def frequency_sampling(data):
     # Obtain frequency array based on resolving resonances with a damping equal eta
     return np.logspace(math.log10(data["LowFreq"]),
                        math.log10(data["HighFreq"]),
-                       total_frequencies, endpoint=True)
+                       int(total_frequencies), endpoint=True)
 
 
 def max_time_step(glob_stiff, lumped_mass, factor, tolerance, max_iterations):
