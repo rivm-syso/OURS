@@ -4,12 +4,11 @@ NetCFD
 # import packages
 import netCDF4
 import numpy as np
-import pyproj
 import os
+from pyproj import Transformer
 import logging
 
-to_srs = pyproj.Proj(init='epsg:4326')
-source_srs = pyproj.Proj(init='epsg:28992')
+transformer = Transformer.from_crs("epsg:28992", "epsg:4326")
 
 
 class NetCDF:
@@ -57,7 +56,7 @@ class NetCDF:
         """
 
         # convert to coordinate system of netCDF
-        x_lon, y_lat = pyproj.transform(source_srs, to_srs, X, Y)
+        y_lat, x_lon = transformer.transform(X, Y)
 
         # find nearest cell
         id_min = ((self.lon - x_lon)**2 + (self.lat - y_lat)**2).argmin()

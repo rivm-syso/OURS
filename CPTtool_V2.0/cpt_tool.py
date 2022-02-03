@@ -185,7 +185,6 @@ def read_cpt(cpt_BRO, methods, settings, output_folder, input_dictionary, make_p
     for idx_cpt in range(len(cpt_BRO)):
         # add message to log file
         log_file.info_message("Reading CPT: " + cpt_BRO[idx_cpt]["id"])
-
         # initialise CPT module
         cpt = cpt_module.CPT(output_folder)
         # read data from BRO
@@ -282,8 +281,9 @@ def analysis(properties, methods_cpt, settings_cpt, output, plots):
         # read BRO data base
         inpt = {"BRO_data": properties["BRO_data"],
                 "Source_x": float(properties["Source_x"][idx]), "Source_y": float(properties["Source_y"][idx]),
-                "Radius": float(methods_cpt["radius"])}
-        cpts = bro.read_bro(inpt)
+                "Radius": float(methods_cpt["radius"]),
+                }
+        cpts = bro.read_bro_gpkg_version(inpt)
 
         results = {}
         # check points within polygons
