@@ -49,7 +49,6 @@ class CPT:
         self.water = []
         self.lithology = []
         self.litho_points = []
-        # self.lithology_simple = []
         self.lithology_json = []
         self.depth_json = []
         self.indx_json = []
@@ -70,6 +69,7 @@ class CPT:
         # fixed values
         self.g = 9.81
         self.Pa = 100.
+        self.default_a = 0.8
 
         # private variables
         self.__water_measurement_types = ["porePressureU1", "porePressureU2", "porePressureU3"]
@@ -88,9 +88,10 @@ class CPT:
         :return:
         """
 
-        # remove NAN row from the dataframe
-        for key in cpt["dataframe"]:
-            cpt["dataframe"] = cpt["dataframe"].dropna(subset=[key])
+        # remove NAN columns from the dataframe
+        cpt["dataframe"] = cpt["dataframe"].dropna(how="all", axis=1)
+        # remove NAN rows from the dataframe
+        cpt["dataframe"] = cpt["dataframe"].dropna(how="any", axis=0)
 
         # check if file contains data
         if len(cpt["dataframe"].penetrationLength) == 0:
@@ -176,6 +177,10 @@ class CPT:
         # unit in kPa is required for correlations
         unit_converter = 1000. if convert_to_kPa else 1.
 
+        # read a
+        self.a = cpt.get('a')
+        if not(self.a) or np.isnan(cpt.get('a')):
+            self.a = self.default_a
         # parse depth
         self.depth = depth
         # parse surface level
@@ -191,8 +196,7 @@ class CPT:
         # parser friction number
         self.friction_nbr = friction_ratio
         self.friction_nbr[self.friction_nbr <= 0] = 0.
-        # read a
-        self.a = cpt['a']
+
         # default water is zero
         self.water = np.zeros(len(self.depth))
         # if water exists parse water
@@ -253,7 +257,7 @@ class CPT:
         pore_pressure = None
 
         depth = self.get_depth_from_bro(cpt_BRO)
-
+        depth.sort()
         if float(cpt_BRO['predrilled_z']) != 0.:
             # if there is pre-dill add the average values to the pre-dill
 

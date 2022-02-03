@@ -8,6 +8,8 @@ import numpy as np
 import os
 import sys
 import json
+import warnings
+warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 # import OURS packages
 import robertson
 import inv_dist
@@ -89,8 +91,9 @@ def interpolation(data_cpt, coordinates, power=1):
     for at in attributes:
         training = []
         for i in data_cpt:
-            training.append(getattr(data_cpt[i], at))
+            training.append(np.array(getattr(data_cpt[i], at), dtype=float))
         data_training.append(training)
+    min_max_nap = np.array(min_max_nap, dtype=float)
 
     # interpolate the top and bottom depth at this point
     interp_top = inv_dist.InverseDistance(nb_points=len(data_cpt), pwr=power)
