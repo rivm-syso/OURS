@@ -120,8 +120,9 @@ def determine_if_all_data_is_available(data):
     avail_columns = data.get("dataframe").columns
     data_excluding_dataframe = {x: data[x] for x in data if x not in {"dataframe", "a"}}
     meta_usable = all([x is not None for x in data_excluding_dataframe.values()])
-    data_usable = all([col in avail_columns for col in req_columns])
-    if not (meta_usable and data_usable):
+    data_column_usable = all([col in avail_columns for col in req_columns])
+    data_usable = all([not data["dataframe"][k].isnull().values.all() for k in req_columns])
+    if not (meta_usable and data_usable and data_column_usable):
         logging.warning("CPT with id {} misses required data.".format(data["id"]))
         return False
     return True
@@ -129,7 +130,7 @@ def determine_if_all_data_is_available(data):
 
 def read_cpt_from_gpkg(polygon, fn):
     """
-    Function that retrieves cpts that intercect a polygon
+    Function that retrieves cpts that intercept a polygon
     :param polygon: shapely polygon
     :param fn: geopackage file location
     :return: list of dictionaries containing all cpt data
