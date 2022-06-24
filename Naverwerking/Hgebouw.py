@@ -3,6 +3,12 @@
 Created on Thu Sep 12 12:16:59 2019
 
 @author: Arnold Koopman
+
+version tracker
+1.01 24 juni 2022 Arnold Koopman
+- Hfundering improved, for large buildings
+    - Impedance jump limited, based on consideration of low building stiffness
+    - Tau effect reduced, based on limitation of foundation stiffness
 """
 
 import argparse
@@ -272,11 +278,21 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         #cZMC[band]    = stats.lognorm.ppf(kansenreeks,var_c[band])       * c[band];
         #np.random.shuffle(cZMC[band]);
         cXMC[band]    = c_ratioMC[band] * cZMC[band]; 
-        ZgMC[band]    = 1j * gebouwdichtheidMC * gebouwhoogteMC * wandlengteMC * gevellengteMC * omega[band];  # complexe impedantie van het gebouw
-    Zb = np.swapaxes(ZbMC,0,1);
-    Zg = np.swapaxes(ZgMC,0,1);     
-    cZ = np.swapaxes(cZMC,0,1);
-    cX = np.swapaxes(cXMC,0,1);
+        lamdbaX       = cXMC[band] / octaafbanden[band]; 
+        lamdbaZ       = cZMC[band] / octaafbanden[band]; 
+        # ZgMC[band]    = 1j * gebouwdichtheidMC * gebouwhoogteMC * wandlengteMC * gevellengteMC * omega[band];  # complexe impedantie van het gebouw
+        VolumeTotaal  = gebouwhoogteMC * wandlengteMC * gevellengteMC;
+        VolumeActiefX = np.pi * lamdbaX**3 / 100;
+        VolumeActiefX = min(VolumeTotaal,VolumeActiefX);
+        VolumeActiefZ = np.pi * lamdbaZ**3 / 100;
+        VolumeActiefZ = min(VolumeTotaal,VolumeActiefZ);       
+        ZgXMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefX * omega[band];  # complexe impedantie van het gebouw
+        ZgZMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefZ * omega[band];  # complexe impedantie van het gebouw
+    Zb  = np.swapaxes(ZbMC ,0,1);
+    ZgX = np.swapaxes(ZgXMC,0,1);   
+    ZgZ = np.swapaxes(ZgZMC,0,1); 
+    cZ  = np.swapaxes(cZMC ,0,1);
+    cX  = np.swapaxes(cXMC ,0,1);
 
     for i1 in range(MCgrootte):   # Monte Carlo over variaties, om covariantiematrix te kunnen maken
         # Hfundering
@@ -289,9 +305,9 @@ def Hgebouw(Bodem,Gebouw,Vloer):
 #        cZ      = np.random.lognormal(0,var_c)      *c;
 #        cX      = np.random.lognormal(0,var_c_ratio)*cZ*c_ratio;
 #        Zg      = 1j * gebouwdichtheidMC * gebouwhoogteMC * wandlengteMC * gevellengteMC * omega;  # complexe impedantie van het gebouw
-        DictOut = Hfundering(Zb[i1],cX[i1],Zg[i1],wandlengteMC[i1]); # in x richting kloppen Z's eigenlijk niet
+        DictOut = Hfundering(Zb[i1],cX[i1],ZgX[i1],wandlengteMC[i1]); # in x richting kloppen Z's eigenlijk niet
         Hfxx    = DictOut['Htranslatie'];
-        DictOut = Hfundering(Zb[i1],cZ[i1],Zg[i1],wandlengteMC[i1]);
+        DictOut = Hfundering(Zb[i1],cZ[i1],ZgZ[i1],wandlengteMC[i1]);
         Hfzz    = DictOut['Htranslatie'];
         Hfr     = DictOut['Hrocking'];
             
@@ -453,6 +469,11 @@ def Hfundering(Zbodem, cbodem, Zgebouw, Lgebouw):
     aantallijnen  = 10;
     tauRockingff  = np.ones(aantallijnen);
     tauTransff    = np.ones(aantallijnen);
+    # length of bending waves in foundation, assuming concrete or brick
+    # assuming 1 meter height; walls (up to underside window) can take part
+    # higher walls will "buckle" 
+    # NB: double heigth shifts wave lengths one octave
+    lambdafundering = np.array([52,37,26,19,13,9.5]);   # nb: vervangen door functie golflengte.py
     for octaafnr in range(aantalbanden):
         if cbodem[octaafnr]<1:    # als van een band geen c is bepaald (dus =0)
             buren = range(octaafnr-1,octaafnr+2,2); # info bij de buurbanden halen
@@ -460,15 +481,16 @@ def Hfundering(Zbodem, cbodem, Zgebouw, Lgebouw):
             buren = list(set(buren)&set(octnr));    # doorsnede
             cbodem[octaafnr]=np.mean(cbodem[buren]); 
         ff           = 2**(np.log2(octaafnr+1)+np.linspace(-.45,.45,aantallijnen));
+        LgebouwEff   = min(Lgebouw,lambdafundering[octaafnr]); 
         labda        = cbodem[octaafnr]/ff;
-        coeff        = np.pi*Lgebouw/labda;
+        coeff        = np.pi*LgebouwEff/labda;
         for lijnnr in range(aantallijnen):
-            tauRockingff[lijnnr]    = math.sin(coeff[lijnnr])/coeff[lijnnr];
-            tauTransff[lijnnr]      = math.sqrt((1+math.cos(coeff[lijnnr]))/2);
-        tauRockingff[labda<Lgebouw] = 0;
-        tauTransff[labda<Lgebouw]   = 0;
-        tauRockingOct[octaafnr]     = np.mean(tauRockingff,axis=0);
-        tauTransOct[octaafnr]       = np.mean(tauTransff,axis=0);
+            tauRockingff[lijnnr]       = math.sin(coeff[lijnnr])/coeff[lijnnr];
+            tauTransff[lijnnr]         = math.sqrt((1+math.cos(coeff[lijnnr]))/2);
+        tauRockingff[labda<Lgebouw]    = 0;
+        tauTransff[labda<LgebouwEff/2] = 0;
+        tauRockingOct[octaafnr]        = np.mean(tauRockingff,axis=0);
+        tauTransOct[octaafnr]          = np.mean(tauTransff,axis=0);
     # dan impedantiesprong nog in rekening brengen:
     H = np.abs(Zbodem/(Zbodem+Zgebouw));
     # effecten bijelkaar:
