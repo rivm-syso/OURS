@@ -25,7 +25,7 @@ bovengrenzen = octaafbanden*math.sqrt(2);
 ondergrenzen = octaafbanden/math.sqrt(2);
 omega        = 2*np.pi*octaafbanden;
 
-MCgrootte    = 10; #3*333;   # streven: 333
+MCgrootte    = 3*333;   # streven: 333
 np.random.seed(1234);   # om te zorgen voor steeds dezelfde output, laatste cijfer kan nl. wat zwabberen
 
 # rekenwaardes
@@ -234,7 +234,8 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     HfxxmcArray = np.zeros([MCgrootte,aantalbanden]);
     HfzzmcArray = np.zeros([MCgrootte,aantalbanden]);   
     ZbMC        = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
-    ZgMC        = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
+    ZgXMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
+    ZgZMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
     cZMC        = np.zeros([aantalbanden,MCgrootte]); 
     cXMC        = np.zeros([aantalbanden,MCgrootte]);     
     
@@ -283,9 +284,9 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         # ZgMC[band]    = 1j * gebouwdichtheidMC * gebouwhoogteMC * wandlengteMC * gevellengteMC * omega[band];  # complexe impedantie van het gebouw
         VolumeTotaal  = gebouwhoogteMC * wandlengteMC * gevellengteMC;
         VolumeActiefX = np.pi * lamdbaX**3 / 100;
-        VolumeActiefX = min(VolumeTotaal,VolumeActiefX);
+        VolumeActiefX = np.minimum(VolumeTotaal,VolumeActiefX);
         VolumeActiefZ = np.pi * lamdbaZ**3 / 100;
-        VolumeActiefZ = min(VolumeTotaal,VolumeActiefZ);       
+        VolumeActiefZ = np.minimum(VolumeTotaal,VolumeActiefZ);       
         ZgXMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefX * omega[band];  # complexe impedantie van het gebouw
         ZgZMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefZ * omega[band];  # complexe impedantie van het gebouw
     Zb  = np.swapaxes(ZbMC ,0,1);
