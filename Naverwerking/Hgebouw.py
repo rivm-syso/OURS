@@ -39,17 +39,19 @@ var_zetaHout             = .1 ;
 var_zetaBeton            = .1 ;
 
 # defaultwaardes, voor als gebruiker niets invoert
-StandaardWandlengte          = 10;  # meter, diepte van de woning
-StandaardGevellengte         =  6;  # meter
-StandaardAantalBouwlagen     =  2;  # 2, dus BG en eerste verdieping (zonder dak)
-StandaardGebouwHoogte        =  5.6;# meter
-StandaardVloerHoogte         =  2.8;  # eerste verdieping
-StandaardVar_wandlengte      =  1;  # in meters,  2*std
-StandaardVar_gevellengte     =  1;  # in meters, 2*std
-StandaardVar_aantalBouwlagen =  1;  # in aantalverdiepingen,  2*std
-StandaardVar_frequenties     = .1;  # voor zowel Mid- als Quarterspan
+StandaardWandlengte          =  10;  # meter, diepte van de woning
+StandaardGevellengte         =   6;  # meter
+StandaardAantalBouwlagen     =   2;  # 2, dus BG en eerste verdieping (zonder dak)
+StandaardGebouwHoogte        =   5.6;# meter
+StandaardGebouwC1Hz          = 180;  # m/s, buiggolfsnelheid, over de hoogte van het gebouw, bij 1Hz
+StandaardVloerHoogte         =   2.8;  # eerste verdieping
+StandaardVar_wandlengte      =   1;  # in meters,  2*std
+StandaardVar_gevellengte     =   1;  # in meters, 2*std
+StandaardVar_aantalBouwlagen =   1;  # in aantalverdiepingen,  2*std
+StandaardVar_frequenties     =   .1;  # voor zowel Mid- als Quarterspan
 StandaardVar_gebouwHoogte    =  2.8;# in meters,  2*std
-StandaardVar_vloerHoogte     =  2.8;# in meters,  2*std
+StandaardVar_gebouwC1Hz      =   50; # in meters, 2*std
+StandaardVar_vloerHoogte     =  2.8; # in meters,  2*std
 StandaardVloeroverspanningHout  = 4;
 StandaardVloeroverspanningBeton = 6;
 # onzekerheden over vloerfrequenties, indien die freqs nog berekend moeten worden
@@ -123,6 +125,28 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     if var_gebouwHoogte==0:
        var_gebouwHoogte=.01;    
     
+    if "gebouwBuigfrequentie" in Gebouw:        # in Hz
+        gebouwBuigfrequentie = np.array(Gebouw["gebouwBuigfrequentie"]); 
+    else:
+        gebouwBuigfrequentie = [];    
+    if len(gebouwBuigfrequentie)==0: 
+        gebouwC1Hz     = StandaardGebouwC1Hz;
+        var_gebouwC1Hz = StandaardVar_gebouwC1Hz; 
+    else:
+        gebouwC1Hz = 4*gebouwHoogte*np.sqrt(gebouwBuigfrequentie);
+        if "var_gebouwBuigfrequentie" in Gebouw:      # in Hz, 2*std
+            var_gebouwBuigfrequentie = np.array(Gebouw["var_gebouwBuigfrequentie"]); 
+        else:
+            var_gebouwBuigfrequentie = [];
+        if len(var_gebouwBuigfrequentie)==0:  # maw: leeg
+            var_gebouwC1Hz = StandaardVar_gebouwC1Hz;
+        else:
+            var_gebouwC1Hz = np.sqrt((var_gebouwBuigfrequentie * gebouwC1Hz/(2*gebouwBuigfrequentie))**2 + 
+                             (4*var_gebouwHoogte*np.sqrt(gebouwBuigfrequentie))**2);
+        if var_gebouwC1Hz==0:
+            var_gebouwC1Hz = StandaardVar_gebouwC1Hz; 
+          
+        
     # vloerhoogte bepalen
     # vloerhoogte kan expliciet worden gegeven of via VerdiepingNr
     # evenzo voor de onzekerheid ervan
@@ -246,6 +270,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     gebouwhoogteMC    = stats.lognorm.ppf(kansenreeks,var_gebouwHoogte/gebouwHoogte/2) * gebouwHoogte;
     vloerhoogteMC     = stats.norm.ppf(kansenreeks,vloerHoogte,var_vloerHoogte/2);
     vloerhoogteMC     = np.where(vloerhoogteMC<0,0,vloerhoogteMC); 
+    gebouwC1HzMC      = stats.lognorm.ppf(kansenreeks,var_gebouwC1Hz/gebouwC1Hz/2)     * gebouwC1Hz;
     wandlengteMC      = stats.lognorm.ppf(kansenreeks,var_wandlengte/wandlengte/2)     * wandlengte;
     gevellengteMC     = stats.lognorm.ppf(kansenreeks,var_gevellengte/gevellengte/2)   * gevellengte;
     zetaMC            = stats.lognorm.ppf(kansenreeks,var_zeta)                        * zeta;
@@ -255,6 +280,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     np.random.shuffle(wandlengteMC);
     np.random.shuffle(gevellengteMC);
     np.random.shuffle(zetaMC);
+    np.random.shuffle(gebouwC1HzMC);
     # fase, Y en c zijn spectra, dus covariantie tussen banden meenemen
     # dat kan met np.random.multivariate, maar helaas alleen voor normale verdelingen
     # En dus helaas geen pseudorandom.
@@ -314,7 +340,11 @@ def Hgebouw(Bodem,Gebouw,Vloer):
             
         # Hconstructie
         Hcxx = 1.0;   # doen we even niets mee, gaat over schuif en buig, beiden xx
-        Hczx = vloerhoogteMC[i1]*omega/cZ[i1];  #  zwaaien, geometrische versterkin
+        
+        maxvloerhoogte = gebouwC1HzMC[i1]/np.sqrt(octaafbanden)/4;
+        vloerhoogte    = np.minimum(vloerhoogteMC[i1],maxvloerhoogte);
+        
+        Hczx = vloerhoogte*omega/cZ[i1];  #  zwaaien, geometrische versterkin
         Hczz = 1.0;   # hoogteverzwakking
 
         # eerste resultaten: maaiveld naar x-richting bovenste verdieping
