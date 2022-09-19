@@ -440,8 +440,16 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     Hfunvloer[2] = np.mean(Hv2mcArray,axis=0);   # opslingering midspan
     Hgebouw      = np.max(Hfunvloer,axis=0);  # volgens Level memo
     
-    # varianties uit de MC halen
+    # varianties uit de MC halen, eerst wat voorwerk
     legeCov  = np.zeros([6,6]);
+    # delen door nul is flauwekul,
+    Hxx[Hxx==0]   = .001;
+    Hzx[Hzx==0]   = .001;
+    Hzz1[Hzz1==0] = .001;
+    Hzz2[Hzz2==0] = .001;
+    Hfxx[Hfxx==0] = .001;
+    Hfzz[Hfzz==0] = .001;
+    # nu dus de covs maken
     cov_Hxx  = np.cov(HxxmcArray, rowvar=False) / (Hxx *np.transpose([Hxx ]));
     cov_Hxz  = legeCov;
     cov_Hzx  = np.cov(HzxmcArray, rowvar=False) / (Hzx *np.transpose([Hzx ]));
