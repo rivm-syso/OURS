@@ -17,7 +17,6 @@ import pandas as pd
 import pyproj
 from rtree import index
 from shapely.geometry import shape, Point
-import numpy as np
 
 req_columns = ["penetrationLength", "coneResistance", "localFriction", "frictionRatio"]
 columns_gpkg = ['penetrationLength', 'depth', 'elapsed_time', 'coneResistance',
@@ -144,7 +143,7 @@ def determine_if_all_data_is_available(data):
     """
     Determine if all data is available in dataframe
     :param data: pandas dataframe
-    :return:
+    :return: boolean if all data is available
     """
     avail_columns = data.get("dataframe").columns
     data_excluding_dataframe = {x: data[x] for x in data if x not in {"dataframe", "a"}}
@@ -156,14 +155,61 @@ def determine_if_all_data_is_available(data):
         return False
     return True
 
+def is_cpt_inside_buffered_track(file_track, point):
+    """
+    Check if a CPT in inside the buffered track geometry
 
-def read_cpt_from_gpkg(polygon, fn):
+    :param file_track: rtree index file location
+    :param point: list of x and y coordinates
+    :return: boolean if cpt is inside buffered track
+    """
+    idx = index.Index(file_track, interleaved=True)
+
+    point = Point(point[0], point[1])
+    possible_matches = list(idx.intersection(point.bounds))
+    if len(possible_matches) == 0:
+        return False
+    else:
+        return True
+
+
+def create_index_gpkg(fn):
+    """
+    Function that creates indexes in the geopackage to accelerate the search
+
+    :param fn: geopackage file location
+    :return: None
+    """
+
+    # create indexes to accelerate the search
+    check_query = "SELECT name FROM sqlite_master WHERE type='index' AND name='ix_test1'"
+    conn = sqlite3.connect(fn)
+    cursor = conn.cursor()
+    cursor.execute(check_query)
+    index_exists = cursor.fetchone() is not None
+    if not index_exists:
+        print("Creating indexes in the geopackage to accelerate the search. This might take a while...")
+        query = ["create index if not exists ix_test1 on geotechnical_cpt_survey(geotechnical_cpt_survey_pk)",
+                 "create index if not exists ix_test2 on cone_penetration_test_result(cone_penetration_test_fk)"]
+        for q in query:
+            cursor.execute(q)
+        conn.commit()
+        conn.close()
+
+
+def read_cpt_from_gpkg(polygon, fn, file_track):
     """
     Function that retrieves cpts that intercept a polygon
+
     :param polygon: shapely polygon
     :param fn: geopackage file location
+    :param file_track: rtree index file location
     :return: list of dictionaries containing all cpt data
     """
+
+    # create indexes in the geopackage to accelerate the search
+    create_index_gpkg(fn)
+
     cpts_results = []
     # transform the polygon from epsg:28992 to epsg:4258
     rd_p = pyproj.CRS('epsg:28992')
@@ -198,6 +244,7 @@ def read_cpt_from_gpkg(polygon, fn):
         else:
             cursor.execute(query)
             results = pd.DataFrame(cursor.fetchall(), columns=columns_gpkg)
+
         cursor.execute(construct_query_cone_surface_quotient(returned_ids))
         cone_surface_quotient = pd.DataFrame(cursor.fetchall(), columns=['id', 'a'])
         column_names_per_cpt = ['id', 'location_x', 'location_y']
@@ -212,6 +259,7 @@ def read_cpt_from_gpkg(polygon, fn):
             temporary_cpt_dict['cpt_standard'] = list(group['cpt_standard'])[0]
             temporary_cpt_dict['predrilled_z'] = list(group['predrilled_z'].fillna(0))[0]
             temporary_cpt_dict['a'] = cone_surface_quotient[cone_surface_quotient['id'] == name[0]]['a'].values[0]
+            temporary_cpt_dict['in_track'] = is_cpt_inside_buffered_track(file_track, [temporary_cpt_dict['location_x'], temporary_cpt_dict['location_y']])
             cpt_group = group.copy(deep=True)
             cpt_group.sort_values(['penetrationLength', 'depth'], inplace=True)
             temporary_cpt_dict['dataframe'] = cpt_group
@@ -220,19 +268,9 @@ def read_cpt_from_gpkg(polygon, fn):
                 # replace np.nan with None
                 #temporary_cpt_dict['dataframe'] = temporary_cpt_dict['dataframe'].replace({np.nan: None})
                 cpts_results.append(temporary_cpt_dict)
+
+        conn.close()
     return cpts_results
-
-
-def create_index_if_it_does_not_exist(fn):
-    """
-    Function that creates index on the geopackage dataframe to improve performance
-    """
-    conn = sqlite3.connect(fn)
-    cursor = conn.cursor()
-    # get the keys of the database using the bro_ids found in the intersection
-    logging.warning("Checking if index exists, if index does not exist it should be created, this may take a while...")
-    cursor.execute("create index if not exists ix_test on cone_penetration_test_result(cone_penetration_test_fk);")
-
 
 def read_bro_gpkg_version(parameters):
     """Main function to read the BRO database.
@@ -252,16 +290,18 @@ def read_bro_gpkg_version(parameters):
         print("Cannot open provided BRO data file: {}".format(fn))
         sys.exit(2)
 
-    create_index_if_it_does_not_exist(fn)
-
     # Polygon grouping method:
     # Find all geomorphological polygons intersecting the circle with midpoint
     # x, y and radius r, calculate percentage of overlap and retrieve all CPTs
     # inside those polygons.
     out["polygons"] = {}
     total_cpts = 0
+    # rtree geomorpholog map
     file_idx = join(dirname(fn), 'geomorph')
     idx_fn = join(dirname(fn), 'geomorph.idx')
+    # rtree buffered track
+    file_track_idx = join(dirname(fn), 'buff_track')
+
     if not exists(idx_fn):
         print("Cannot open provided geomorphological data files (.dat & .idx): {}".format(idx_fn))
         sys.exit(2)
@@ -275,7 +315,7 @@ def read_bro_gpkg_version(parameters):
             poly = poly.buffer(0.01)  # buffering reconstructs the geometry, often fixing invalidity
         if circle.intersects(poly):
             perc = circle.intersection(poly).area / circle.area
-            cpts = read_cpt_from_gpkg(poly, fn)
+            cpts = read_cpt_from_gpkg(poly, fn, file_track_idx)
             total_cpts = total_cpts + len(cpts)
             if gm_code in out["polygons"]:
                 out["polygons"][gm_code]["data"].extend(cpts)
@@ -286,7 +326,7 @@ def read_bro_gpkg_version(parameters):
     # Find CPT indexes in circle
     # create circle as polygon
     circle_polygon = Point(x, y).buffer(r, resolution=32)
-    circle_cpts = read_cpt_from_gpkg(circle_polygon, fn)
+    circle_cpts = read_cpt_from_gpkg(circle_polygon, fn, file_track_idx)
     logging.warning("Found {} CPTs in circle.".format(len(circle_cpts)))
     out["circle"] = {"data": circle_cpts}
 
@@ -296,6 +336,6 @@ def read_bro_gpkg_version(parameters):
 if __name__ == "__main__":
     test_db = join(dirname(__file__), '../bro/test_v2_0_1.gpkg')
     input = {"BRO_data": test_db, "Source_x": 82860, "Source_y": 443400,
-             "Radius": 1200}
+             "Radius": 120}
     cpts = read_bro_gpkg_version(input)
     print(cpts.keys())
