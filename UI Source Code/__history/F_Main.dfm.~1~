@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'OURS 2.10'
-  ClientHeight = 800
-  ClientWidth = 1200
+  Caption = 'OURS'
+  ClientHeight = 792
+  ClientWidth = 1124
   Color = clBtnFace
   Constraints.MinHeight = 600
   Constraints.MinWidth = 1000
@@ -13,19 +13,20 @@ object frmMain: TfrmMain
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = False
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
-  PixelsPerInch = 96
   DesignSize = (
-    1200
-    800)
+    1124
+    792)
+  PixelsPerInch = 96
   TextHeight = 13
   object Splitter: TSplitter
     Left = 0
-    Top = 607
-    Width = 1200
+    Top = 599
+    Width = 1124
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -39,8 +40,8 @@ object frmMain: TfrmMain
     AlignWithMargins = True
     Left = 0
     Top = 41
-    Width = 1200
-    Height = 566
+    Width = 1124
+    Height = 558
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -52,8 +53,8 @@ object frmMain: TfrmMain
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 1200
-      Height = 566
+      Width = 1124
+      Height = 558
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -65,6 +66,10 @@ object frmMain: TfrmMain
       TabWidth = 86
       object tabInput: TTabSheet
         Caption = 'Input'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoInput: TMemo
           Left = 0
           Top = 0
@@ -80,6 +85,10 @@ object frmMain: TfrmMain
       object tabProject: TTabSheet
         Caption = 'Project'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoProject: TMemo
           Left = 0
           Top = 0
@@ -95,6 +104,10 @@ object frmMain: TfrmMain
       object tabReceptors: TTabSheet
         Caption = 'Receptors'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoReceptors: TMemo
           Left = 0
           Top = 0
@@ -110,6 +123,10 @@ object frmMain: TfrmMain
       object tabTracks: TTabSheet
         Caption = 'Tracks'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoTracks: TMemo
           Left = 0
           Top = 0
@@ -125,6 +142,10 @@ object frmMain: TfrmMain
       object tabSources: TTabSheet
         Caption = 'Sources'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoSources: TMemo
           Left = 0
           Top = 0
@@ -140,6 +161,10 @@ object frmMain: TfrmMain
       object tabGround: TTabSheet
         Caption = 'Ground'
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoGround: TMemo
           Left = 0
           Top = 0
@@ -155,6 +180,10 @@ object frmMain: TfrmMain
       object tabFem: TTabSheet
         Caption = 'FEM'
         ImageIndex = 6
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoFem: TMemo
           Left = 0
           Top = 0
@@ -173,8 +202,8 @@ object frmMain: TfrmMain
         object mmoDerived: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -185,6 +214,10 @@ object frmMain: TfrmMain
       object tabUncertainty: TTabSheet
         Caption = 'Uncertainty'
         ImageIndex = 10
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoUncertainty: TMemo
           Left = 0
           Top = 0
@@ -200,6 +233,10 @@ object frmMain: TfrmMain
       object tabBuilding: TTabSheet
         Caption = 'Building'
         ImageIndex = 7
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoBuilding: TMemo
           Left = 0
           Top = 0
@@ -215,6 +252,10 @@ object frmMain: TfrmMain
       object tabResults: TTabSheet
         Caption = 'Results'
         ImageIndex = 8
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoResults: TMemo
           Left = 0
           Top = 0
@@ -230,6 +271,10 @@ object frmMain: TfrmMain
       object tabOutput: TTabSheet
         Caption = 'Output'
         ImageIndex = 11
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mmoOutput: TMemo
           Left = 0
           Top = 0
@@ -247,8 +292,8 @@ object frmMain: TfrmMain
   object pnlDB: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 610
-    Width = 1200
+    Top = 602
+    Width = 1124
     Height = 150
     Margins.Left = 0
     Margins.Top = 0
@@ -264,7 +309,7 @@ object frmMain: TfrmMain
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 1200
+      Width = 1124
       Height = 150
       Margins.Left = 0
       Margins.Top = 0
@@ -282,7 +327,7 @@ object frmMain: TfrmMain
           AlignWithMargins = True
           Left = 0
           Top = 0
-          Width = 1192
+          Width = 1116
           Height = 122
           Margins.Left = 0
           Margins.Top = 0
@@ -300,13 +345,14 @@ object frmMain: TfrmMain
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
+          Zoom = 100
         end
       end
     end
   end
   object btnExit: TButton
-    Left = 1111
-    Top = 767
+    Left = 1035
+    Top = 759
     Width = 85
     Height = 25
     Anchors = [akRight, akBottom]
@@ -316,7 +362,7 @@ object frmMain: TfrmMain
   end
   object btnCancel: TButton
     Left = 8
-    Top = 767
+    Top = 759
     Width = 85
     Height = 25
     Anchors = [akLeft, akBottom]
@@ -325,8 +371,8 @@ object frmMain: TfrmMain
     OnClick = btnCancelClick
   end
   object btnProrail: TButton
-    Left = 985
-    Top = 767
+    Left = 909
+    Top = 759
     Width = 120
     Height = 25
     Anchors = [akRight, akBottom]
@@ -338,7 +384,7 @@ object frmMain: TfrmMain
   object pnlButtons: TPanel
     Left = 0
     Top = 0
-    Width = 1200
+    Width = 1124
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -390,7 +436,7 @@ object frmMain: TfrmMain
     end
     object btnLicense: TButton
       AlignWithMargins = True
-      Left = 1111
+      Left = 1035
       Top = 8
       Width = 85
       Height = 25
