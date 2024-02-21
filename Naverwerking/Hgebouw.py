@@ -40,7 +40,7 @@ var_zetaBeton            = .1 ;
 StandaardWandlengte          =  10;  # meter, diepte van de woning
 StandaardGevellengte         =   6;  # meter
 StandaardAantalBouwlagen     =   2;  # 2, dus BG en eerste verdieping (zonder dak)
-StandaardGebouwHoogte        =   5.6;# meter
+StandaardGebouwHoogte        =   5.6;# meter 5.6
 StandaardGebouwC1Hz          = 180;  # m/s, buiggolfsnelheid, over de hoogte van het gebouw, bij 1Hz
 StandaardVloerHoogte         =   2.8;  # eerste verdieping
 StandaardVar_wandlengte      =   1;  # in meters,  2*std
@@ -99,6 +99,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     # evenzo voor onzekerheid daarvan
     if "gebouwHoogte" in Gebouw:
         gebouwHoogte     = np.array(Gebouw["gebouwHoogte"]); 
+       # print(gebouwHoogte+1);
     else:
         gebouwHoogte = [];
     if len(gebouwHoogte)==0: 
@@ -158,7 +159,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
             if not len(verdiepingNr)==0:
                vloerHoogte = verdiepingNr*2.8;     
     if len(vloerHoogte)==0: 
-        vloerHoogte = np.max([0,gebouwHoogte-2.8]);    
+        vloerHoogte = np.array(np.max([0,gebouwHoogte[0]-2.8]));    
        
     if "var_vloerHoogte" in Gebouw:
         var_vloerHoogte = np.array(Gebouw["var_vloerHoogte"]); 
