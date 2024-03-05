@@ -120,6 +120,9 @@ type
   { @abstract(This class methods to retrieve the location of standard folders.)
   }
   TOursFileUtils = class(TObject)
+  private
+    const
+      _BROfile = 'brocptvolledigeset.gpkg';
   public
     { @abstract(Constructor will raise exception as creation of an instance of this class is not allowed.)
       Class only contains class functions.
@@ -160,6 +163,23 @@ type
     { @abstract(Tests if a folder is writable.)
     }
     class function IsFolderWriteable(const AFolder: string): Boolean;
+
+    { @abstract(Returns the folder where the BRO xml is located.)
+      First check location from config file, then Common Documents Dir and finally User Documents Dir
+    }
+    class function BroDir: string;
+
+    { @abstract(Returns the full filename of the BRO xml.)
+    }
+    class function BroFile: string;
+
+    { @abstract(Reads key from the config file.)
+      Config file needs to have the same name as the OURS_UI executable, but with extantion '.CFG'
+      and needs to be in the same folder as OURS_UI. @br
+      The content of the file is text-based and formatted as key-value pairs. @br
+      Example:  BRO=C:\Projects\OURS_UI\DATA
+    }
+    class function TryGetConfigValue(const key: string; out value: string): Boolean;
   end;
 
 // -------------------------------------------------------------------------------------------------
@@ -258,7 +278,12 @@ class function TOursFileUtils.TempDir: string;
 var
   pid: DWORD;
 begin
-  Result := IncludeTrailingPathDelimiter(TPath.GetTempPath);
+    // First check folder from config file (OURS_UI.CFG)
+  if TOursFileUtils.TryGetConfigValue('TMP', Result) then begin
+    Result := IncludeTrailingPathDelimiter(Result);
+  end else begin
+    Result := IncludeTrailingPathDelimiter(TPath.GetTempPath);
+  end;
 
   pid := GetCurrentProcessId;
   Result := IncludeTrailingPathDelimiter(Result) + 'OURS_' + pid.ToString;
@@ -266,6 +291,81 @@ begin
 
   if not DirectoryExists(Result) then
     ForceDirectories(Result);
+end;
+
+// -------------------------------------------------------------------------------------------------
+
+class function TOursFileUtils.BroFile: string;
+begin
+  if TOursFileUtils.TryGetConfigValue('BROfile', Result) then begin
+    Result := TOursFileUtils.BroDir + Result;
+    if FileExists(Result) then
+      Exit;
+  end;
+  Result := TOursFileUtils.BroDir + _BROfile;
+end;
+
+// -------------------------------------------------------------------------------------------------
+
+class function TOursFileUtils.BroDir: string;
+Var
+   filnam: string;
+begin
+  Result := '';
+  filnam := _BROfile;
+
+  // Check for filename for BRO from config file (OURS_UI.CFG)
+  if TOursFileUtils.TryGetConfigValue('BROfile', Result) then begin
+    filnam := Result;
+  end;
+
+  // First check folder from config file (OURS_UI.CFG)
+  if TOursFileUtils.TryGetConfigValue('BRO', Result) then begin
+    Result := IncludeTrailingPathDelimiter(Result);
+    if FileExists(Result + filnam) then
+      Exit;
+  end;
+
+   // then check common documents folder
+  Result := TOursFileUtils.CommonDocumentsDir;
+  if FileExists(Result + filnam) then
+    Exit;
+
+  // and finally check personal documents folder
+  Result := TOursFileUtils.DocumentsDir;
+  if FileExists(Result + filnam) then
+    Exit;
+
+  // If the file is not found return default folder
+  Result := TOursFileUtils.CommonDocumentsDir;
+end;
+
+// -------------------------------------------------------------------------------------------------
+
+class function TOursFileUtils.TryGetConfigValue(const key: string; out value: string): Boolean;
+var
+  cfgFile: string;
+  cfgContent: TStringList;
+begin
+  Result := False;
+  value := '';
+
+  cfgFile := ChangeFileExt(ParamStr(0), '.cfg');
+  if not FileExists(cfgFile) then
+    Exit;
+
+  cfgContent := TStringList.Create;
+  try
+    cfgContent.LoadFromFile(cfgFile);
+
+    var idx := cfgContent.IndexOfName(key);
+    if idx>-1 then begin
+      value := cfgContent.ValueFromIndex[idx];
+      Result := (value <> '');
+    end;
+  finally
+    cfgContent.Free;
+  end;
 end;
 
 // -------------------------------------------------------------------------------------------------
@@ -395,6 +495,7 @@ begin
     end;
   end;
 end;
+
 
 // -------------------------------------------------------------------------------------------------
 

@@ -330,7 +330,7 @@ function TOursProjectHelper.ResultsToXML: TXmlVerySimple;
 begin
   Result := TXmlVerySimple.Create;
   Result.Encoding := 'utf-8';
-  Result.AddChild('OURS_Output').SetAttribute('version', 'V2.1');
+  Result.AddChild('OURS_Output').SetAttribute('version', 'V2.0');
 
   var Node := Result.DocumentElement.AddChild('Project', ntElement);
   Node.Attributes['name'] := name;
@@ -373,10 +373,6 @@ begin
         var tmpNode: TXmlNode;
 
         tmpNode := resNode.AddChild('fundering', ntElement);
-        with tmpNode.AddChild('vmax_alle_treinen', ntElement) do
-          SetText(trainClass.Fundering.Vmax_gemiddeld.ToString);
-        with tmpNode.AddChild('vmax_alle_sigma', ntElement) do
-          SetText(trainClass.Fundering.Vmax_gem_sigma.ToString);
         with tmpNode.AddChild('vmax', ntElement) do
           SetText(trainClass.Fundering.Vmax.ToString);
         with tmpNode.AddChild('vmax_Dir', ntElement) do
@@ -406,10 +402,6 @@ begin
           SetText(str);
 
         tmpNode := resNode.AddChild('gebouw', ntElement);
-        with tmpNode.AddChild('vmax_alle_treinen', ntElement) do
-          SetText(trainClass.Gebouw.Vmax_gemiddeld.ToString);
-        with tmpNode.AddChild('vmax_alle_sigma_', ntElement) do
-          SetText(trainClass.Gebouw.Vmax_gem_sigma.ToString);
         with tmpNode.AddChild('vmax', ntElement) do
           SetText(trainClass.Gebouw.Vmax.ToString);
         with tmpNode.AddChild('vmax_Dir', ntElement) do

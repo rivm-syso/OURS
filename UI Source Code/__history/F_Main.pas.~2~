@@ -179,6 +179,10 @@ type
     }
     btnCancel: TButton;
 
+    { @abstract(Button to split the roughness data file into seperate files for each traject.)
+    }
+    btnProrail: TButton;
+
     { @abstract(Dialog to select input XML-file.)
     }
     openDlg: TOpenDialog;

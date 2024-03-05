@@ -24,7 +24,7 @@ type
     }
     NAME_MODULE = 'cpt_tool.py';
   strict private
-    { @abstract(Checks if the file "brocpt.xml" is located in the common documents folder or, if
+    { @abstract(Checks if the file "ground.xml" is located in the common documents folder or, if
       not in the personal documents folder.)
     }
     function BroAvailable(out BroFile: string): Boolean;
@@ -85,8 +85,8 @@ begin
   // Start external ground-module and wait...
   FMessageList.AddInfo('------------------------------------------------');
   FMessageList.AddInfo('Ground module started');
-  if not FileExists(ChangeFileExt(broFile, '.idx')) then
-    FMessageList.AddInfo('CPT not yet indexed. This could take upto 5 minutes extra.');
+  //if not FileExists(ChangeFileExt(broFile, '.idx')) then
+  //  FMessageList.AddInfo('CPT not yet indexed. This could take upto 5 minutes extra.');
   params := GetParams(inFile, outFolder);
   ExitCode := RunModule(progStr, params, '');
   if ExitCode <> 0 then
@@ -158,35 +158,24 @@ end;
 // -------------------------------------------------------------------------------------------------
 
 function TOursGroundCalculator.BroAvailable(out BroFile: string): Boolean;
-var
-  docFolder: string;
 begin
   Result := False;
 
-  // First search for 'brocpt.xml'. Could be located in the personal documents folder or in the
-  // common documents folder.
-  var userDoc := TOursFileUtils.DocumentsDir;
-  var commDoc := TOursFileUtils.CommonDocumentsDir;
+  var broFolder := TOursFileUtils.BroDir;
+  broFile := TOursFileUtils.BroFile;
 
-  if FileExists(commDoc + 'brocpt.xml') then begin
-    docFolder := commDoc;
-    broFile := commDoc + 'brocpt.xml';
-  end else if FileExists(userDoc + 'brocpt.xml') then begin
-    docFolder := userDoc;
-    broFile := userDoc + 'brocpt.xml';
-  end else begin
-    broFile := commDoc + broFile;
+  if not FileExists(broFile) then begin
     FMessageList.AddError(Format(rsDocFolderBroNotFound, [broFile]));
     Exit;
   end;
 
-  if not DirectoryExists(docFolder) then begin
-    FMessageList.AddError(Format(rsDocFolderNotFound, [docFolder]));
+  if not DirectoryExists(broFolder) then begin
+    FMessageList.AddError(Format(rsDocFolderNotFound, [broFolder]));
     Exit;
   end;
 
-  if not TOursFileUtils.IsFolderWriteable(docFolder) then begin
-    FMessageList.AddError(Format(rsDocFolderNotWritable, [docFolder]));
+  if not TOursFileUtils.IsFolderWriteable(broFolder) then begin
+    FMessageList.AddError(Format(rsDocFolderNotWritable, [broFolder]));
     Exit;
   end;
 

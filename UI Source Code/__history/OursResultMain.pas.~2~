@@ -207,10 +207,10 @@ begin
             '            {'                                                      + CRLF +
             '                "Vrms":' + Format('%.f', [Vrms]) + ','              + CRLF +
             '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ',' + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalZ) + ','   + CRLF +
-            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX) + ','   + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)    + CRLF +
+            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX)    + CRLF +
+            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalZ)    + CRLF +
+            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX)    + CRLF +
             '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)    + CRLF +
             '            }'                                                      + CRLF;
 end;
@@ -231,22 +231,6 @@ begin
 
   FVrms := Value.Vrms;
   FVrms_sigma := Value.Vrms_sigma;
-
-  SetLength(FVrms_spectraalX, Length(Value.Vrms_spectraalX));
-  for var i := 0 to Length(Value.Vrms_spectraalX)-1 do
-    FVrms_spectraalX[i] := Value.Vrms_spectraalX[i];
-
-  SetLength(FVrms_spectraalZ, Length(Value.Vrms_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_spectraalZ)-1 do
-    FVrms_spectraalZ[i] := Value.Vrms_spectraalZ[i];
-
-  SetLength(FVrms_sigma_spectraalX, Length(Value.Vrms_sigma_spectraalX));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalX)-1 do
-    FVrms_sigma_spectraalX[i] := Value.Vrms_sigma_spectraalX[i];
-
-  SetLength(FVrms_sigma_spectraalZ, Length(Value.Vrms_sigma_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalZ)-1 do
-    FVrms_sigma_spectraalZ[i] := Value.Vrms_sigma_spectraalZ[i];
 
   SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
   for var i := 0 to Length(Value.Variatiecoeffs)-1 do
@@ -287,8 +271,6 @@ begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
   FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
@@ -344,8 +326,6 @@ begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
   FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
