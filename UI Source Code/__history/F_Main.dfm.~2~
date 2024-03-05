@@ -68,8 +68,8 @@ object frmMain: TfrmMain
         object mmoInput: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -83,8 +83,8 @@ object frmMain: TfrmMain
         object mmoProject: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -98,8 +98,8 @@ object frmMain: TfrmMain
         object mmoReceptors: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -113,8 +113,8 @@ object frmMain: TfrmMain
         object mmoTracks: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -128,8 +128,8 @@ object frmMain: TfrmMain
         object mmoSources: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -143,8 +143,8 @@ object frmMain: TfrmMain
         object mmoGround: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -158,8 +158,8 @@ object frmMain: TfrmMain
         object mmoFem: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -188,8 +188,8 @@ object frmMain: TfrmMain
         object mmoUncertainty: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -203,8 +203,8 @@ object frmMain: TfrmMain
         object mmoBuilding: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -218,8 +218,8 @@ object frmMain: TfrmMain
         object mmoResults: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -233,8 +233,8 @@ object frmMain: TfrmMain
         object mmoOutput: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 1116
+          Height = 530
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
@@ -324,6 +324,17 @@ object frmMain: TfrmMain
     TabOrder = 3
     OnClick = btnCancelClick
   end
+  object btnProrail: TButton
+    Left = 985
+    Top = 767
+    Width = 120
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = 'Split Prorail data'
+    TabOrder = 4
+    Visible = False
+    OnClick = btnProrailClick
+  end
   object pnlButtons: TPanel
     Left = 0
     Top = 0
@@ -331,7 +342,7 @@ object frmMain: TfrmMain
     Height = 41
     Align = alTop
     BevelOuter = bvNone
-    TabOrder = 4
+    TabOrder = 5
     object btnOpen: TButton
       AlignWithMargins = True
       Left = 4

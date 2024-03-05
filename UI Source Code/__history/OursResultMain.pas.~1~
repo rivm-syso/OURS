@@ -18,14 +18,6 @@ type
   end;
 
 //--------------------------------------------------------------------------------------------------
-type
-  TOverzichtClass = class(TTrainClassPart)
-  private
-    FAantaltreinenpw: Extended;
-  public
-    property Aantaltreinen_pw: Extended read FAantaltreinenpw write FAantaltreinenpw;
-  end;
-
 
 type
   TMaaiveldClass = class(TTrainClassPart)
@@ -33,18 +25,10 @@ type
     FVrms: Extended;
     FVrms_sigma: Extended;
     FVariatiecoeffs: TArray<Extended>;
-    FVrms_spectraalX: TArray<Extended>;
-    FVrms_spectraalZ: TArray<Extended>;
-    FVrms_sigma_spectraalX: TArray<Extended>;
-    FVrms_sigma_spectraalZ: TArray<Extended>;
   public
     property Vrms: Extended read FVrms write FVrms;
     property Vrms_sigma: Extended read FVrms_sigma write FVrms_sigma;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vrms_spectraalX: TArray<Extended> read FVrms_spectraalX write FVrms_spectraalX;
-    property Vrms_spectraalZ: TArray<Extended> read FVrms_spectraalZ write FVrms_spectraalZ;
-    property Vrms_sigma_spectraalX: TArray<Extended> read FVrms_sigma_spectraalX write FVrms_sigma_spectraalX;
-    property Vrms_sigma_spectraalZ: TArray<Extended> read FVrms_sigma_spectraalZ write FVrms_sigma_spectraalZ;
 
     procedure Assign(Value: TMaaiveldClass);
 
@@ -64,8 +48,6 @@ type
     FVper: TArray<Extended>;
     FVper_sigma: TArray<Extended>;
     FVariatiecoeffs: TArray<Extended>;
-    FVmax_gemiddeld: Extended;
-    FVmax_gem_sigma: Extended;
   public
     property Vmax: Extended read FVmax write FVmax;
     property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
@@ -74,8 +56,6 @@ type
     property Vper: TArray<Extended> read FVper write FVper;
     property Vper_sigma: TArray<Extended> read FVper_sigma write FVper_sigma;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vmax_gemiddeld: Extended read FVmax_gemiddeld write FVmax_gemiddeld;
-    property Vmax_gem_sigma: Extended read FVmax_gem_sigma write FVmax_gem_sigma;
 
     procedure Assign(Value: TGebouwClass);
 
@@ -98,8 +78,6 @@ type
     FVtop_Vd: Extended;
     FVtop_sigma: Extended;
     FVariatiecoeffs: TArray<Extended>;
-    FVmax_gemiddeld: Extended;
-    FVmax_gem_sigma: Extended;
   public
     property Vmax: Extended read FVmax write FVmax;
     property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
@@ -111,8 +89,6 @@ type
     property Vtop_Vd: Extended read FVtop_Vd write FVtop_Vd;
     property Vtop_sigma: Extended read FVtop_sigma write FVtop_sigma;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vmax_gemiddeld: Extended read FVmax_gemiddeld write FVmax_gemiddeld;
-    property Vmax_gem_sigma: Extended read FVmax_gem_sigma write FVmax_gem_sigma;
 
     procedure Assign(Value: TFunderingClass);
 
@@ -207,11 +183,7 @@ begin
             '            {'                                                      + CRLF +
             '                "Vrms":' + Format('%.f', [Vrms]) + ','              + CRLF +
             '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ',' + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalZ) + ','   + CRLF +
-            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX) + ','   + CRLF +
-            '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)    + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)    + CRLF +
             '            }'                                                      + CRLF;
 end;
 
@@ -232,22 +204,6 @@ begin
   FVrms := Value.Vrms;
   FVrms_sigma := Value.Vrms_sigma;
 
-  SetLength(FVrms_spectraalX, Length(Value.Vrms_spectraalX));
-  for var i := 0 to Length(Value.Vrms_spectraalX)-1 do
-    FVrms_spectraalX[i] := Value.Vrms_spectraalX[i];
-
-  SetLength(FVrms_spectraalZ, Length(Value.Vrms_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_spectraalZ)-1 do
-    FVrms_spectraalZ[i] := Value.Vrms_spectraalZ[i];
-
-  SetLength(FVrms_sigma_spectraalX, Length(Value.Vrms_sigma_spectraalX));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalX)-1 do
-    FVrms_sigma_spectraalX[i] := Value.Vrms_sigma_spectraalX[i];
-
-  SetLength(FVrms_sigma_spectraalZ, Length(Value.Vrms_sigma_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalZ)-1 do
-    FVrms_sigma_spectraalZ[i] := Value.Vrms_sigma_spectraalZ[i];
-
   SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
   for var i := 0 to Length(Value.Variatiecoeffs)-1 do
     FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
@@ -261,8 +217,6 @@ function TGebouwClass.ToJsonString: string;
 begin
   Result := '            "Gebouw":'                                             + CRLF +
             '            {'                                                     + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','             + CRLF +
-            '                "Vmax_Sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','             + CRLF +
             '                "Vmax":' + Format('%.f', [Vmax]) + ','             + CRLF +
             '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
             '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
@@ -287,8 +241,6 @@ begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
   FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
@@ -315,8 +267,6 @@ function TFunderingClass.ToJsonString: string;
 begin
   Result := '            "Fundering":'                                          + CRLF +
             '            {'                                                     + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','             + CRLF +
-            '                "Vmax_Sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','             + CRLF +
             '                "Vmax":' + Format('%.f', [Vmax]) + ','             + CRLF +
             '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
             '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
@@ -344,8 +294,6 @@ begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
   FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
