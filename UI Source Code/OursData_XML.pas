@@ -395,6 +395,8 @@ begin
           SetText(trainClass.Fundering.Vtop_Vd.ToString);
         with tmpNode.AddChild('vtop_sigma', ntElement) do
           SetText(trainClass.Fundering.Vtop_sigma.ToString);
+        with tmpNode.AddChild('Maatgevende_cat', ntElement) do
+          SetText(trainClass.Fundering.Maatgevende_cat);
 
         var str := '';
         for var j := 0 to Length(trainClass.Fundering.variatiecoeffs)-1 do begin
@@ -418,6 +420,8 @@ begin
           SetText(trainClass.Gebouw.Vmax_gemiddeld.ToString); //niuew
         with tmpNode.AddChild('vmax_gem_sigma', ntElement) do // nieuw
           SetText(trainClass.Gebouw.Vmax_gem_sigma.ToString); // nieuw
+        with tmpNode.AddChild('maatgevende_cat', ntElement) do // nieuw
+          SetText(trainClass.Gebouw.Maatgevende_cat); // nieuw
 
         str := '';
         for var j := 0 to Length(trainClass.Gebouw.Vper)-1 do begin
@@ -451,6 +455,9 @@ begin
           SetText(trainClass.Maaiveld.Vrms.ToString);
         with tmpNode.AddChild('vrms_sigmax', ntElement) do
           SetText(trainClass.Maaiveld.Vrms_sigma.ToString);
+        with tmpNode.AddChild('Maatgevende_cat', ntElement) do
+          SetText(trainClass.Maaiveld.Maatgevende_cat);
+
 
          str := '';
         for var j := 0 to Length(trainClass.Maaiveld.vrms_spectraalX)-1 do begin

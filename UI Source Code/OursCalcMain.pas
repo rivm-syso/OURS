@@ -212,9 +212,7 @@ function TOursMainCalculator._treinklasse(AResults: TOursResults): string;
 begin
   Result := '';
   for var train in AResults.Source.TrainMeasurements do begin
-    var tmp := 1;
-    if train.Key.cat > 10 then
-      tmp := 2;
+    var tmp := train.Key.cat;
 
     if Result = '' then
       Result := Result + Format('%d', [tmp])
@@ -222,8 +220,6 @@ begin
       Result := Result + Format(', %d', [tmp]);
   end;
 end;
-
-
 
 // -------------------------------------------------------------------------------------------------
 
