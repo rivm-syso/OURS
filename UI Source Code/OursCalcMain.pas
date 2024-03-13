@@ -223,6 +223,8 @@ begin
   end;
 end;
 
+
+
 // -------------------------------------------------------------------------------------------------
 
 function TOursMainCalculator._brontype(AResults: TOursResults): string;
