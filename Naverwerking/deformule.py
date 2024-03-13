@@ -274,10 +274,11 @@ def CovariantProduct(X, cov_X, Y, cov_Y):  # X,Y,factor zijn vectoren
     return cov
 
 
-def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ):
+def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen_dagd):
     if len(Index) > 0:
 
         Aantaltreinen = np.sum(totaalaantaltreinen[Index])
+        Aantaltreinen_dagdeel =  np.sum(aantaltreinen_dagd[Index,:],axis = 0)
         # Berekenen gemiddelde van alle treincategorien voor de vloer
         Veffmax_gemiddeld = np.sum(np.log(Veffmax_vloer_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
         VmaxMu_gem = np.exp(Veffmax_gemiddeld + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
@@ -355,6 +356,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         Varcoef_maaiveld  = np.round(Varcoef_maaiveld,  decimals=2)
         Varcoef_fundering = np.round(Varcoef_fundering, decimals=2)
         Aantaltreinen     = np.round(Aantaltreinen,    decimals=1)
+        Aantaltreinen_dagdeel = np.round(Aantaltreinen_dagdeel,decimals=1)
         sigma_fundering_worstcase = np.round(sigma_fundering_worstcase, decimals=3)
         sigma_worstcase = np.round(sigma_worstcase, decimals=3)
         VmaxMu_gem = np.round(VmaxMu_gem, decimals=2)
@@ -387,12 +389,16 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         Vmax_funderingDir           = ''
         Vmax_funderingFdom          = ''
         Aantaltreinen               = np.zeros(1)
+        Aantaltreinen_dagdeel = np.zeros(3)
         sigma_fundering_worstcase   = np.zeros(1)
         sigma_worstcase             =  np.zeros(1)
         VmaxMu_gem                  =  np.zeros(1)
         VmaxMu_gem_fundering        =  np.zeros(1)
 
-    Aantaltreinen_dic = {'Aantaltreinen_pw': Aantaltreinen.item(0)}    
+    Aantaltreinen_dic = {'Aantaltreinen_pw': Aantaltreinen.item(0),
+                         'Aantaltreinen_dag':   Aantaltreinen_dagdeel.item(0),
+                         'Aantaltreinen_avond':   Aantaltreinen_dagdeel.item(1),
+                         'Aantaltreinen_nacht':   Aantaltreinen_dagdeel.item(2)}    
     Maaiveld  = {'Vrms':           Vrms_maaiveldMu.item(0), 
                     'Vrms_sigma':     Vrms_maaiveldSig.item(0),
                     'variatiecoeffs': Varcoef_maaiveld.tolist(),          # op termijn hier baan-bodem interactie
@@ -423,6 +429,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
                     'Vmax_gem_sigma': sigma_worstcase.item(0)}
     
     Resultaten = {'Overzicht': Aantaltreinen_dic, 'Maaiveld': Maaiveld, 'Fundering': Fundering, 'Gebouw': Gebouw}  
+    #Resultaten = {'Maaiveld': Maaiveld, 'Fundering': Fundering, 'Gebouw': Gebouw}  
         
     return Resultaten
 
@@ -907,9 +914,9 @@ def deformule(Bron,FEM,Hgebouw,Overig):
 
 
     ## Hier wordt alle output samengesteld en wordt ook Vmax,bts berekend ipv veffmax gemiddeld over de treintypes.
-    ResultatenReizigers   = OutputSamenstellen(IndexReizigers,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ)
-    ResultatenGoederen    = OutputSamenstellen(IndexGoederen,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ)              
-    ResultatenAlleTreinen = OutputSamenstellen(IndexAlles,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ)                  
+    ResultatenReizigers   = OutputSamenstellen(IndexReizigers,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)
+    ResultatenGoederen    = OutputSamenstellen(IndexGoederen,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)              
+    ResultatenAlleTreinen = OutputSamenstellen(IndexAlles,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)                  
       
     Resultaten = { 'AlleTreinen': ResultatenAlleTreinen,      
                    'Reizigers':   ResultatenReizigers,
@@ -954,9 +961,6 @@ def write_json(file_name, VmaxEtc):
     return
 
     
-
-
-  
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--json', help='input JSON file', required=True)
@@ -967,11 +971,10 @@ if __name__ == "__main__":
     uitfile = os.path.join(args.output,"deformuleUit.json");                    
     # NB: error -1 nog afvangen     
     write_json(uitfile,Uitvoer);                                           # write output to json file 
-
-  
+ 
 
 #Invoer  = read_json("INPUTjson_case7_deltaris_combined.json");                                        # reads input json file
-#Invoer  = read_json("input2.json");
+#Invoer  = read_json("Source1_Meting7_invoer.json");
 #Uitvoer = deformule(Invoer["Bron"],Invoer["FEM"],Invoer["Hgebouw"],Invoer["Overig"]);   # do the work
 #uitfile = "UitvoerAangepast.json"                 
 # NB: error -1 nog afvangen     

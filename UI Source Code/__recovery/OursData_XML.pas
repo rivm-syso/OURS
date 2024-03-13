@@ -330,7 +330,7 @@ function TOursProjectHelper.ResultsToXML: TXmlVerySimple;
 begin
   Result := TXmlVerySimple.Create;
   Result.Encoding := 'utf-8';
-  Result.AddChild('OURS_Output').SetAttribute('version', 'V2.0');
+  Result.AddChild('OURS_Output').SetAttribute('version', 'V2.1');
 
   var Node := Result.DocumentElement.AddChild('Project', ntElement);
   Node.Attributes['name'] := name;
