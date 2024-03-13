@@ -18,14 +18,28 @@ type
   end;
 
 //--------------------------------------------------------------------------------------------------
+
+
 type
   TOverzichtClass = class(TTrainClassPart)
   private
-    FAantaltreinenpw: Extended;
+    FAantaltreinen_pw: Extended;
+    FAantaltreinen_dag: Extended;
+    FAantaltreinen_avond: Extended;
+    FAantaltreinen_nacht: Extended;
   public
-    property Aantaltreinen_pw: Extended read FAantaltreinenpw write FAantaltreinenpw;
+    property Aantaltreinen_pw: Extended read FAantaltreinen_pw write FAantaltreinen_pw;
+    property Aantaltreinen_dag: Extended read FAantaltreinen_dag write FAantaltreinen_dag;
+    property Aantaltreinen_avond: Extended read FAantaltreinen_avond write FAantaltreinen_avond;
+    property Aantaltreinen_nacht: Extended read FAantaltreinen_nacht write FAantaltreinen_nacht;
+
+    procedure Assign(Value: TOverzichtClass);
+
+    function ToJsonString: string;
+    class function FromJsonString(AJsonString: string): TOverzichtClass;
   end;
 
+//--------------------------------------------------------------------------------------------------
 
 type
   TMaaiveldClass = class(TTrainClassPart)
@@ -128,10 +142,12 @@ type
     FFundering: TFunderingClass;
     FGebouw: TGebouwClass;
     FMaaiveld: TMaaiveldClass;
+    FOverzicht: TOverzichtClass;
   public
     property Fundering: TFunderingClass read FFundering write FFundering;
     property Gebouw: TGebouwClass read FGebouw write FGebouw;
     property Maaiveld: TMaaiveldClass read FMaaiveld write FMaaiveld;
+    property Overzicht: TOverzichtClass read FOverzicht write FOverzicht;
 
     constructor Create;
     destructor Destroy; override;
@@ -141,7 +157,6 @@ type
     function ToJsonString: string;
     class function FromJsonString(AJsonString: string): TTrainClass;
   end;
-
 //--------------------------------------------------------------------------------------------------
 
 type
@@ -198,6 +213,40 @@ begin
 end;
 
 //==================================================================================================
+// TOverzichtClass
+//==================================================================================================
+
+function TOverzichtClass.ToJsonString: string;
+begin
+  Result := '            "Overzicht":'                   + CRLF +
+            '            {'                              + CRLF +
+            '                "Aantaltreinen_pw":' + Format('%.f', [Aantaltreinen_pw])+ ',' + CRLF +
+            '                "Aantaltreinen_dag":' + Format('%.f', [Aantaltreinen_dag])+ ',' + CRLF +
+            '                "Aantaltreinen_avond":' + Format('%.f', [Aantaltreinen_avond])+ ',' + CRLF +
+            '                "Aantaltreinen_nacht":' + Format('%.f', [Aantaltreinen_nacht]) + CRLF +
+            '            }'                              + CRLF;
+end;
+
+//--------------------------------------------------------------------------------------------------
+class function TOverzichtClass.FromJsonString(AJsonString: string): TOverzichtClass;
+begin
+  Result := TJson.JsonToObject<TOverzichtClass>(AJsonString)
+end;
+
+//--------------------------------------------------------------------------------------------------
+
+procedure TOverzichtClass.Assign(Value: TOverzichtClass);
+begin
+  if not Assigned(Value) then
+    Exit;
+
+    FAantaltreinen_pw := Value.Aantaltreinen_pw;
+    FAantaltreinen_dag := Value.Aantaltreinen_dag;
+    FAantaltreinen_avond := Value.Aantaltreinen_avond;
+    FAantaltreinen_nacht := Value.Aantaltreinen_nacht;
+end;
+
+//==================================================================================================
 // TMaaiveldClass
 //==================================================================================================
 
@@ -207,6 +256,7 @@ begin
             '            {'                                                      + CRLF +
             '                "Vrms":' + Format('%.f', [Vrms]) + ','              + CRLF +
             '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ',' + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)    + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs) + ','   + CRLF +
             '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX) + ','   + CRLF +
             '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalZ) + ','   + CRLF +
@@ -214,6 +264,7 @@ begin
             '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)    + CRLF +
             '            }'                                                      + CRLF;
 end;
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -232,6 +283,10 @@ begin
   FVrms := Value.Vrms;
   FVrms_sigma := Value.Vrms_sigma;
 
+  SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
+  for var i := 0 to Length(Value.Variatiecoeffs)-1 do
+    FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
+
   SetLength(FVrms_spectraalX, Length(Value.Vrms_spectraalX));
   for var i := 0 to Length(Value.Vrms_spectraalX)-1 do
     FVrms_spectraalX[i] := Value.Vrms_spectraalX[i];
@@ -247,10 +302,6 @@ begin
   SetLength(FVrms_sigma_spectraalZ, Length(Value.Vrms_sigma_spectraalZ));
   for var i := 0 to Length(Value.Vrms_sigma_spectraalZ)-1 do
     FVrms_sigma_spectraalZ[i] := Value.Vrms_sigma_spectraalZ[i];
-
-  SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
-  for var i := 0 to Length(Value.Variatiecoeffs)-1 do
-    FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
 end;
 
 //==================================================================================================
@@ -286,7 +337,6 @@ procedure TGebouwClass.Assign(Value: TGebouwClass);
 begin
   if not Assigned(Value) then
     Exit;
-
   FVmax_gemiddeld := Value.Vmax_gemiddeld;
   FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
@@ -330,6 +380,7 @@ begin
             '            }'                                                     + CRLF;
 end;
 
+
 //--------------------------------------------------------------------------------------------------
 
 class function TFunderingClass.FromJsonString(AJsonString: string): TFunderingClass;
@@ -368,6 +419,7 @@ end;
 constructor TTrainClass.Create;
 begin
   inherited;
+  FOverzicht := TOverzichtClass.Create();
   FFundering := TFunderingClass.Create();
   FGebouw := TGebouwClass.Create();
   FMaaiveld := TMaaiveldClass.Create();
@@ -377,6 +429,8 @@ end;
 
 destructor TTrainClass.Destroy;
 begin
+
+  FOverzicht.Free;
   FFundering.Free;
   FGebouw.Free;
   FMaaiveld.Free;
@@ -387,10 +441,12 @@ end;
 
 function TTrainClass.ToJsonString: string;
 begin
-  Result := FFundering.ToJsonString +
+  Result := FOverzicht.ToJsonString +
+            FFundering.ToJsonString +
             FGebouw.ToJsonString +
             FMaaiveld.ToJsonString;
 end;
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -406,6 +462,7 @@ begin
   if not Assigned(Value) then
     Exit;
 
+  FOverzicht.Assign(Value.Overzicht);
   FFundering.Assign(Value.Fundering);
   FGebouw.Assign(Value.Gebouw);
   FMaaiveld.Assign(Value.Maaiveld);
