@@ -46,6 +46,7 @@ type
   private
     FVrms: Extended;
     FVrms_sigma: Extended;
+    FMaatgevende_cat: String;
     FVariatiecoeffs: TArray<Extended>;
     FVrms_spectraalX: TArray<Extended>;
     FVrms_spectraalZ: TArray<Extended>;
@@ -54,6 +55,7 @@ type
   public
     property Vrms: Extended read FVrms write FVrms;
     property Vrms_sigma: Extended read FVrms_sigma write FVrms_sigma;
+    property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
     property Vrms_spectraalX: TArray<Extended> read FVrms_spectraalX write FVrms_spectraalX;
     property Vrms_spectraalZ: TArray<Extended> read FVrms_spectraalZ write FVrms_spectraalZ;
@@ -75,6 +77,7 @@ type
     FVmax_Dir: String;
     FVmax_Fdom: String;
     FVmax_sigma: Extended;
+    FMaatgevende_cat: String;
     FVper: TArray<Extended>;
     FVper_sigma: TArray<Extended>;
     FVariatiecoeffs: TArray<Extended>;
@@ -83,6 +86,7 @@ type
   public
     property Vmax: Extended read FVmax write FVmax;
     property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
+    property Maatgevende_cat: STring read FMaatgevende_cat write FMaatgevende_cat;
     property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
     property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
     property Vper: TArray<Extended> read FVper write FVper;
@@ -106,6 +110,7 @@ type
     FVmax_Dir: String;
     FVmax_Fdom: String;
     FVmax_sigma: Extended;
+    FMaatgevende_cat: String;
     FVtop: Extended;
     FVtop_Dir: String;
     FVtop_Fdom: String;
@@ -119,6 +124,7 @@ type
     property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
     property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
     property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
+    property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
     property Vtop: Extended read FVtop write FVtop;
     property Vtop_Dir: String read FVtop_Dir write FVtop_Dir;
     property Vtop_Fdom: String read FVtop_Fdom write FVtop_Fdom;
@@ -256,6 +262,7 @@ begin
             '            {'                                                      + CRLF +
             '                "Vrms":' + Format('%.f', [Vrms]) + ','              + CRLF +
             '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ',' + CRLF +
+            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)    + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs) + ','   + CRLF +
             '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX) + ','   + CRLF +
@@ -282,6 +289,7 @@ begin
 
   FVrms := Value.Vrms;
   FVrms_sigma := Value.Vrms_sigma;
+  FMaatgevende_cat := Value.Maatgevende_cat;
 
   SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
   for var i := 0 to Length(Value.Variatiecoeffs)-1 do
@@ -318,6 +326,7 @@ begin
             '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
             '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
             '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ',' + CRLF +
+            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
             '                "Vper":' + ArrayToJSON(Vper) + ','                 + CRLF +
             '                "Vper_sigma":' + ArrayToJSON(Vper_sigma) + ','     + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)   + CRLF +
@@ -343,6 +352,7 @@ begin
   FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
   FVmax_sigma := Value.Vmax_sigma;
+  FMaatgevende_cat := Value.Maatgevende_cat;
 
   SetLength(FVper, Length(Value.Vper));
   for var i := 0 to Length(Value.Vper)-1 do
@@ -371,6 +381,7 @@ begin
             '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
             '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
             '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ',' + CRLF +
+            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
             '                "Vtop":' + Format('%.f', [Vtop]) + ','             + CRLF +
             '                "Vtop_Dir":"' + Vtop_Dir + '",'                    + CRLF +
             '                "Vtop_Fdom":"' + Vtop_Fdom + '",'                  + CRLF +
@@ -406,6 +417,7 @@ begin
   FVtop_Fdom := Value.Vtop_Fdom;
   FVtop_Vd := Value.Vtop_Vd;
   FVtop_sigma := Value.Vtop_sigma;
+  FMaatgevende_cat := Value.Maatgevende_cat;
 
   SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
   for var i := 0 to Length(Value.Variatiecoeffs)-1 do
