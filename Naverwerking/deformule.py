@@ -274,28 +274,34 @@ def CovariantProduct(X, cov_X, Y, cov_Y):  # X,Y,factor zijn vectoren
     return cov
 
 
-def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen_dagd):
+def OutputSamenstellen(treinklasse,Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen_dagd):
     if len(Index) > 0:
 
         Aantaltreinen = np.sum(totaalaantaltreinen[Index])
         Aantaltreinen_dagdeel =  np.sum(aantaltreinen_dagd[Index,:],axis = 0)
-        # Berekenen gemiddelde van alle treincategorien voor de vloer
-        Veffmax_gemiddeld = np.sum(np.log(Veffmax_vloer_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-        VmaxMu_gem = np.exp(Veffmax_gemiddeld + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-        # Bereken gemiddel van alle treincategorien voor de fundering
-        Veffmax_gemiddeld_fundering = np.sum(np.log(Veffmax_fundering_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-        VmaxMu_gem_fundering = np.exp(Veffmax_gemiddeld_fundering + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-       
-        # standardeviation average van fundering
-        Veffmax_fundering_worstcase = Veffmax_fundering_treintype + Veffmax_fundering_treintype*Vmax_funderingVars
-        Veffmax_gemiddeld_fundering_worstcase = np.sum(np.log(Veffmax_fundering_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-        VmaxMu_gem_fundering_worstcase = np.exp(Veffmax_gemiddeld_fundering_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-        sigma_fundering_worstcase = VmaxMu_gem_fundering_worstcase-VmaxMu_gem_fundering
-        # standardeviation average van vloer 
-        Veffmax_worstcase = Veffmax_vloer_treintype + Veffmax_vloer_treintype*VmaxVars
-        Veffmax_gemiddeld_worstcase = np.sum(np.log(Veffmax_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-        VmaxMu_gem_worstcase = np.exp(Veffmax_gemiddeld_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-        sigma_worstcase = VmaxMu_gem_worstcase-VmaxMu_gem
+    
+        if np.sum(totaalaantaltreinen[Index]) > 1:
+            # Berekenen gemiddelde van alle treincategorien voor de vloer
+            Veffmax_gemiddeld = np.sum(np.log(Veffmax_vloer_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
+            VmaxMu_gem = np.exp(Veffmax_gemiddeld + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
+            # Bereken gemiddel van alle treincategorien voor de fundering
+            Veffmax_gemiddeld_fundering = np.sum(np.log(Veffmax_fundering_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
+            VmaxMu_gem_fundering = np.exp(Veffmax_gemiddeld_fundering + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
+            # standardeviation average van fundering
+            Veffmax_fundering_worstcase = Veffmax_fundering_treintype + Veffmax_fundering_treintype*Vmax_funderingVars
+            Veffmax_gemiddeld_fundering_worstcase = np.sum(np.log(Veffmax_fundering_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
+            VmaxMu_gem_fundering_worstcase = np.exp(Veffmax_gemiddeld_fundering_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
+            sigma_fundering_worstcase = VmaxMu_gem_fundering_worstcase-VmaxMu_gem_fundering
+            # standardeviation average van vloer 
+            Veffmax_worstcase = Veffmax_vloer_treintype + Veffmax_vloer_treintype*VmaxVars
+            Veffmax_gemiddeld_worstcase = np.sum(np.log(Veffmax_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
+            VmaxMu_gem_worstcase = np.exp(Veffmax_gemiddeld_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
+            sigma_worstcase = VmaxMu_gem_worstcase-VmaxMu_gem
+        else:
+            VmaxMu_gem = 0  # anders krijg je NaN waarde door de stat.t.ppf
+            VmaxMu_gem_fundering = 0
+            sigma_fundering_worstcase = 0
+            sigma_worstcase = 0
 
         VperSigs          = VperVars[Index] * VperMus[Index]
         VperSig           = np.sqrt(np.sum(VperSigs**2 * VperMus[Index]**2,axis=0) / np.sum(1e-18 + VperMus[Index]**2,axis=0))
@@ -303,6 +309,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         
         VmaxMu            = np.max(VmaxMus[Index])
         Imax              = Index[np.argmax(VmaxMus[Index])]  
+        Maatgevende_klasse_vloer = treinklasse[Imax]
         VmaxSig           = VmaxMu*VmaxVars[Imax]
         VmaxDir           = VmaxDirs[Imax]
         VmaxFdom          = VmaxFdoms[Imax] 
@@ -319,12 +326,14 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         VtopFdom          = VtopFdoms[Imax]
         
         Vmax_funderingMu  = Vmax_funderingMus[Imax]
+        Maatgevende_klasse_fundering = treinklasse[Imax]
         Vmax_funderingSig = Vmax_funderingMu * Vmax_funderingVars[Imax]
         Vmax_funderingDir = Vmax_funderingDirs[Imax]
         Vmax_funderingFdom = Vmax_funderingFdoms[Imax]
         
         Vrms_maaiveldMu   = np.max(Vrms_maaiveldMus[Index])
         Imax              = Index[np.argmax(Vrms_maaiveldMus[Index])]  
+        Maatgevende_klasse_maaiveld = treinklasse[Imax]
         Vrms_maaiveldSig  = Vrms_maaiveldVars[Imax] * Vrms_maaiveldMu
         Imax            = np.argmax(Vrms_maaiveldspectraalX[:,Index],axis = 1)   
         Vrmsmax_maaiveldspectraalX = np.max(Vrms_maaiveldspectraalX[:,Index],axis = 1)   # maximale waarde van de categorie per frequentie
@@ -334,8 +343,9 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         Sigmamax_maaiveld_spectraalZ = Sigma_maaiveld_spectraalZ[np.arange(Sigma_maaiveld_spectraalZ.shape[0]),Imax]
 
         
-        
-        
+        Maatgevende_klasse_maaiveld = str(Maatgevende_klasse_maaiveld)  # string van maken
+        Maatgevende_klasse_vloer = str(Maatgevende_klasse_vloer)
+        Maatgevende_klasse_fundering = str(Maatgevende_klasse_fundering)
         VmaxMu            = np.round(VmaxMu,            decimals=2)
         VmaxSig           = np.round(VmaxSig,           decimals=3)
         Vrms_maaiveldMu   = np.round(Vrms_maaiveldMu,   decimals=2)
@@ -388,6 +398,9 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
         VtopFdom                    = ''
         Vmax_funderingDir           = ''
         Vmax_funderingFdom          = ''
+        Maatgevende_klasse_fundering = '' 
+        Maatgevende_klasse_maaiveld = ''
+        Maatgevende_klasse_vloer    = ''
         Aantaltreinen               = np.zeros(1)
         Aantaltreinen_dagdeel = np.zeros(3)
         sigma_fundering_worstcase   = np.zeros(1)
@@ -401,6 +414,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
                          'Aantaltreinen_nacht':   Aantaltreinen_dagdeel.item(2)}    
     Maaiveld  = {'Vrms':           Vrms_maaiveldMu.item(0), 
                     'Vrms_sigma':     Vrms_maaiveldSig.item(0),
+                    'Maatgevende_cat': Maatgevende_klasse_maaiveld,
                     'variatiecoeffs': Varcoef_maaiveld.tolist(),          # op termijn hier baan-bodem interactie
                     'Vrms_spectraalX': Vrmsmax_maaiveldspectraalX.tolist(),
                     'Vrms_spectraalZ': Vrmsmax_maaiveldspectraalZ.tolist(),
@@ -408,6 +422,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
                     'Vrms_sigma_spectraalZ': Sigmamax_maaiveld_spectraalZ.tolist()}
     Fundering = {'Vmax':           Vmax_funderingMu.item(0),
                     'Vmax_sigma':     Vmax_funderingSig.item(0),
+                    'Maatgevende_cat': Maatgevende_klasse_fundering,
                     'Vtop':           VtopMu.item(0),
                     'Vtop_sigma':     VtopSig.item(0),
                     'Vtop_Vd':        VtopVd.item(0),
@@ -420,6 +435,7 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
                     'Vmax_gem_sigma': sigma_fundering_worstcase.item(0)}
     Gebouw    = {'Vmax':           VmaxMu.item(0),       # tolist maakt van np array een gewone array ?
                     'Vmax_sigma':     VmaxSig.item(0),
+                    'Maatgevende_cat': Maatgevende_klasse_vloer,
                     'Vper':           VperMu.tolist(),
                     'Vper_sigma':     VperSig.tolist(),
                     'Vmax_Dir':       VmaxDir,
@@ -429,10 +445,8 @@ def OutputSamenstellen(Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX
                     'Vmax_gem_sigma': sigma_worstcase.item(0)}
     
     Resultaten = {'Overzicht': Aantaltreinen_dic, 'Maaiveld': Maaiveld, 'Fundering': Fundering, 'Gebouw': Gebouw}  
-    #Resultaten = {'Maaiveld': Maaiveld, 'Fundering': Fundering, 'Gebouw': Gebouw}  
         
     return Resultaten
-
 
 def deformule(Bron,FEM,Hgebouw,Overig):
     ## dit is de hoofd functie
@@ -908,16 +922,16 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         Varcoefs[treintypenr] = np.sum(Varcoefss *scenarioKansen, axis=1)
 
     # resultaten van alle treintypes samenbrengen, per treinklasse
-    IndexReizigers = [i for i,e in enumerate(treinklasse) if e==1]
-    IndexGoederen  = [i for i,e in enumerate(treinklasse) if e==2]
+    IndexReizigers = [i for i,e in enumerate(treinklasse) if e<=10]
+    IndexGoederen  = [i for i,e in enumerate(treinklasse) if e>10]
     IndexAlles     = range(aantaltreintypes)
 
 
     ## Hier wordt alle output samengesteld en wordt ook Vmax,bts berekend ipv veffmax gemiddeld over de treintypes.
-    ResultatenReizigers   = OutputSamenstellen(IndexReizigers,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)
-    ResultatenGoederen    = OutputSamenstellen(IndexGoederen,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)              
-    ResultatenAlleTreinen = OutputSamenstellen(IndexAlles,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)                  
-      
+    ResultatenReizigers   = OutputSamenstellen(treinklasse,IndexReizigers,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)
+    ResultatenGoederen    = OutputSamenstellen(treinklasse,IndexGoederen,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)              
+    ResultatenAlleTreinen = OutputSamenstellen(treinklasse,IndexAlles,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)                  
+     
     Resultaten = { 'AlleTreinen': ResultatenAlleTreinen,      
                    'Reizigers':   ResultatenReizigers,
                    'Goederen':    ResultatenGoederen}
