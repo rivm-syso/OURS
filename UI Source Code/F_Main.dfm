@@ -179,6 +179,7 @@ object frmMain: TfrmMain
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
+          ExplicitTop = 4
         end
       end
       object tabUncertainty: TTabSheet

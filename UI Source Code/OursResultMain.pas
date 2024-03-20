@@ -224,13 +224,13 @@ end;
 
 function TOverzichtClass.ToJsonString: string;
 begin
-  Result := '            "Overzicht":'                   + CRLF +
-            '            {'                              + CRLF +
-            '                "Aantaltreinen_pw":' + Format('%.f', [Aantaltreinen_pw])+ ',' + CRLF +
-            '                "Aantaltreinen_dag":' + Format('%.f', [Aantaltreinen_dag])+ ',' + CRLF +
+  Result := '            "Overzicht":'                                                           + CRLF +
+            '            {'                                                                      + CRLF +
+            '                "Aantaltreinen_pw":' + Format('%.f', [Aantaltreinen_pw])+ ','       + CRLF +
+            '                "Aantaltreinen_dag":' + Format('%.f', [Aantaltreinen_dag])+ ','     + CRLF +
             '                "Aantaltreinen_avond":' + Format('%.f', [Aantaltreinen_avond])+ ',' + CRLF +
-            '                "Aantaltreinen_nacht":' + Format('%.f', [Aantaltreinen_nacht]) + CRLF +
-            '            }'                              + CRLF;
+            '                "Aantaltreinen_nacht":' + Format('%.f', [Aantaltreinen_nacht])      + CRLF +
+            '            }'                                                                      + CRLF;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -258,18 +258,17 @@ end;
 
 function TMaaiveldClass.ToJsonString: string;
 begin
-  Result := '            "Maaiveld":'                                            + CRLF +
-            '            {'                                                      + CRLF +
-            '                "Vrms":' + Format('%.f', [Vrms]) + ','              + CRLF +
-            '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ',' + CRLF +
-            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)    + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalX) + ','   + CRLF +
-            '                "Vrms_spectraal_X":' + ArrayToJSON(Vrms_spectraalZ) + ','   + CRLF +
-            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX) + ','   + CRLF +
-            '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)    + CRLF +
-            '            }'                                                      + CRLF;
+  Result := '            "Maaiveld":'                                                             + CRLF +
+            '            {'                                                                       + CRLF +
+            '                "Vrms":' + Format('%.f', [Vrms]) + ','                               + CRLF +
+            '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ','                  + CRLF +
+            '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)                     + CRLF +
+            '                "Vrms_spectraalX":' + ArrayToJSON(Vrms_spectraalX) + ','             + CRLF +
+            '                "Vrms_spectraalZ":' + ArrayToJSON(Vrms_spectraalZ) + ','             + CRLF +
+            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX) + ',' + CRLF +
+            '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)       + CRLF +
+            '            }'                                                                       + CRLF;
 end;
 
 
@@ -318,19 +317,19 @@ end;
 
 function TGebouwClass.ToJsonString: string;
 begin
-  Result := '            "Gebouw":'                                             + CRLF +
-            '            {'                                                     + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','             + CRLF +
-            '                "Vmax_Sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','             + CRLF +
-            '                "Vmax":' + Format('%.f', [Vmax]) + ','             + CRLF +
-            '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
-            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ',' + CRLF +
-            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
-            '                "Vper":' + ArrayToJSON(Vper) + ','                 + CRLF +
-            '                "Vper_sigma":' + ArrayToJSON(Vper_sigma) + ','     + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)   + CRLF +
-            '            }'                                                     + CRLF;
+  Result := '            "Gebouw":'                                                              + CRLF +
+            '            {'                                                                      + CRLF +
+            '                "Vmax":' + Format('%.f', [Vmax]) + ','                              + CRLF +
+            '                "Vmax_Dir":"' + Vmax_Dir + '",'                                     + CRLF +
+            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                   + CRLF +
+            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                  + CRLF +
+            '                "maatgevende_cat":' + Maatgevende_cat  + ','                        + CRLF +
+            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','       + CRLF +
+            '                "Vmax_sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ',' + CRLF +
+            '                "Vper":' + ArrayToJSON(Vper) + ','                                  + CRLF +
+            '                "Vper_sigma":' + ArrayToJSON(Vper_sigma) + ','                      + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                    + CRLF +
+            '            }'                                                                      + CRLF;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -373,22 +372,22 @@ end;
 
 function TFunderingClass.ToJsonString: string;
 begin
-  Result := '            "Fundering":'                                          + CRLF +
-            '            {'                                                     + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','             + CRLF +
-            '                "Vmax_Sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','             + CRLF +
-            '                "Vmax":' + Format('%.f', [Vmax]) + ','             + CRLF +
-            '                "Vmax_Dir":"' + Vmax_Dir + '",'                    + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                  + CRLF +
-            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ',' + CRLF +
-            '                "Maatgevende_cat":' + Maatgevende_cat  + ',' + CRLF +
-            '                "Vtop":' + Format('%.f', [Vtop]) + ','             + CRLF +
-            '                "Vtop_Dir":"' + Vtop_Dir + '",'                    + CRLF +
-            '                "Vtop_Fdom":"' + Vtop_Fdom + '",'                  + CRLF +
-            '                "Vtop_Vd":' + Format('%.f', [Vtop_Vd]) + ','       + CRLF +
-            '                "Vtop_sigma":' + Format('%.f', [Vtop_sigma]) + ',' + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)   + CRLF +
-            '            }'                                                     + CRLF;
+  Result := '            "Fundering":'                                                            + CRLF +
+            '            {'                                                                       + CRLF +
+            '                "Vmax":' + Format('%.f', [Vmax]) + ','                               + CRLF +
+            '                "Vmax_Dir":"' + Vmax_Dir + '",'                                      + CRLF +
+            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                    + CRLF +
+            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                   + CRLF +
+            '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
+            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','        + CRLF +
+            '                "Vmax_sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','  + CRLF +
+            '                "Vtop":' + Format('%.f', [Vtop]) + ','                               + CRLF +
+            '                "Vtop_Dir":"' + Vtop_Dir + '",'                                      + CRLF +
+            '                "Vtop_Fdom":"' + Vtop_Fdom + '",'                                    + CRLF +
+            '                "Vtop_Vd":' + Format('%.f', [Vtop_Vd]) + ','                         + CRLF +
+            '                "Vtop_sigma":' + Format('%.f', [Vtop_sigma]) + ','                   + CRLF +
+            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                     + CRLF +
+            '            }'                                                                       + CRLF;
 end;
 
 
