@@ -27,31 +27,33 @@ MCgrootte    = 3*333;   # streven: 333
 np.random.seed(1234);   # om te zorgen voor steeds dezelfde output, laatste cijfer kan nl. wat zwabberen
 
 # rekenwaardes
-gebouwdichtheid          = 300;  # kg/m3
-zetaOnbekend             = .06;  # wordt overschreven indien hout bekend is
-zetaHout                 = .07;
-zetaBeton                = .05;
-var_gebouwdichtheid      = .1 ;
-var_zetaOnbekend         = .2 ;
-var_zetaHout             = .1 ;
-var_zetaBeton            = .1 ;
+gebouwdichtheid          = 300      # kg/m3
+zetaOnbekend             =    .06   # wordt overschreven indien hout bekend is
+zetaHout                 =    .07
+zetaBeton                =    .05
+var_gebouwdichtheid      =    .1 
+var_zetaOnbekend         =    .2 
+var_zetaHout             =    .1 
+var_zetaBeton            =    .1 
 
 # defaultwaardes, voor als gebruiker niets invoert
-StandaardWandlengte          =  10;  # meter, diepte van de woning
-StandaardGevellengte         =   6;  # meter
-StandaardAantalBouwlagen     =   2;  # 2, dus BG en eerste verdieping (zonder dak)
-StandaardGebouwHoogte        =   5.6;# meter 5.6
-StandaardGebouwC1Hz          = 180;  # m/s, buiggolfsnelheid, over de hoogte van het gebouw, bij 1Hz
-StandaardVloerHoogte         =   2.8;  # eerste verdieping
-StandaardVar_wandlengte      =   1;  # in meters,  2*std
-StandaardVar_gevellengte     =   1;  # in meters, 2*std
-StandaardVar_aantalBouwlagen =   1;  # in aantalverdiepingen,  2*std
-StandaardVar_frequenties     =   .1;  # voor zowel Mid- als Quarterspan
-StandaardVar_gebouwHoogte    =  2.8;# in meters,  2*std
-StandaardVar_gebouwC1Hz      =   50; # in meters, 2*std
-StandaardVar_vloerHoogte     =  2.8; # in meters,  2*std
-StandaardVloeroverspanningHout  = 4;
-StandaardVloeroverspanningBeton = 6;
+StandaardWandlengte          =  10   # meter, diepte van de woning
+StandaardGevellengte         =   6   # meter
+StandaardAantalBouwlagen     =   2   # 2, dus BG en eerste verdieping (zonder dak)
+StandaardGebouwHoogte        =   5.6 # meter 5.6
+StandaardGebouwCbuig1Hz      = 180   # m/s, buiggolfsnelheid, over de hoogte van het gebouw, bij 1Hz  REFERENTIE!!
+StandaardGebouwClong         = 1E4   # m/s, compressiegolfsnelheid, sqrt(betonYoungs/gebouwdichtheid)
+StandaardVloerHoogte         =   2.8 # eerste verdieping
+StandaardVar_wandlengte      =   1   # in meters,  2*std
+StandaardVar_gevellengte     =   1   # in meters, 2*std
+StandaardVar_aantalBouwlagen =   1   # in aantalverdiepingen,  2*std
+StandaardVar_frequenties     =    .1 # voor zowel Mid- als Quarterspan
+StandaardVar_gebouwHoogte    =   2.8 # in meters,  2*std
+StandaardVar_gebouwCbuig1Hz  =  60   # in meters, 2*std
+StandaardVar_gebouwClong     = 3E3   # in meters, 2*std
+StandaardVar_vloerHoogte     =   2.8 # in meters,  2*std
+StandaardVloeroverspanningHout  = 4
+StandaardVloeroverspanningBeton = 6
 # onzekerheden over vloerfrequenties, indien die freqs nog berekend moeten worden
 var_MS = .3;        
 var_QS = .3;        
@@ -124,27 +126,43 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     if var_gebouwHoogte==0:
        var_gebouwHoogte=.01;    
     
+    # buiggolfsnelheid van gebouw, Cbuig, @1Hz, bepalen
     if "gebouwBuigfrequentie" in Gebouw:        # in Hz
         gebouwBuigfrequentie = np.array(Gebouw["gebouwBuigfrequentie"]); 
     else:
         gebouwBuigfrequentie = [];    
     if len(gebouwBuigfrequentie)==0: 
-        gebouwC1Hz     = StandaardGebouwC1Hz;
-        var_gebouwC1Hz = StandaardVar_gebouwC1Hz; 
-    else:
-        gebouwC1Hz = 4*gebouwHoogte*np.sqrt(gebouwBuigfrequentie);
+        gebouwCbuig1Hz     = StandaardGebouwCbuig1Hz;
+        var_gebouwCbuig1Hz = StandaardVar_gebouwCbuig1Hz; 
+    else:    # berekenn Cbuig @ 1Hz uit gebouwBuigfrequentie
+        gebouwCbuig1Hz = 4*gebouwHoogte*np.sqrt(gebouwBuigfrequentie);
         if "var_gebouwBuigfrequentie" in Gebouw:      # in Hz, 2*std
             var_gebouwBuigfrequentie = np.array(Gebouw["var_gebouwBuigfrequentie"]); 
         else:
             var_gebouwBuigfrequentie = [];
         if len(var_gebouwBuigfrequentie)==0:  # maw: leeg
-            var_gebouwC1Hz = StandaardVar_gebouwC1Hz;
+            var_gebouwCbuig1Hz = StandaardVar_gebouwCbuig1Hz;
         else:
-            var_gebouwC1Hz = np.sqrt((var_gebouwBuigfrequentie * gebouwC1Hz/(2*gebouwBuigfrequentie))**2 + 
+            var_gebouwCbuig1Hz = np.sqrt((var_gebouwBuigfrequentie * gebouwCbuig1Hz/(2*gebouwBuigfrequentie))**2 + 
                              (4*var_gebouwHoogte*np.sqrt(gebouwBuigfrequentie))**2);
-        if var_gebouwC1Hz==0:
-            var_gebouwC1Hz = StandaardVar_gebouwC1Hz; 
-          
+        if var_gebouwCbuig1Hz==0:
+            var_gebouwCbuig1Hz = StandaardVar_gebouwCbuig1Hz; 
+
+    # compressiegolfsnelheid (Clong) van gebouw bepalen
+    if "gebouwCompressiegolfsnelheid" in Gebouw:        # in m/s
+        gebouwClong = np.array(Gebouw["gebouwCompressiegolfsnelheid"]); 
+    else:
+        gebouwClong     = []
+    if len(gebouwClong)==0: 
+        gebouwClong     = StandaardGebouwClong
+    
+    if "var_gebouwCompressiegolfsnelheid" in Gebouw:      # in m/s, 2*std
+        var_gebouwClong = np.array(Gebouw["var_gebouwCompressiegolfsnelheid"])
+    else:
+        var_gebouwClong = []
+    if len(var_gebouwClong)==0: 
+        var_gebouwClong = StandaardVar_gebouwClong 
+            
         
     # vloerhoogte bepalen
     # vloerhoogte kan expliciet worden gegeven of via VerdiepingNr
@@ -247,39 +265,44 @@ def Hgebouw(Bodem,Gebouw,Vloer):
             octnr = range(aantalbanden);            # bestaande buurbanden
             buren = list(set(buren)&set(octnr));    # doorsnede
             Y[octaafnr]=np.mean(Y[buren]); 
-
-    Hzz1mcArray = np.zeros([MCgrootte,aantalbanden]);
-    Hzz2mcArray = np.zeros([MCgrootte,aantalbanden]);
-    Hv1mcArray  = np.zeros([MCgrootte,aantalbanden]);
-    Hv2mcArray  = np.zeros([MCgrootte,aantalbanden]);
-    HzxmcArray  = np.zeros([MCgrootte,aantalbanden]);
-    HxxmcArray  = np.zeros([MCgrootte,aantalbanden]);
-    HfxxmcArray = np.zeros([MCgrootte,aantalbanden]);
-    HfzzmcArray = np.zeros([MCgrootte,aantalbanden]);   
-    ZbMC        = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
-    ZgXMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
-    ZgZMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex); 
-    cZMC        = np.zeros([aantalbanden,MCgrootte]); 
-    cXMC        = np.zeros([aantalbanden,MCgrootte]);     
+            
+    # MonteCarlo resutaten arrays klaar zetten
+    Hzz1mcArray = np.zeros([MCgrootte,aantalbanden]);                   # oneven vloermodes
+    Hzz2mcArray = np.zeros([MCgrootte,aantalbanden]);                   # even vloermodes
+    Hv1mcArray  = np.zeros([MCgrootte,aantalbanden]);                   # ?
+    Hv2mcArray  = np.zeros([MCgrootte,aantalbanden]);                   # ?
+    HzxmcArray  = np.zeros([MCgrootte,aantalbanden]);                   # draaiing
+    HxxmcArray  = np.zeros([MCgrootte,aantalbanden]);                   # horizontaal
+    HfxxmcArray = np.zeros([MCgrootte,aantalbanden]);                   # fundering horizontaal
+    HfzzmcArray = np.zeros([MCgrootte,aantalbanden]);                   # fundering vertikaal
+    ZbMC        = np.zeros([aantalbanden,MCgrootte], dtype=complex);    # Impedantie bodem
+    ZgXMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex);    # Impedantie gebouw horizontaal
+    ZgZMC       = np.zeros([aantalbanden,MCgrootte], dtype=complex);    # Impedantie gebouw vertikaaal
+    cZMC        = np.zeros([aantalbanden,MCgrootte]);                   # golfsnelheid bodem vertikaal
+    cXMC        = np.zeros([aantalbanden,MCgrootte]);                   # golfsnelheid bodem horizontaal
     
     # pseudorandom verdelen: ik bemonster netjes de CDF, scheelt factor 10 in benodigde MC grootte
     kansenreeks = np.linspace(1/MCgrootte,1-1/MCgrootte,MCgrootte);
     
-    gebouwdichtheidMC = stats.lognorm.ppf(kansenreeks,var_gebouwdichtheid)             * gebouwdichtheid;
-    gebouwhoogteMC    = stats.lognorm.ppf(kansenreeks,var_gebouwHoogte/gebouwHoogte/2) * gebouwHoogte;
+    # MonteCarlo invoer klaar zetten
+    gebouwdichtheidMC = stats.lognorm.ppf(kansenreeks,var_gebouwdichtheid)                 * gebouwdichtheid;
+    gebouwhoogteMC    = stats.lognorm.ppf(kansenreeks,var_gebouwHoogte/gebouwHoogte/2)     * gebouwHoogte;
     vloerhoogteMC     = stats.norm.ppf(kansenreeks,vloerHoogte,var_vloerHoogte/2);
     vloerhoogteMC     = np.where(vloerhoogteMC<0,0,vloerhoogteMC); 
-    gebouwC1HzMC      = stats.lognorm.ppf(kansenreeks,var_gebouwC1Hz/gebouwC1Hz/2)     * gebouwC1Hz;
-    wandlengteMC      = stats.lognorm.ppf(kansenreeks,var_wandlengte/wandlengte/2)     * wandlengte;
-    gevellengteMC     = stats.lognorm.ppf(kansenreeks,var_gevellengte/gevellengte/2)   * gevellengte;
-    zetaMC            = stats.lognorm.ppf(kansenreeks,var_zeta)                        * zeta;
+    gebouwCbuig1HzMC  = stats.lognorm.ppf(kansenreeks,var_gebouwCbuig1Hz/gebouwCbuig1Hz/2) * gebouwCbuig1Hz;
+    gebouwClongMC     = stats.lognorm.ppf(kansenreeks,var_gebouwClong/gebouwClong/2)       * gebouwClong;
+    wandlengteMC      = stats.lognorm.ppf(kansenreeks,var_wandlengte/wandlengte/2)         * wandlengte;
+    gevellengteMC     = stats.lognorm.ppf(kansenreeks,var_gevellengte/gevellengte/2)       * gevellengte;
+    zetaMC            = stats.lognorm.ppf(kansenreeks,var_zeta)                            * zeta;
     np.random.shuffle(gebouwdichtheidMC);
     np.random.shuffle(gebouwhoogteMC);
     np.random.shuffle(vloerhoogteMC);
     np.random.shuffle(wandlengteMC);
     np.random.shuffle(gevellengteMC);
     np.random.shuffle(zetaMC);
-    np.random.shuffle(gebouwC1HzMC);
+    np.random.shuffle(gebouwCbuig1HzMC);
+    np.random.shuffle(gebouwClongMC);
+    
     # fase, Y en c zijn spectra, dus covariantie tussen banden meenemen
     # dat kan met np.random.multivariate, maar helaas alleen voor normale verdelingen
     # En dus helaas geen pseudorandom.
@@ -287,7 +310,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
     # Maar de cov_H's zien er wel "rustiger" uit 
     covX    = np.ones([6,6]) * np.transpose(var_fase[np.newaxis]) * var_fase; # maximale relaties tussen banden
     XMC     = np.random.multivariate_normal(fase,covX,MCgrootte);
-    faseMC  = np.swapaxes(XMC,0,1);
+    faseMC    = np.swapaxes(XMC,0,1);
     
     YMC       = montecarloMetCovariantie(Y,      var_Y,      MCgrootte);
     cZMC      = montecarloMetCovariantie(c,      var_c,      MCgrootte);
@@ -304,16 +327,22 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         #cZMC[band]    = stats.lognorm.ppf(kansenreeks,var_c[band])       * c[band];
         #np.random.shuffle(cZMC[band]);
         cXMC[band]    = c_ratioMC[band] * cZMC[band]; 
-        lamdbaX       = cXMC[band] / octaafbanden[band]; 
-        lamdbaZ       = cZMC[band] / octaafbanden[band]; 
+        lamdbaX       = cXMC[band] / octaafbanden[band];    # bodemgolflengte 
+        lamdbaZ       = cZMC[band] / octaafbanden[band];    # bodemgolflengte 
+        lamdbaGebouwX = gebouwCbuig1HzMC / np.sqrt(octaafbanden[band]);  # gebouwgolflengte horizontaal (buiggolven)
+        lamdbaGebouwX = np.minimum(lamdbaGebouwX,4*gebouwhoogteMC);  # er moet een kwart golflengte in het gebouw passen
+        lamdbaGebouwZ = gebouwClongMC / octaafbanden[band];  # gebouwgolflengte vertikaal   (compressiegolven)
+        lamdbaGebouwZ = np.minimum(lamdbaGebouwZ,4*gebouwhoogteMC);  # er moet een kwart golflengte in het gebouw passen
         # ZgMC[band]    = 1j * gebouwdichtheidMC * gebouwhoogteMC * wandlengteMC * gevellengteMC * omega[band];  # complexe impedantie van het gebouw
-        VolumeTotaal  = gebouwhoogteMC * wandlengteMC * gevellengteMC;
-        VolumeActiefX = np.pi * lamdbaX**3 / 100;
-        VolumeActiefX = np.minimum(VolumeTotaal,VolumeActiefX);
-        VolumeActiefZ = np.pi * lamdbaZ**3 / 100;
-        VolumeActiefZ = np.minimum(VolumeTotaal,VolumeActiefZ);       
-        ZgXMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefX * omega[band];  # complexe impedantie van het gebouw
-        ZgZMC[band]    = 1j * gebouwdichtheidMC * VolumeActiefZ * omega[band];  # complexe impedantie van het gebouw
+        VolumeTotaal  = gebouwhoogteMC * wandlengteMC * gevellengteMC;   # gebouwvolume
+        # VolumeActiefX = np.pi * lamdbaX**3 / 100;           
+        VolumeActiefX = lamdbaGebouwX * np.pi * lamdbaX**2 / 100;     
+        VolumeActiefX = np.minimum(VolumeTotaal,VolumeActiefX);          # actief gebouwvolume voor compressie golven
+        # VolumeActiefZ = np.pi * lamdbaZ**3 / 100;
+        VolumeActiefZ = lamdbaGebouwZ * np.pi * lamdbaZ**2 / 100;
+        VolumeActiefZ = np.minimum(VolumeTotaal,VolumeActiefZ);          # actief gebouwvolume voor schuif golven    
+        ZgXMC[band]   = 1j * gebouwdichtheidMC * VolumeActiefX * omega[band];  # complexe impedantie van het gebouw, gebouw als massa
+        ZgZMC[band]   = 1j * gebouwdichtheidMC * VolumeActiefZ * omega[band];  # complexe impedantie van het gebouw
     Zb  = np.swapaxes(ZbMC ,0,1);
     ZgX = np.swapaxes(ZgXMC,0,1);   
     ZgZ = np.swapaxes(ZgZMC,0,1); 
@@ -335,12 +364,13 @@ def Hgebouw(Bodem,Gebouw,Vloer):
         Hfxx    = DictOut['Htranslatie'];
         DictOut = Hfundering(Zb[i1],cZ[i1],ZgZ[i1],wandlengteMC[i1]);
         Hfzz    = DictOut['Htranslatie'];
+        DictOut = Hfundering(Zb[i1],cZ[i1],ZgX[i1],wandlengteMC[i1]);
         Hfr     = DictOut['Hrocking'];
             
         # Hconstructie
         Hcxx = 1.0;   # doen we even niets mee, gaat over schuif en buig, beiden xx
         
-        maxvloerhoogte = gebouwC1HzMC[i1]/np.sqrt(octaafbanden)/4;
+        maxvloerhoogte = gebouwCbuig1HzMC[i1]/np.sqrt(octaafbanden)/4;
         vloerhoogte    = np.minimum(vloerhoogteMC[i1],maxvloerhoogte);
         
         Hczx = vloerhoogte*omega/cZ[i1];  #  zwaaien, geometrische versterkin
@@ -517,7 +547,7 @@ def Hfundering(Zbodem, cbodem, Zgebouw, Lgebouw):
             buren = range(octaafnr-1,octaafnr+2,2); # info bij de buurbanden halen
             octnr = range(aantalbanden);            # bestaande buurbanden
             buren = list(set(buren)&set(octnr));    # doorsnede
-            cbodem[octaafnr]=np.mean(cbodem[buren]); 
+            cbodem[octaafnr] = np.mean(cbodem[buren]); 
         ff           = 2**(np.log2(octaafnr+1)+np.linspace(-.45,.45,aantallijnen));
         LgebouwEff   = min(Lgebouw,lambdafundering[octaafnr]); 
         labda        = cbodem[octaafnr]/ff;
