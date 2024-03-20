@@ -372,6 +372,16 @@ begin
 
         var tmpNode: TXmlNode;
 
+        tmpNode := resNode.AddChild('overzicht', ntElement);
+        with tmpNode.AddChild('aantaltreinen_pw', ntElement) do // Added
+          SetText(trainClass.Overzicht.Aantaltreinen_pw.ToString); // Added
+        with tmpNode.AddChild('aantaltreinen_dag', ntElement) do // Added
+          SetText(trainClass.Overzicht.Aantaltreinen_dag.ToString); // Added
+        with tmpNode.AddChild('aantaltreinen_avond', ntElement) do // Added
+          SetText(trainClass.Overzicht.Aantaltreinen_avond.ToString); // Added
+        with tmpNode.AddChild('aantaltreinen_nacht', ntElement) do // Added
+          SetText(trainClass.Overzicht.Aantaltreinen_nacht.ToString); // Added
+
         tmpNode := resNode.AddChild('fundering', ntElement);
         with tmpNode.AddChild('vmax', ntElement) do
           SetText(trainClass.Fundering.Vmax.ToString);
@@ -381,9 +391,11 @@ begin
           SetText(trainClass.Fundering.Vmax_Fdom);
         with tmpNode.AddChild('vmax_sigma', ntElement) do
           SetText(trainClass.Fundering.Vmax_sigma.ToString);
-        with tmpNode.AddChild('vmax_gemiddeld', ntElement) do // nieuw
+        with tmpNode.AddChild('maatgevende_cat', ntElement) do
+          SetText(trainClass.Fundering.Maatgevende_cat);
+        with tmpNode.AddChild('vmax_alle_treinen', ntElement) do // nieuw
           SetText(trainClass.Fundering.Vmax_gemiddeld.ToString); // nieuw
-        with tmpNode.AddChild('vmax_gem_sigma', ntElement) do // nieuw
+        with tmpNode.AddChild('vmax_sigma_alle_treinen', ntElement) do // nieuw
           SetText(trainClass.Fundering.Vmax_gem_sigma.ToString); // nieuw
         with tmpNode.AddChild('vtop', ntElement) do
           SetText(trainClass.Fundering.Vtop.ToString);
@@ -395,8 +407,7 @@ begin
           SetText(trainClass.Fundering.Vtop_Vd.ToString);
         with tmpNode.AddChild('vtop_sigma', ntElement) do
           SetText(trainClass.Fundering.Vtop_sigma.ToString);
-        with tmpNode.AddChild('Maatgevende_cat', ntElement) do
-          SetText(trainClass.Fundering.Maatgevende_cat);
+
 
         var str := '';
         for var j := 0 to Length(trainClass.Fundering.variatiecoeffs)-1 do begin
@@ -416,12 +427,12 @@ begin
           SetText(trainClass.Gebouw.Vmax_Fdom);
         with tmpNode.AddChild('vmax_sigma', ntElement) do
           SetText(trainClass.Gebouw.Vmax_sigma.ToString);
-        with tmpNode.AddChild('vmax_gemiddeld', ntElement) do // nieuw
-          SetText(trainClass.Gebouw.Vmax_gemiddeld.ToString); //niuew
-        with tmpNode.AddChild('vmax_gem_sigma', ntElement) do // nieuw
-          SetText(trainClass.Gebouw.Vmax_gem_sigma.ToString); // nieuw
         with tmpNode.AddChild('maatgevende_cat', ntElement) do // nieuw
           SetText(trainClass.Gebouw.Maatgevende_cat); // nieuw
+        with tmpNode.AddChild('vmax_alle_treinen', ntElement) do // nieuw
+          SetText(trainClass.Gebouw.Vmax_gemiddeld.ToString); //niuew
+        with tmpNode.AddChild('vmax_sigma_alle_treinen', ntElement) do // nieuw
+          SetText(trainClass.Gebouw.Vmax_gem_sigma.ToString); // nieuw
 
         str := '';
         for var j := 0 to Length(trainClass.Gebouw.Vper)-1 do begin
@@ -453,10 +464,19 @@ begin
         tmpNode := resNode.AddChild('maaiveld', ntElement);
         with tmpNode.AddChild('vrms', ntElement) do
           SetText(trainClass.Maaiveld.Vrms.ToString);
-        with tmpNode.AddChild('vrms_sigmax', ntElement) do
+        with tmpNode.AddChild('vrms_sigma', ntElement) do
           SetText(trainClass.Maaiveld.Vrms_sigma.ToString);
-        with tmpNode.AddChild('Maatgevende_cat', ntElement) do
+        with tmpNode.AddChild('maatgevende_cat', ntElement) do
           SetText(trainClass.Maaiveld.Maatgevende_cat);
+
+        str := '';
+        for var j := 0 to Length(trainClass.Maaiveld.variatiecoeffs)-1 do begin
+          if str<>'' then
+            str := str + '; ';
+          str := str + trainClass.Fundering.variatiecoeffs[j].ToString;
+        end;
+        with tmpNode.AddChild('variatiecoeffs', ntElement) do
+          SetText(str);
 
 
          str := '';
@@ -490,29 +510,11 @@ begin
         for var j := 0 to Length(trainClass.Maaiveld.Vrms_sigma_spectraalX)-1 do begin
           if str<>'' then
             str := str + '; ';
-          str := str + trainClass.Maaiveld.Vrms_sigma_spectraalX[j].ToString;
+          str := str + trainClass.Maaiveld.Vrms_sigma_spectraalZ[j].ToString;
         end;
-        with tmpNode.AddChild('Vrms_sigma_spectraalX', ntElement) do
+        with tmpNode.AddChild('Vrms_sigma_spectraalZ', ntElement) do
           SetText(str);
 
-        str := '';
-        for var j := 0 to Length(trainClass.Maaiveld.variatiecoeffs)-1 do begin
-          if str<>'' then
-            str := str + '; ';
-          str := str + trainClass.Fundering.variatiecoeffs[j].ToString;
-        end;
-        with tmpNode.AddChild('variatiecoeffs', ntElement) do
-          SetText(str);
-
-        tmpNode := resNode.AddChild('overzicht', ntElement);
-        with tmpNode.AddChild('Aantaltrein_pw', ntElement) do // Added
-          SetText(trainClass.Overzicht.Aantaltreinen_pw.ToString); // Added
-        with tmpNode.AddChild('Aantaltreinen_dag', ntElement) do // Added
-          SetText(trainClass.Overzicht.Aantaltreinen_dag.ToString); // Added
-        with tmpNode.AddChild('Aantaltreinen_avond', ntElement) do // Added
-          SetText(trainClass.Overzicht.Aantaltreinen_avond.ToString); // Added
-        with tmpNode.AddChild('Aantaltreinen_nacht', ntElement) do // Added
-          SetText(trainClass.Overzicht.Aantaltreinen_nacht.ToString); // Added
       end;
     end;
   end;
