@@ -159,7 +159,7 @@ def Hgebouw(Bodem,Gebouw,Vloer):
             if not len(verdiepingNr)==0:
                vloerHoogte = verdiepingNr*2.8;     
     if len(vloerHoogte)==0: 
-        vloerHoogte = np.array(np.max([0,gebouwHoogte[0]-2.8]));    
+        vloerHoogte = np.maximum(gebouwHoogte-2.8,0);     
        
     if "var_vloerHoogte" in Gebouw:
         var_vloerHoogte = np.array(Gebouw["var_vloerHoogte"]); 
