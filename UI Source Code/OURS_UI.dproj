@@ -224,7 +224,6 @@
                 <DeployFile LocalName="..\..\OUT\Win64\Debug\OURS_UI.rsm" Configuration="Debug" Class="DebugSymbols"/>
                 <DeployFile LocalName="D:\rivm.png" Configuration="Release" Class="UWP_DelphiLogo150"/>
                 <DeployFile LocalName="OURS_UI.todo" Configuration="Debug" Class="ProjectFile"/>
-                <DeployFile LocalName="OURS_UI.todo" Configuration="Debug" Class="ProjectFile"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

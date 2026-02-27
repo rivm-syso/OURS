@@ -48,19 +48,15 @@ type
     FVrms_sigma: Extended;
     FMaatgevende_cat: String;
     FVariatiecoeffs: TArray<Extended>;
-    FVrms_spectraalX: TArray<Extended>;
-    FVrms_spectraalZ: TArray<Extended>;
-    FVrms_sigma_spectraalX: TArray<Extended>;
-    FVrms_sigma_spectraalZ: TArray<Extended>;
+    FVrms_spectraal: TArray<Extended>;
+    FVrms_sigma_spectraal: TArray<Extended>;
   public
     property Vrms: Extended read FVrms write FVrms;
     property Vrms_sigma: Extended read FVrms_sigma write FVrms_sigma;
     property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vrms_spectraalX: TArray<Extended> read FVrms_spectraalX write FVrms_spectraalX;
-    property Vrms_spectraalZ: TArray<Extended> read FVrms_spectraalZ write FVrms_spectraalZ;
-    property Vrms_sigma_spectraalX: TArray<Extended> read FVrms_sigma_spectraalX write FVrms_sigma_spectraalX;
-    property Vrms_sigma_spectraalZ: TArray<Extended> read FVrms_sigma_spectraalZ write FVrms_sigma_spectraalZ;
+    property Vrms_spectraal: TArray<Extended> read FVrms_spectraal write FVrms_spectraal;
+    property Vrms_sigma_spectraal: TArray<Extended> read FVrms_sigma_spectraal write FVrms_sigma_spectraal;
 
     procedure Assign(Value: TMaaiveldClass);
 
@@ -74,26 +70,20 @@ type
   TGebouwClass = class(TTrainClassPart)
   private
     FVmax: Extended;
-    FVmax_Dir: String;
     FVmax_Fdom: String;
     FVmax_sigma: Extended;
     FMaatgevende_cat: String;
     FVper: TArray<Extended>;
     FVper_sigma: TArray<Extended>;
     FVariatiecoeffs: TArray<Extended>;
-    FVmax_gemiddeld: Extended;
-    FVmax_gem_sigma: Extended;
   public
     property Vmax: Extended read FVmax write FVmax;
-    property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
     property Maatgevende_cat: STring read FMaatgevende_cat write FMaatgevende_cat;
     property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
     property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
     property Vper: TArray<Extended> read FVper write FVper;
     property Vper_sigma: TArray<Extended> read FVper_sigma write FVper_sigma;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vmax_gemiddeld: Extended read FVmax_gemiddeld write FVmax_gemiddeld;
-    property Vmax_gem_sigma: Extended read FVmax_gem_sigma write FVmax_gem_sigma;
 
     procedure Assign(Value: TGebouwClass);
 
@@ -107,32 +97,24 @@ type
   TFunderingClass = class(TTrainClassPart)
   private
     FVmax: Extended;
-    FVmax_Dir: String;
     FVmax_Fdom: String;
     FVmax_sigma: Extended;
     FMaatgevende_cat: String;
     FVtop: Extended;
-    FVtop_Dir: String;
     FVtop_Fdom: String;
     FVtop_Vd: Extended;
     FVtop_sigma: Extended;
     FVariatiecoeffs: TArray<Extended>;
-    FVmax_gemiddeld: Extended;
-    FVmax_gem_sigma: Extended;
   public
     property Vmax: Extended read FVmax write FVmax;
-    property Vmax_Dir: String read FVmax_Dir write FVmax_Dir;
     property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
     property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
     property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
     property Vtop: Extended read FVtop write FVtop;
-    property Vtop_Dir: String read FVtop_Dir write FVtop_Dir;
     property Vtop_Fdom: String read FVtop_Fdom write FVtop_Fdom;
     property Vtop_Vd: Extended read FVtop_Vd write FVtop_Vd;
     property Vtop_sigma: Extended read FVtop_sigma write FVtop_sigma;
     property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vmax_gemiddeld: Extended read FVmax_gemiddeld write FVmax_gemiddeld;
-    property Vmax_gem_sigma: Extended read FVmax_gem_sigma write FVmax_gem_sigma;
 
     procedure Assign(Value: TFunderingClass);
 
@@ -164,6 +146,24 @@ type
     class function FromJsonString(AJsonString: string): TTrainClass;
   end;
 //--------------------------------------------------------------------------------------------------
+type
+  TTrainDirections = class
+  private
+    FX: TTrainClass;
+    FZ: TTrainClass;
+    FOverzicht: TOverzichtClass;
+  public
+    property X: TTrainClass read FX write FX;
+    property Z: TTrainClass read FZ write FZ;
+    property Overzicht: TOverzichtClass read FOverzicht write FOverzicht;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Assign(Value: TTrainDirections);
+
+    function ToJsonString: string;
+  end;
 
 type
   { @abstract(Class to read the JSON result file of the main formula.)
@@ -171,13 +171,13 @@ type
   }
   TOursMainOutput = class
   private
-    FAlleTreinen: TTrainClass;
-    FGoederen: TTrainClass;
-    FReizigers: TTrainClass;
+    FAlleTreinen: TTrainDirections;
+    FGoederen: TTrainDirections;
+    FReizigers: TTrainDirections;
   public
-    property AlleTreinen: TTrainClass read FAlleTreinen write FAlleTreinen;
-    property Goederen: TTrainClass read FGoederen write FGoederen;
-    property Reizigers: TTrainClass read FReizigers write FReizigers;
+    property AlleTreinen: TTrainDirections  read FAlleTreinen write FAlleTreinen;
+    property Goederen: TTrainDirections  read FGoederen write FGoederen;
+    property Reizigers: TTrainDirections  read FReizigers write FReizigers;
 
     constructor Create;
     destructor Destroy; override;
@@ -190,6 +190,7 @@ type
 
     function AsText: string;
 end;
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -224,13 +225,13 @@ end;
 
 function TOverzichtClass.ToJsonString: string;
 begin
-  Result := '            "Overzicht":'                                                           + CRLF +
-            '            {'                                                                      + CRLF +
-            '                "Aantaltreinen_pw":' + Format('%.f', [Aantaltreinen_pw])+ ','       + CRLF +
-            '                "Aantaltreinen_dag":' + Format('%.f', [Aantaltreinen_dag])+ ','     + CRLF +
-            '                "Aantaltreinen_avond":' + Format('%.f', [Aantaltreinen_avond])+ ',' + CRLF +
-            '                "Aantaltreinen_nacht":' + Format('%.f', [Aantaltreinen_nacht])      + CRLF +
-            '            }'                                                                      + CRLF;
+  Result :=
+    '{' + CRLF +
+    '    "Aantaltreinen_pw":' + Format('%f', [Aantaltreinen_pw]) + ',' + CRLF +
+    '    "Aantaltreinen_dag":' + Format('%f', [Aantaltreinen_dag]) + ',' + CRLF +
+    '    "Aantaltreinen_avond":' + Format('%f', [Aantaltreinen_avond]) + ',' + CRLF +
+    '    "Aantaltreinen_nacht":' + Format('%f', [Aantaltreinen_nacht]) + CRLF +
+    '}';
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -264,10 +265,8 @@ begin
             '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ','                  + CRLF +
             '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)                     + CRLF +
-            '                "Vrms_spectraalX":' + ArrayToJSON(Vrms_spectraalX) + ','             + CRLF +
-            '                "Vrms_spectraalZ":' + ArrayToJSON(Vrms_spectraalZ) + ','             + CRLF +
-            '                "Vrms_sigma_spectraalX":' + ArrayToJSON(Vrms_sigma_spectraalX) + ',' + CRLF +
-            '                "Vrms_sigma_spectraalZ":' + ArrayToJSON(Vrms_sigma_spectraalZ)       + CRLF +
+            '                "Vrms_spectraal":' + ArrayToJSON(Vrms_spectraal) + ','               + CRLF +
+            '                "Vrms_sigma_spectraal":' + ArrayToJSON(Vrms_sigma_spectraal)         + CRLF +
             '            }'                                                                       + CRLF;
 end;
 
@@ -294,21 +293,14 @@ begin
   for var i := 0 to Length(Value.Variatiecoeffs)-1 do
     FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
 
-  SetLength(FVrms_spectraalX, Length(Value.Vrms_spectraalX));
-  for var i := 0 to Length(Value.Vrms_spectraalX)-1 do
-    FVrms_spectraalX[i] := Value.Vrms_spectraalX[i];
+  SetLength(FVrms_spectraal, Length(Value.Vrms_spectraal));
+  for var i := 0 to Length(Value.Vrms_spectraal)-1 do
+    FVrms_spectraal[i] := Value.Vrms_spectraal[i];
 
-  SetLength(FVrms_spectraalZ, Length(Value.Vrms_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_spectraalZ)-1 do
-    FVrms_spectraalZ[i] := Value.Vrms_spectraalZ[i];
+  SetLength(FVrms_sigma_spectraal, Length(Value.Vrms_sigma_spectraal));
+  for var i := 0 to Length(Value.Vrms_sigma_spectraal)-1 do
+    FVrms_sigma_spectraal[i] := Value.Vrms_sigma_spectraal[i];
 
-  SetLength(FVrms_sigma_spectraalX, Length(Value.Vrms_sigma_spectraalX));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalX)-1 do
-    FVrms_sigma_spectraalX[i] := Value.Vrms_sigma_spectraalX[i];
-
-  SetLength(FVrms_sigma_spectraalZ, Length(Value.Vrms_sigma_spectraalZ));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraalZ)-1 do
-    FVrms_sigma_spectraalZ[i] := Value.Vrms_sigma_spectraalZ[i];
 end;
 
 //==================================================================================================
@@ -320,12 +312,9 @@ begin
   Result := '            "Gebouw":'                                                              + CRLF +
             '            {'                                                                      + CRLF +
             '                "Vmax":' + Format('%.f', [Vmax]) + ','                              + CRLF +
-            '                "Vmax_Dir":"' + Vmax_Dir + '",'                                     + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                   + CRLF +
             '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                  + CRLF +
+            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                   + CRLF +
             '                "maatgevende_cat":' + Maatgevende_cat  + ','                        + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','       + CRLF +
-            '                "Vmax_sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ',' + CRLF +
             '                "Vper":' + ArrayToJSON(Vper) + ','                                  + CRLF +
             '                "Vper_sigma":' + ArrayToJSON(Vper_sigma) + ','                      + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                    + CRLF +
@@ -345,10 +334,7 @@ procedure TGebouwClass.Assign(Value: TGebouwClass);
 begin
   if not Assigned(Value) then
     Exit;
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
-  FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
   FVmax_sigma := Value.Vmax_sigma;
   FMaatgevende_cat := Value.Maatgevende_cat;
@@ -375,17 +361,13 @@ begin
   Result := '            "Fundering":'                                                            + CRLF +
             '            {'                                                                       + CRLF +
             '                "Vmax":' + Format('%.f', [Vmax]) + ','                               + CRLF +
-            '                "Vmax_Dir":"' + Vmax_Dir + '",'                                      + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                    + CRLF +
             '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                   + CRLF +
+            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                    + CRLF +
             '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
-            '                "Vmax_alle_treinen":' + Format('%.f', [Vmax_gemiddeld]) + ','        + CRLF +
-            '                "Vmax_sigma_alle_treinen":' + Format('%.f', [Vmax_gem_sigma]) + ','  + CRLF +
             '                "Vtop":' + Format('%.f', [Vtop]) + ','                               + CRLF +
-            '                "Vtop_Dir":"' + Vtop_Dir + '",'                                      + CRLF +
+            '                "Vtop_sigma":' + Format('%.f', [Vtop_sigma]) + ','                   + CRLF +
             '                "Vtop_Fdom":"' + Vtop_Fdom + '",'                                    + CRLF +
             '                "Vtop_Vd":' + Format('%.f', [Vtop_Vd]) + ','                         + CRLF +
-            '                "Vtop_sigma":' + Format('%.f', [Vtop_sigma]) + ','                   + CRLF +
             '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                     + CRLF +
             '            }'                                                                       + CRLF;
 end;
@@ -405,14 +387,10 @@ begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax_gemiddeld := Value.Vmax_gemiddeld;
-  FVmax_gem_sigma := Value.Vmax_gem_sigma;
   FVmax := Value.Vmax;
-  FVmax_Dir := Value.Vmax_Dir;
   FVmax_Fdom := Value.Vmax_Fdom;
   FVmax_sigma := Value.Vmax_sigma;
   FVtop := Value.Vtop;
-  FVtop_Dir := Value.Vtop_Dir;
   FVtop_Fdom := Value.Vtop_Fdom;
   FVtop_Vd := Value.Vtop_Vd;
   FVtop_sigma := Value.Vtop_sigma;
@@ -452,12 +430,11 @@ end;
 
 function TTrainClass.ToJsonString: string;
 begin
-  Result := FOverzicht.ToJsonString +
-            FFundering.ToJsonString +
-            FGebouw.ToJsonString +
-            FMaaiveld.ToJsonString;
+  Result :=
+    FMaaiveld.ToJsonString +
+    FFundering.ToJsonString +
+    FGebouw.ToJsonString;
 end;
-
 
 //--------------------------------------------------------------------------------------------------
 
@@ -480,6 +457,52 @@ begin
 end;
 
 //==================================================================================================
+// TTrainDirections
+//==================================================================================================
+
+procedure TTrainDirections.Assign(Value: TTrainDirections);
+begin
+  if not Assigned(Value) then Exit;
+  FX.Assign(Value.X);
+  FZ.Assign(Value.Z);
+  FOverzicht.Assign(Value.Overzicht);
+end;
+
+//--------------------------------------------------------------------------------------------------
+
+constructor TTrainDirections.Create;
+begin
+  inherited;
+  FX := TTrainClass.Create;
+  FZ := TTrainClass.Create;
+  FOverzicht := TOverzichtClass.Create;
+end;
+
+//--------------------------------------------------------------------------------------------------
+
+destructor TTrainDirections.Destroy;
+begin
+  FX.Free;
+  FZ.Free;
+  FOverzicht.Free;
+  inherited;
+end;
+
+//--------------------------------------------------------------------------------------------------
+
+function TTrainDirections.ToJsonString: string;
+begin
+  Result :=
+    '    "Overzicht": ' + FOverzicht.ToJsonString + ',' + CRLF +
+    '    "X-richting": {' + CRLF +
+    FX.ToJsonString + CRLF +
+    '    },' + CRLF +
+    '    "Z-richting": {' + CRLF +
+    FZ.ToJsonString + CRLF +
+    '    }';
+end;
+
+//==================================================================================================
 // TOursMainOutput
 //==================================================================================================
 
@@ -493,9 +516,9 @@ end;
 constructor TOursMainOutput.Create;
 begin
   inherited;
-  FAlleTreinen := TTrainClass.Create();
-  FGoederen := TTrainClass.Create();
-  FReizigers := TTrainClass.Create();
+  FAlleTreinen := TTrainDirections.Create;
+  FGoederen := TTrainDirections.Create;
+  FReizigers := TTrainDirections.Create;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -512,22 +535,19 @@ end;
 
 function TOursMainOutput.ToJsonString: string;
 begin
-  Result := '    {'                     + CRLF +
-            '        "AlleTreinen":'    + CRLF +
-            '        {'                 + CRLF +
-            FAlleTreinen.ToJsonString +
-            '        },'                + CRLF +
-            '        "Goederen":'       + CRLF +
-            '        {'                 + CRLF +
-            FGoederen.ToJsonString +
-            '        },'                + CRLF +
-            '        "Reizigers":'      + CRLF +
-            '        {'                 + CRLF +
-            FReizigers.ToJsonString +
-            '        }'                 + CRLF +
-            '    }'                     + CRLF;
+  Result :=
+    '{' + CRLF +
+    '  "AlleTreinen": {' + CRLF +
+    FAlleTreinen.ToJsonString + CRLF +
+    '  },' + CRLF +
+    '  "Goederen": {' + CRLF +
+    FGoederen.ToJsonString + CRLF +
+    '  },' + CRLF +
+    '  "Reizigers": {' + CRLF +
+    FReizigers.ToJsonString + CRLF +
+    '  }' + CRLF +
+    '}';
 end;
-
 //--------------------------------------------------------------------------------------------------
 
 procedure TOursMainOutput.CopyFromJsonString(AJsonString: string);

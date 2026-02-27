@@ -22,8 +22,7 @@ from scipy import stats
 MCgrootte = 33*333    # streven: 333
 np.random.seed(1235)  # fixeren laatste decimaal in de output
 
-def Bronkracht(Bron: dict, Idx, stijfheidsratioZ,stijfheidsratioX, covar_sZ,covar_sX, V):
-    
+def Bronkracht(Bron: dict, Idx, stijfheidsratioZ,stijfheidsratioX, covar_sZ,covar_sX, V):    
     FzMcArray = np.ones([MCgrootte, 6])
     FxMcArray = np.ones([MCgrootte, 6])
     sZmcArray = np.zeros([MCgrootte, 6])
@@ -274,178 +273,167 @@ def CovariantProduct(X, cov_X, Y, cov_Y):  # X,Y,factor zijn vectoren
     return cov
 
 
-def OutputSamenstellen(treinklasse,Index,Veffmax_fundering_treintype,Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen_dagd):
+def OutputSamenstellen(
+    treinklasse,
+    Index,
+    Vrms_fundering_treintype,
+    Vrms_maaiveldspectraal,
+    totaalaantaltreinen,
+    Vrms_vloer_treintype,
+    VperVars, VperMus,
+    VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
+    VtopMus, VtopVars, VtopFdoms,
+    Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+    Vrms_maaiveldMus, Vrms_maaiveldVars,
+    Sigma_maaiveld_spectraal,
+    aantaltreinen_dagd,
+    richting # <-- Toegevoegd
+):
     if len(Index) > 0:
-
+        # Selecteer de juiste richting
+        Vrms_fundering_treintype = Vrms_fundering_treintype[richting]
+        Vrms_maaiveldspectraal = Vrms_maaiveldspectraal[richting]
+        Vrms_vloer_treintype = Vrms_vloer_treintype[richting]
+        VperVars = VperVars[richting]
+        VperMus = VperMus[richting]
+        VmaxMus = VmaxMus[richting]
+        VmaxVars = VmaxVars[richting]
+        VmaxFdoms = VmaxFdoms[richting]
+        Varcoefs = Varcoefs[richting]
+        VtopMus = VtopMus[richting]
+        VtopVars = VtopVars[richting]
+        VtopFdoms = VtopFdoms[richting]
+        Vmax_funderingMus = Vmax_funderingMus[richting]
+        Vmax_funderingVars = Vmax_funderingVars[richting]
+        Vmax_funderingFdoms = Vmax_funderingFdoms[richting]
+        Vrms_maaiveldMus = Vrms_maaiveldMus[richting]
+        Vrms_maaiveldVars = Vrms_maaiveldVars[richting]
+        Sigma_maaiveld_spectraal = Sigma_maaiveld_spectraal[richting]
+        
         Aantaltreinen = np.sum(totaalaantaltreinen[Index])
-        Aantaltreinen_dagdeel =  np.sum(aantaltreinen_dagd[Index,:],axis = 0)
-    
-        if np.sum(totaalaantaltreinen[Index]) > 1:
-            # Berekenen gemiddelde van alle treincategorien voor de vloer
-            Veffmax_gemiddeld = np.sum(np.log(Veffmax_vloer_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-            VmaxMu_gem = np.exp(Veffmax_gemiddeld + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-            # Bereken gemiddel van alle treincategorien voor de fundering
-            Veffmax_gemiddeld_fundering = np.sum(np.log(Veffmax_fundering_treintype[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-            VmaxMu_gem_fundering = np.exp(Veffmax_gemiddeld_fundering + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-            # standardeviation average van fundering
-            Veffmax_fundering_worstcase = Veffmax_fundering_treintype + Veffmax_fundering_treintype*Vmax_funderingVars
-            Veffmax_gemiddeld_fundering_worstcase = np.sum(np.log(Veffmax_fundering_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-            VmaxMu_gem_fundering_worstcase = np.exp(Veffmax_gemiddeld_fundering_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-            sigma_fundering_worstcase = VmaxMu_gem_fundering_worstcase-VmaxMu_gem_fundering
-            # standardeviation average van vloer 
-            Veffmax_worstcase = Veffmax_vloer_treintype + Veffmax_vloer_treintype*VmaxVars
-            Veffmax_gemiddeld_worstcase = np.sum(np.log(Veffmax_worstcase[Index])*(totaalaantaltreinen[Index]/np.sum(totaalaantaltreinen[Index])))     
-            VmaxMu_gem_worstcase = np.exp(Veffmax_gemiddeld_worstcase + .3*stats.t.ppf(1-1/np.sum(totaalaantaltreinen[Index]),np.round(np.sum(totaalaantaltreinen[Index]))))
-            sigma_worstcase = VmaxMu_gem_worstcase-VmaxMu_gem
-        else:
-            VmaxMu_gem = 0  # anders krijg je NaN waarde door de stat.t.ppf
-            VmaxMu_gem_fundering = 0
-            sigma_fundering_worstcase = 0
-            sigma_worstcase = 0
-
-        VperSigs          = VperVars[Index] * VperMus[Index]
-        VperSig           = np.sqrt(np.sum(VperSigs**2 * VperMus[Index]**2,axis=0) / np.sum(1e-18 + VperMus[Index]**2,axis=0))
-        VperMu            = np.sqrt(np.sum(VperMus[Index]**2,axis=0) + np.sum(VperSigs**2,axis=0) - VperSig**2)
+        Aantaltreinen_dagdeel = np.sum(aantaltreinen_dagd[Index, :], axis=0)
         
-        VmaxMu            = np.max(VmaxMus[Index])
-        Imax              = Index[np.argmax(VmaxMus[Index])]  
-        Maatgevende_klasse_vloer = treinklasse[Imax]
-        VmaxSig           = VmaxMu*VmaxVars[Imax]
-        VmaxDir           = VmaxDirs[Imax]
-        VmaxFdom          = VmaxFdoms[Imax] 
-        Varcoef           = Varcoefs[Imax,[6,7,8]] # resp.: bron, bodem, gebouw vanuit gebouwperspectief
-        Varcoef_maaiveld  = Varcoefs[Imax,[0,1,2]] # resp.: bronkracht, bron-bodem interactie, bodem vanuit bodemperspectief
-        Varcoef_fundering = Varcoefs[Imax,[3,4,5]] # resp.: bron, bodem, bodem-gebouwinteractie vanuit fundatieperspectief
+        VmaxBTS_gem = naverwerking_BTS(Vrms_vloer_treintype[Index], totaalaantaltreinen[Index])
+        VmaxBTS_gem_fundering = naverwerking_BTS(Vrms_fundering_treintype[Index], totaalaantaltreinen[Index])
         
-
-        VtopMu            = np.max(VtopMus[Index])
-        Imax              = Index[np.argmax(VtopMus[Index])]  
-        VtopSig           = VtopMu*VtopVars[Imax]
-        VtopVd            = 1.6 * (VtopMu + 1.66*VtopSig)
-        VtopDir           = VtopDirs[Imax]
-        VtopFdom          = VtopFdoms[Imax]
+        sigma_gem = gecombineerde_onzekerheid2(totaalaantaltreinen[Index], VmaxVars[Index], VmaxBTS_gem)
+        sigma_gem_fundering = gecombineerde_onzekerheid2(totaalaantaltreinen[Index], Vmax_funderingVars[Index], VmaxBTS_gem_fundering)
         
-        Vmax_funderingMu  = Vmax_funderingMus[Imax]
-        Maatgevende_klasse_fundering = treinklasse[Imax]
-        Vmax_funderingSig = Vmax_funderingMu * Vmax_funderingVars[Imax]
-        Vmax_funderingDir = Vmax_funderingDirs[Imax]
+        VperSigs = VperVars[Index] * VperMus[Index]
+        VperSig = np.sqrt(np.sum(VperSigs**2 * VperMus[Index]**2, axis=0) / np.sum(1e-18 + VperMus[Index]**2, axis=0))
+        VperMu = np.sqrt(np.sum(VperMus[Index]**2, axis=0) + np.sum(VperSigs**2, axis=0) - VperSig**2)
+        
+        Imax = Index[np.argmax(VmaxMus[Index])]
+        Maatgevende_klasse_vloer = str(treinklasse[Imax])
+        VmaxFdom = VmaxFdoms[Imax]
+        Varcoef = Varcoefs[Imax, [6,7,8]]
+        Varcoef_maaiveld = Varcoefs[Imax, [0,1,2]]
+        Varcoef_fundering = Varcoefs[Imax, [3,4,5]]
+        
+        VtopMu = np.max(VtopMus[Index])
+        Imax_top = Index[np.argmax(VtopMus[Index])]
+        VtopSig = VtopMu * VtopVars[Imax_top]
+        VtopVd = 1.6 * (VtopMu + 1.66*VtopSig)
+        VtopFdom = VtopFdoms[Imax_top]
+        
+        Maatgevende_klasse_fundering = str(treinklasse[Imax])
         Vmax_funderingFdom = Vmax_funderingFdoms[Imax]
         
-        Vrms_maaiveldMu   = np.max(Vrms_maaiveldMus[Index])
-        Imax              = Index[np.argmax(Vrms_maaiveldMus[Index])]  
-        Maatgevende_klasse_maaiveld = treinklasse[Imax]
-        Vrms_maaiveldSig  = Vrms_maaiveldVars[Imax] * Vrms_maaiveldMu
-        Imax            = np.argmax(Vrms_maaiveldspectraalX[:,Index],axis = 1)   
-        Vrmsmax_maaiveldspectraalX = np.max(Vrms_maaiveldspectraalX[:,Index],axis = 1)   # maximale waarde van de categorie per frequentie
-        Sigmamax_maaiveld_spectraalX = Sigma_maaiveld_spectraalX[np.arange(Sigma_maaiveld_spectraalX.shape[0]),Imax]      # Bijbehorende onzekerheid
-        Imax            = np.argmax(Vrms_maaiveldspectraalZ[:,Index],axis = 1) 
-        Vrmsmax_maaiveldspectraalZ = np.max(Vrms_maaiveldspectraalZ[:,Index],axis = 1)
-        Sigmamax_maaiveld_spectraalZ = Sigma_maaiveld_spectraalZ[np.arange(Sigma_maaiveld_spectraalZ.shape[0]),Imax]
-
+        Vrms_maaiveldMu = np.max(Vrms_maaiveldMus[Index])
+        Imax_maaiveld = Index[np.argmax(Vrms_maaiveldMus[Index])]
+        Maatgevende_klasse_maaiveld = str(treinklasse[Imax_maaiveld])
+        Vrms_maaiveldSig = Vrms_maaiveldVars[Imax_maaiveld] * Vrms_maaiveldMu
+        Imax_spec = np.argmax(Vrms_maaiveldspectraal[:,Index], axis=1)
+        Vrmsmax_maaiveldspectraal = np.max(Vrms_maaiveldspectraal[:,Index], axis=1)
+        Sigmamax_maaiveld_spectraal = Sigma_maaiveld_spectraal[np.arange(Sigma_maaiveld_spectraal.shape[0]), Imax_spec]
         
-        Maatgevende_klasse_maaiveld = str(Maatgevende_klasse_maaiveld)  # string van maken
-        Maatgevende_klasse_vloer = str(Maatgevende_klasse_vloer)
-        Maatgevende_klasse_fundering = str(Maatgevende_klasse_fundering)
-        VmaxMu            = np.round(VmaxMu,            decimals=2)
-        VmaxSig           = np.round(VmaxSig,           decimals=3)
-        Vrms_maaiveldMu   = np.round(Vrms_maaiveldMu,   decimals=2)
-        Vrmsmax_maaiveldspectraalX  = np.round(Vrmsmax_maaiveldspectraalX,   decimals=3)
-        Vrmsmax_maaiveldspectraalZ  = np.round(Vrmsmax_maaiveldspectraalZ,   decimals=3)
-        Sigmamax_maaiveld_spectraalX = np.round(Sigmamax_maaiveld_spectraalX, decimals=3)
-        Sigmamax_maaiveld_spectraalZ = np.round(Sigmamax_maaiveld_spectraalZ, decimals=3)
-        Vrms_maaiveldSig  = np.round(Vrms_maaiveldSig,  decimals=3)
-        #stijfheidsratioZ  = np.round(stijfheidsratioZ,  decimals=2)
-        VtopMu            = np.round(VtopMu,            decimals=2)
-        VtopSig           = np.round(VtopSig,           decimals=3)
-        VtopVd            = np.round(VtopVd,            decimals=2)
-        VperMu            = np.round(VperMu,            decimals=3)
-        VperSig           = np.round(VperSig,           decimals=4)
-        Vmax_funderingMu  = np.round(Vmax_funderingMu,  decimals=2)
-        Vmax_funderingSig = np.round(Vmax_funderingSig, decimals=3)
-        Varcoef           = np.round(Varcoef,           decimals=2)
-        Varcoef_maaiveld  = np.round(Varcoef_maaiveld,  decimals=2)
-        Varcoef_fundering = np.round(Varcoef_fundering, decimals=2)
-        Aantaltreinen     = np.round(Aantaltreinen,    decimals=1)
-        Aantaltreinen_dagdeel = np.round(Aantaltreinen_dagdeel,decimals=1)
-        sigma_fundering_worstcase = np.round(sigma_fundering_worstcase, decimals=3)
-        sigma_worstcase = np.round(sigma_worstcase, decimals=3)
-        VmaxMu_gem = np.round(VmaxMu_gem, decimals=2)
-        VmaxMu_gem_fundering = np.round(VmaxMu_gem_fundering, decimals=2)
+        # Afronden
+        Vrms_maaiveldMu = np.round(Vrms_maaiveldMu, 2)
+        Vrmsmax_maaiveldspectraal = np.round(Vrmsmax_maaiveldspectraal, 3)
+        Sigmamax_maaiveld_spectraal = np.round(Sigmamax_maaiveld_spectraal, 3)
+        Vrms_maaiveldSig = np.round(Vrms_maaiveldSig, 3)
+        VtopMu = np.round(VtopMu, 2)
+        VtopSig = np.round(VtopSig, 3)
+        VtopVd = np.round(VtopVd, 2)
+        VperMu = np.round(VperMu, 3)
+        VperSig = np.round(VperSig, 4)
+        Varcoef = np.round(Varcoef, 2)
+        Varcoef_maaiveld = np.round(Varcoef_maaiveld, 2)
+        Varcoef_fundering = np.round(Varcoef_fundering, 2)
+        Aantaltreinen = np.round(Aantaltreinen, 1)
+        Aantaltreinen_dagdeel = np.round(Aantaltreinen_dagdeel, 1)
+        sigma_gem = np.round(sigma_gem, 3)
+        sigma_gem_fundering = np.round(sigma_gem_fundering, 3)
+        VmaxBTS_gem = np.round(VmaxBTS_gem, 2)
+        VmaxBTS_gem_fundering = np.round(VmaxBTS_gem_fundering, 2)
     else:
-        VmaxMu_gem_fundering        = np.zeros(1)
-        VmaxMu_gem = np.zeros(1)
-        Vrmsmax_maaiveldspectraalX     = np.zeros(6)
-        Vrmsmax_maaiveldspectraalZ     = np.zeros(6)
-        Sigmamax_maaiveld_spectraalX   = np.zeros(6)
-        Sigmamax_maaiveld_spectraalZ   = np.zeros(6)
-        VmaxMu                      = np.zeros(1)
-        VmaxSig                     = np.zeros(1)
-        Vrms_maaiveldMu             = np.zeros(1)
-        Vrms_maaiveldSig            = np.zeros(1)
-        VtopMu                      = np.zeros(1)
-        VtopSig                     = np.zeros(1)
-        VtopVd                      = np.zeros(1)
-        VperMu                      = np.zeros(3)
-        VperSig                     = np.zeros(3)
-        Vmax_funderingMu            = np.zeros(1)
-        Vmax_funderingSig           = np.zeros(1)   
-        Varcoef                     = np.zeros(3)
-        Varcoef_maaiveld            = np.zeros(3)
-        Varcoef_fundering           = np.zeros(3)
-        VmaxDir                     = ''
-        VmaxFdom                    = ''
-        VtopDir                     = ''
-        VtopFdom                    = ''
-        Vmax_funderingDir           = ''
-        Vmax_funderingFdom          = ''
-        Maatgevende_klasse_fundering = '' 
+        # Lege output
+        VmaxBTS_gem_fundering = np.zeros(1)
+        VmaxBTS_gem = np.zeros(1)
+        Vrmsmax_maaiveldspectraal = np.zeros(6)
+        Sigmamax_maaiveld_spectraal = np.zeros(6)
+        Vrms_maaiveldMu = np.zeros(1)
+        Vrms_maaiveldSig = np.zeros(1)
+        VtopMu = np.zeros(1)
+        VtopSig = np.zeros(1)
+        VtopVd = np.zeros(1)
+        VperMu = np.zeros(3)
+        VperSig = np.zeros(3)
+        Varcoef = np.zeros(3)
+        Varcoef_maaiveld = np.zeros(3)
+        Varcoef_fundering = np.zeros(3)
+        VmaxFdom = ''
+        VtopFdom = ''
+        Vmax_funderingFdom = ''
+        Maatgevende_klasse_fundering = ''
         Maatgevende_klasse_maaiveld = ''
-        Maatgevende_klasse_vloer    = ''
-        Aantaltreinen               = np.zeros(1)
+        Maatgevende_klasse_vloer = ''
+        Aantaltreinen = np.zeros(1)
         Aantaltreinen_dagdeel = np.zeros(3)
-        sigma_fundering_worstcase   = np.zeros(1)
-        sigma_worstcase             =  np.zeros(1)
-        VmaxMu_gem                  =  np.zeros(1)
-        VmaxMu_gem_fundering        =  np.zeros(1)
+        sigma_gem_fundering = np.zeros(1)
+        sigma_gem = np.zeros(1)
 
-    Aantaltreinen_dic = {'Aantaltreinen_pw': Aantaltreinen.item(0),
-                         'Aantaltreinen_dag':   Aantaltreinen_dagdeel.item(0),
-                         'Aantaltreinen_avond':   Aantaltreinen_dagdeel.item(1),
-                         'Aantaltreinen_nacht':   Aantaltreinen_dagdeel.item(2)}    
-    Maaiveld  = {'Vrms':           Vrms_maaiveldMu.item(0), 
-                    'Vrms_sigma':     Vrms_maaiveldSig.item(0),
-                    'Maatgevende_cat': Maatgevende_klasse_maaiveld,
-                    'variatiecoeffs': Varcoef_maaiveld.tolist(),          # op termijn hier baan-bodem interactie
-                    'Vrms_spectraalX': Vrmsmax_maaiveldspectraalX.tolist(),
-                    'Vrms_spectraalZ': Vrmsmax_maaiveldspectraalZ.tolist(),
-                    'Vrms_sigma_spectraalX': Sigmamax_maaiveld_spectraalX.tolist(),
-                    'Vrms_sigma_spectraalZ': Sigmamax_maaiveld_spectraalZ.tolist()}
-    Fundering = {'Vmax':           Vmax_funderingMu.item(0),
-                    'Vmax_sigma':     Vmax_funderingSig.item(0),
-                    'Maatgevende_cat': Maatgevende_klasse_fundering,
-                    'Vtop':           VtopMu.item(0),
-                    'Vtop_sigma':     VtopSig.item(0),
-                    'Vtop_Vd':        VtopVd.item(0),
-                    'Vtop_Dir':       VtopDir,
-                    'Vtop_Fdom':      VtopFdom,
-                    'Vmax_Dir':       Vmax_funderingDir,
-                    'Vmax_Fdom':      Vmax_funderingFdom,
-                    'variatiecoeffs': Varcoef_fundering.tolist(),
-                    'Vmax_gemiddeld': VmaxMu_gem_fundering.item(0),
-                    'Vmax_gem_sigma': sigma_fundering_worstcase.item(0)}
-    Gebouw    = {'Vmax':           VmaxMu.item(0),       # tolist maakt van np array een gewone array ?
-                    'Vmax_sigma':     VmaxSig.item(0),
-                    'Maatgevende_cat': Maatgevende_klasse_vloer,
-                    'Vper':           VperMu.tolist(),
-                    'Vper_sigma':     VperSig.tolist(),
-                    'Vmax_Dir':       VmaxDir,
-                    'Vmax_Fdom':      VmaxFdom,    
-                    'variatiecoeffs': Varcoef.tolist(),
-                    'Vmax_gemiddeld': VmaxMu_gem.item(0),
-                    'Vmax_gem_sigma': sigma_worstcase.item(0)}
+    Aantaltreinen_dic = {
+        'Aantaltreinen_pw': Aantaltreinen.item(0),
+        'Aantaltreinen_dag': Aantaltreinen_dagdeel.item(0),
+        'Aantaltreinen_avond': Aantaltreinen_dagdeel.item(1),
+        'Aantaltreinen_nacht': Aantaltreinen_dagdeel.item(2)
+    }
+    Maaiveld = {
+        'Vrms': Vrms_maaiveldMu.item(0),
+        'Vrms_sigma': Vrms_maaiveldSig.item(0),
+        'Maatgevende_cat': Maatgevende_klasse_maaiveld,
+        'variatiecoeffs': Varcoef_maaiveld.tolist(),
+        'Vrms_spectraal': Vrmsmax_maaiveldspectraal.tolist(),
+        'Vrms_sigma_spectraal': Sigmamax_maaiveld_spectraal.tolist()
+    }
+    Fundering = {
+        'Vmax': VmaxBTS_gem_fundering.item(0),
+        'Vmax_sigma': sigma_gem_fundering.item(0),
+        'Maatgevende_cat': Maatgevende_klasse_fundering,
+        'Vtop': VtopMu.item(0),
+        'Vtop_sigma': VtopSig.item(0),
+        'Vtop_Vd': VtopVd.item(0),
+        'Vtop_Fdom': VtopFdom,
+        'Vmax_Fdom': Vmax_funderingFdom,
+        'variatiecoeffs': Varcoef_fundering.tolist()
+    }
+    Gebouw = {
+        'Vmax': VmaxBTS_gem.item(0),
+        'Vmax_sigma': sigma_gem.item(0),
+        'Maatgevende_cat': Maatgevende_klasse_vloer,
+        'Vper': VperMu.tolist(),
+        'Vper_sigma': VperSig.tolist(),
+        'Vmax_Fdom': VmaxFdom,
+        'variatiecoeffs': Varcoef.tolist()
+    }
     
-    Resultaten = {'Overzicht': Aantaltreinen_dic, 'Maaiveld': Maaiveld, 'Fundering': Fundering, 'Gebouw': Gebouw}  
-        
+    Resultaten = {
+        'Overzicht': Aantaltreinen_dic,
+        'Maaiveld': Maaiveld,
+        'Fundering': Fundering,
+        'Gebouw': Gebouw
+    }
     return Resultaten
 
 def deformule(Bron,FEM,Hgebouw,Overig):
@@ -570,57 +558,47 @@ def deformule(Bron,FEM,Hgebouw,Overig):
     else:
         axi2line = (25/R[0])**(axi2lineExponent) 
 
-    VmaxMus                     = np.zeros(aantaltreintypes) 
-    VmaxVars                    = np.zeros(aantaltreintypes) 
-    VmaxDirs                    = []                         
-    VmaxFdoms                   = []                        
-    VperMus                     = np.zeros([aantaltreintypes,3]) 
-    VperVars                    = np.zeros([aantaltreintypes,3]) 
-    VtopMus                     = np.zeros(aantaltreintypes)
-    VtopVars                    = np.zeros(aantaltreintypes)
-    VtopDirs                    = []
-    VtopFdoms                   = []
-    Vrms_maaiveldMus            = np.zeros(aantaltreintypes)
-    Vrms_maaiveldVars           = np.zeros(aantaltreintypes)
-    Vmax_funderingMus           = np.zeros(aantaltreintypes)
-    Vmax_funderingVars          = np.zeros(aantaltreintypes)
-    Vmax_funderingDirs          = []
-    Vmax_funderingFdoms         = [] 
-    Vrms_maaiveldspectraalZ     = np.zeros([6,aantaltreintypes])    # Spectrale waarden van maaiveld in Z richting
-    Vrms_maaiveldspectraalX     = np.zeros([6,aantaltreintypes])    # Spectrale waarden van maaiveld in X richting
-    Sigma_maaiveld_spectraalX     = np.zeros([6,aantaltreintypes])    # Variatie coef van maaiveld in X richting
-    Sigma_maaiveld_spectraalZ     = np.zeros([6,aantaltreintypes])    # Variatie coef van maaiveld in Z richting
+    VmaxMus        = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    VmaxVars       = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    VmaxFdoms      = {'Z': [], 'X': []}
+    VperMus        = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
+    VperVars       = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
+    VtopMus        = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    VtopVars       = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    VtopFdoms      = {'Z': [], 'X': []}
+    Vrms_maaiveldMus  = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_maaiveldVars = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vmax_funderingMus     = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vmax_funderingVars    = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vmax_funderingFdoms   = {'Z': [], 'X': []}
+    Vrms_maaiveldspectraal = {'Z': np.zeros([6, aantaltreintypes]), 'X': np.zeros([6, aantaltreintypes])}
+    Sigma_maaiveld_spectraal = {'Z': np.zeros([6, aantaltreintypes]), 'X': np.zeros([6, aantaltreintypes])}
     # resp. Bronkracht, Bron-bodem interactie, Totale Bron, Bodem, Bodem-Gebouw, Totale gebouw:
-    Varcoefs                    = np.zeros([aantaltreintypes,9])  
-    Veffmax_vloer_treintype           = np.zeros(aantaltreintypes)        # Gemiddelde over alle treincategorieen
-    Veffmax_fundering_treintype        = np.zeros(aantaltreintypes)
+    Varcoefs = {'Z': np.zeros([aantaltreintypes, 9]), 'X': np.zeros([aantaltreintypes, 9])}
+    Vrms_vloer_treintype     = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_fundering_treintype = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
     for treintypenr in range(aantaltreintypes): 
         BronInfo = Bron[treintypenr] 
         # constanten:
         aantalBronnen            = len(BronInfo)    # aantal gevonden bronmetingen, grootte van Bron
-        VmaxMuss                 = np.zeros(aantalScenarios) 
-        VmaxVarss                = np.zeros(aantalScenarios)
-        VmaxDirss                = []
-        VmaxFdomss               = [] 
-        VperMuss                 = np.zeros([3,aantalScenarios])
-        VperVarss                = np.zeros([3,aantalScenarios])
-        VtopMuss                 = np.zeros(aantalScenarios)
-        VtopVarss                = np.zeros(aantalScenarios)
-        VtopDirss                = []
-        VtopFdomss               = []
-        Vrms_maaiveldMuss        = np.zeros(aantalScenarios)
-        Vrms_maaiveldVarss       = np.zeros(aantalScenarios)
-        Vmax_funderingMuss       = np.zeros(aantalScenarios)
-        Vmax_funderingVarss      = np.zeros(aantalScenarios)
-        Vmax_funderingDirss      = []
-        Vmax_funderingFdomss     = [] 
-        Varcoefss                = np.zeros([9,aantalScenarios])
-        Vrms_maaiveldspectraalZs = np.zeros([6,aantalScenarios])    
-        Vrms_maaiveldspectraalXs = np.zeros([6,aantalScenarios])    
-        VeffmaxMu_scenario             = np.zeros(aantalScenarios)
-        Veffmax_fundering_scenario   = np.zeros(aantalScenarios)
-        Sigma_maaiveld_spectraalXs = np.zeros([6,aantalScenarios])
-        Sigma_maaiveld_spectraalZs = np.zeros([6,aantalScenarios])
+        VmaxMuss      = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        VmaxVarss     = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        VmaxFdomss    = {'Z': [], 'X': []}
+        VperMuss      = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
+        VperVarss     = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
+        VtopMuss      = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        VtopVarss     = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        VtopFdomss    = {'Z': [], 'X': []}
+        Vrms_maaiveldMuss  = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_maaiveldVarss = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vmax_funderingMuss    = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vmax_funderingVarss   = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vmax_funderingFdomss  = {'Z': [], 'X': []}
+        Varcoefss = {'Z': np.zeros([9, aantalScenarios]), 'X': np.zeros([9, aantalScenarios])}
+        Vrms_maaiveldspectraal_s = {'Z': np.zeros([6, aantalScenarios]), 'X': np.zeros([6, aantalScenarios])}
+        Sigma_maaiveld_spectraal_s = {'Z': np.zeros([6, aantalScenarios]), 'X': np.zeros([6, aantalScenarios])}
+        Vrms_vloer_scenario           = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_fundering_scenario   = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
         # vertaalspoorligging (bij 130km/uur) naar snelheid van deze trein 
         CgeoZtrein               = shiftCgeoSpectrum(CgeoZ,130,snelheid[treintypenr]) 
         CgeoXtrein               =  shiftCgeoSpectrum(CgeoX,130,snelheid[treintypenr])
@@ -631,11 +609,11 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             Y           = np.array(FEMscenario["Y"])             # 1x6 uit FEM, naar ontvangpunt
             Y_ratio     = np.array(FEMscenario["Y_ratio"])       # 1x6
             varY        = np.array(FEMscenario["var_Y"])         # 6x6 covariantiecoefficient
-            varY_ratio  = np.array(FEMscenario["var_Y_ratio"])   # nog neit in gebruik
+            #varY_ratio  = np.array(FEMscenario["var_Y_ratio"])   # nog neit in gebruik
             
             # van covariantiecoefficienten echte covariantiematrices maken
             cov_Y       = np.ones([6,6]) * np.transpose(varY[np.newaxis]) * varY # maximale relaties tussen banden
-            cov_Y_ratio = np.ones([6,6]) * np.transpose(varY_ratio[np.newaxis]) * varY_ratio # maximale relaties tussen banden
+           # cov_Y_ratio = np.ones([6,6]) * np.transpose(varY_ratio[np.newaxis]) * varY_ratio # maximale relaties tussen banden
 
             # Eerst maar eens de brongegevens bepalen, door ze te kiezen uit de gemeten bronnen kiezen
             if aantalBronnen==1:    # dan kiezen we nu die meting, in feite zonder de bronkracht te modificeren
@@ -673,254 +651,189 @@ def deformule(Bron,FEM,Hgebouw,Overig):
             FX      = DictOut['muX']
             cov_FZ  = DictOut['covZ']     # covariantiecoefficient
             cov_FX  = DictOut['covX']
+            #### verwerking per richting
+            for richting in ['Z', 'X']:
+                if richting == 'Z':
+                    Vrms_maaiveld = FZ * CgeoZtrein * Y * axi2line # kernformule
+                    cov_Vrms_maaiveld = CovariantProduct(FZ * CgeoZtrein, cov_FZ, Y * axi2line, cov_Y)
+                    DictOut= RSSmetCovarLognormaal(FZ, cov_FZ)
+                    dW = dWk
+                    # Specifiek voor vloerberekeningen
+                    vloer_indices = [0, 1, 2]
+                    vloer_keys = ['Hzz1', 'Hzz2', 'Hzx']
+                    vloer_cov_keys = ['cov_Hzz1', 'cov_Hzz2', 'cov_Hzx']
+                    fundering_key = 'Hfzz'
+                    fundering_cov_key = 'cov_Hfzz'
+                   # richtingen_vloer = ['zz1', 'zz2', 'zx'] # dit voeren we niet meer uit
+                   # richting_fundering = 'zz'
+                else:
+                    Vrms_maaiveld = FX * CgeoXtrein * Y * Y_ratio * axi2line # kernformule
+                    cov_Vrms_maaiveld = CovariantProduct(FX * CgeoXtrein, cov_FX, Y * axi2line * Y_ratio, cov_Y)
+                    DictOut = RSSmetCovarLognormaal(FX, cov_FX)
+                    dW = dWd
+                    # Specifiek voor vloerberekeningen
+                    vloer_indices = [3]      # Alleen xx
+                    vloer_keys = ['Hxx']
+                    vloer_cov_keys = ['cov_Hxx']
+                    fundering_key = 'Hfxx'
+                    fundering_cov_key = 'cov_Hfxx'
+                    #richtingen_vloer = ['xx']
+                    #richting_fundering = 'xx'
 
-            # bepalen van totale onzekerheid in bron
-            maxZ = np.sqrt(sum(FZ**2))    # 5% herstel van verlies door octaafbanddecompositie
-            maxX = np.sqrt(sum(FX**2))    # en van meters/s naar mm/s
-            if maxZ>=maxX:
-                DictOut = RSSmetCovarLognormaal(FZ,cov_FZ)
-            else:
-                DictOut = RSSmetCovarLognormaal(FX,cov_FX)
-            Varcoefss[1,scenario] = DictOut['var']      # totale bron onzekerheid
-            
-            # F en Y samenbrengen tot Vrms_maaiveld (de kernformule)
-            Vrms_maaiveldZ     = FZ * CgeoZtrein * Y *           axi2line
-            Vrms_maaiveldX     = FX * CgeoXtrein * Y * Y_ratio * axi2line
-            cov_Vrms_maaiveldZ = CovariantProduct(FZ*CgeoZtrein, cov_FZ, Y*axi2line,         cov_Y)
-            cov_Vrms_maaiveldX = CovariantProduct(FX*CgeoXtrein, cov_FX, Y*axi2line*Y_ratio, cov_Y)
-            
-            # uitvoer van maaiveldniveau, tbv toekomstige regelgeving
-            maxZ = np.sqrt(sum(Vrms_maaiveldZ**2))*1.05*1e3    # 5% herstel van verlies door octaafbanddecompositie
-            maxX = np.sqrt(sum(Vrms_maaiveldX**2))*1.05*1e3    # en van meters/s naar mm/s
-            if maxZ>=maxX:
-                DictOut = RSSmetCovarLognormaal(Vrms_maaiveldZ,cov_Vrms_maaiveldZ)
+                # Onzekerheid in bron (per richting)
+                Varcoefss[richting][1, scenario] = DictOut['var'] # bron onzekerheid pr richting
 
-            else:
-                DictOut = RSSmetCovarLognormaal(Vrms_maaiveldX,cov_Vrms_maaiveldX)
+                # Uitvoer maaiveld
+                Vrms_maaiveldspectraal_s[richting][:, scenario] = Vrms_maaiveld * 1e3
+                Sigma_maaiveld_spectraal_s[richting][:, scenario] = np.diagonal(cov_Vrms_maaiveld) * Vrms_maaiveld * 1e3 # diagonaal is relatieve sigma, dit is relatief dus maal Vrms_maaiveld
 
-            Vrms_maaiveldMuss[scenario]  = DictOut['mu'] * 1.05*1e3
-            Vrms_maaiveldVarss[scenario] = DictOut['var']  
-    
-            ## Voor elk scenario en elke categorie de Vrms per richting per frequentieband opslaan
-            Vrms_maaiveldspectraalZs[:,scenario] = Vrms_maaiveldZ*1e3       # naar mm/s ook
-            Vrms_maaiveldspectraalXs[:,scenario] = Vrms_maaiveldX*1e3
+                DictOut_mu = RSSmetCovarLognormaal(Vrms_maaiveld, cov_Vrms_maaiveld)
+                Vrms_maaiveldMuss[richting][scenario]  = DictOut_mu['mu'] * 1.05 * 1e3 # 5 procent therstel voor verlies octaafbanddecompositie
+                Vrms_maaiveldVarss[richting][scenario] = DictOut_mu['var']
 
-            Sigma_maaiveld_spectraalXs[:,scenario] = np.sqrt(np.diagonal(cov_Vrms_maaiveldX))*Vrms_maaiveldX*1e3 # standaard deviatie per frequentieband maaiveld
-            Sigma_maaiveld_spectraalZs[:,scenario] = np.sqrt(np.diagonal(cov_Vrms_maaiveldZ))*Vrms_maaiveldZ*1e3
-        
-            # bijdrage bodemvoortplankng aan totale onzekerheid
-            Varcoefverschil = Vrms_maaiveldVarss[scenario]**2 - Varcoefss[1,scenario]**2
-            Varcoefss[2,scenario] = np.sign(Varcoefverschil) * np.sqrt(np.abs(Varcoefverschil))
-            
-            # combineren met Hgebouw tot Vrms_vloer
-            # Vrms_vloer 1x4, resp. z1, z2, x1 en x2
-            Vrms_vloerMu   = np.zeros(4)
-            Vrms_vloerVar  = np.zeros(4)
-            Vrms_overdrVar = np.zeros(4)
-            Vrms_gebouwVar = np.zeros(4)
-            Vrms_bronVar   = np.zeros(4)
-            Vrms_bodemVar = np.zeros(4)
-            
-            DominanteBand = [0,0,0,0]
-            var_Vrms_maaiveldZ = np.diagonal(cov_Vrms_maaiveldZ) # quick fix, liever straks de hele covar Vloer
-            var_Vrms_maaiveldX = np.diagonal(cov_Vrms_maaiveldX)
-            
-            # Vertikale maaiveldtrillingen naar de vloer (3 paden)
-            Vmu        =  Vrms_maaiveldZ * dWk
-            #Vvar   = (var_Vrms_maaiveldZ * dWk)**2  # b9g question: dF en zo: 1 of 2 keer sig?  ik ga nu uit van 1 keer sig...
-            Vvariantie =  (var_Vrms_maaiveldZ * Vmu)**2
-            # ten behoeve van bijdrage van bron aan onzekerheid
-            Fmu        =  FZ * CgeoZtrein * Y*axi2line
-            Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 *  Y**2*axi2line**2
+                Varcoefverschil = Vrms_maaiveldVarss[richting][scenario]**2 - Varcoefss[richting][1, scenario]**2
+                Varcoefss[richting][2, scenario] = np.sign(Varcoefverschil) * np.sqrt(np.abs(Varcoefverschil))
 
-            # Vrms_vloer z1:
-            Hmu     = np.array(HgebouwScenario["Hzz1"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hzz1"])   
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_vloerMu[0]   = DictOut['mu']
-            Vrms_vloerVar[0]  = DictOut['var']
-            DominanteBand[0]  = DictOut['dominanteBand']
-            Vrms_overdrVar[0] = DictOut['varV']  # bron+overdracht
-            Vrms_gebouwVar[0] = DictOut['varH']  # gebouw
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[0]   = DictOut['varV']  # bron
-            
-            # Vrms_vloer z2:
-            Hmu     = np.array(HgebouwScenario["Hzz2"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hzz2"])
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_vloerMu[1]  = DictOut['mu']
-            Vrms_vloerVar[1] = DictOut['var']
-            DominanteBand[1] = DictOut['dominanteBand']
-            Vrms_overdrVar[1] = DictOut['varV']  # bron+overdracht
-            Vrms_gebouwVar[1] = DictOut['varH']  # gebouw
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[1]   = DictOut['varV']  # bron
+                # === combineren met Hgebouw tot Vrms_vloer ===
+                n_vloer = len(vloer_indices)
+                Vrms_vloerMu   = np.zeros(n_vloer)
+                Vrms_vloerVar  = np.zeros(n_vloer)
+                Vrms_overdrVar = np.zeros(n_vloer)
+                Vrms_gebouwVar = np.zeros(n_vloer)
+                Vrms_bronVar   = np.zeros(n_vloer)
+                DominanteBand  = [0]*n_vloer
+                var_Vrms_maaiveld = np.diagonal(cov_Vrms_maaiveld) # quick fix, liever straks de hele covar Vloer
+                
+                # Bron is di tneit gwn Vrms? Daardoor beetje vearnderd. Want verschlvan Vmu en Fmu is dan allene de weiging
+                if richting == 'Z':
+                    Fmu = FZ * CgeoZtrein * Y * axi2line # is dit niet gewoon vrms?
+                    Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2 * axi2line**2
+                else:
+                    Fmu = FX * CgeoXtrein * Y * axi2line * Y_ratio
+                    Fvariantie = (FX * CgeoXtrein * np.diagonal(cov_FX))**2 * Y**2 * axi2line**2 * Y_ratio**2
 
-            # Vrms_vloer zx:
-            Vmu        =  Vrms_maaiveldZ * dWd
-            Vvariantie =  (var_Vrms_maaiveldZ * Vmu)**2
-            Hmu     = np.array(HgebouwScenario["Hzx"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hzx"])
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_vloerMu[2]  = DictOut['mu']
-            Vrms_vloerVar[2] = DictOut['var']
-            DominanteBand[2] = DictOut['dominanteBand']
-            Vrms_overdrVar[2] = DictOut['varV']  # bron+overdracht
-            Vrms_gebouwVar[2] = DictOut['varH']  # gebouw
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[2]   = DictOut['varV']  # bron
-            
-            # Horizontale maaiveldtrillingen naar de vloer (1 pad)
-            Vmu    =  Vrms_maaiveldX * dWd
-            Vvariantie  =  (var_Vrms_maaiveldX * Vmu)**2
-            # ten behoeve van bijdrage van bron aan onzekerheid
-            Fmu        =  FX * CgeoX * Y*axi2line * Y_ratio
-            Fvariantie = (FX * CgeoX * np.diagonal(cov_FX))**2 * Y**2*axi2line**2 * Y_ratio**2
-            
-            # Vrms_vloer x2:
-            Hmu     = np.array(HgebouwScenario["Hxx"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hxx"])
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_vloerMu[3]  = DictOut['mu']
-            Vrms_vloerVar[3] = DictOut['var']
-            DominanteBand[3] = DictOut['dominanteBand']
-            Vrms_overdrVar[3] = DictOut['varV']  # bron+overdracht
-            Vrms_gebouwVar[3] = DictOut['varH']  # gebouw
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[3]   = DictOut['varV']  # bron
-            
-            # Maximum bepalen van de vier trilvormen
-            VrmsvloerMax = np.max(Vrms_vloerMu)
-            Imax         = np.argmax(Vrms_vloerMu)
-            VeffmaxMu             = 1.95 * VrmsvloerMax * 1e3  # in mm/s
-            VeffmaxMu_scenario[scenario] = VeffmaxMu # Oplaan voor gemiddelde vmax
-            if totaalaantaltreinen[treintypenr]>=1:
-               VmaxMuss[scenario] = VeffmaxMu * np.exp(.3*stats.t.ppf(1-1/totaalaantaltreinen[treintypenr],np.round(totaalaantaltreinen[treintypenr])))
-            else:
-               VmaxMuss[scenario] = 0
-            # spreiding is die van dominante trilvorm
-            VmaxVarss[scenario]   = Vrms_vloerVar[Imax]        # dit moet echt 1x sigma zijn !
-            VarcoefbijdrageBron   = Vrms_bronVar[Imax]
-            VarcoefbijdrageOverdr = Vrms_overdrVar[Imax]
-            VarcoefbijdrageGebouw = Vrms_gebouwVar[Imax]
-            
-            # bijdrage gebouw aan totale onzekerheid
-            Varcoefss[6,scenario] = VarcoefbijdrageBron  # totale bron, vanuit vloer gezien
-            Varcoef2verschil      = VarcoefbijdrageOverdr**2 - VarcoefbijdrageBron**2
-            Varcoefss[7,scenario] = np.sqrt(abs(Varcoef2verschil)) * np.sign(Varcoef2verschil)
-            Varcoefss[8,scenario] = VarcoefbijdrageGebouw
-                        
-            richtingen  = ['zz','zz','zx','xx']
-            frequenties = ['2 Hz','4 Hz','8 Hz','16 Hz','32 Hz','63 Hz']
-            VmaxDirss.append(richtingen[Imax]) # 1..4, zz zz zx xx
-            VmaxFdomss.append(frequenties[DominanteBand[Imax]])
-            
-            # Hieruit Vper
-            x = np.linspace(.1,10,991)  # in mm/s,  stapgrootte .01, dat meenemen in de integraal => .1
-            PDF = np.exp(-(np.log(x)-np.log(VeffmaxMu))**2/(.18))/(x*.752)
-            aantalperiodes = [1440,480,960]  # dag,avond,nacht
-            VperMu = np.zeros(3)
-            for dagdeel in range(3):
-                dagdeelratio = aantaltreinen[treintypenr,dagdeel]/7/aantalperiodes[dagdeel]
-                VperMu[dagdeel]  = .1*np.sqrt(dagdeelratio*np.sum(PDF*x**2)) 
-            VperVarss[:,scenario] = VmaxVarss[scenario]
-            VperMuss[:,scenario]  = VperMu
-            
-            
-            # Nu de fundering: Vtop (schade) en Vmaxfundering
-            Vrms_funderingMu   = np.zeros(2)
-            Vrms_funderingVar  = np.zeros(2)
-            DominanteBandFund  = [0,0]
-            DominanteBandFundA = [0,0]
-            # horizontaal
-            Vmu     = Vrms_maaiveldX
-            Vvariantie  =  (var_Vrms_maaiveldX * Vmu)**2
-            Hmu     = np.array(HgebouwScenario["Hfxx"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hfxx"])
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_funderingMu[0]   = DictOut['mu']
-            Vrms_funderingVar[0]  = DictOut['var']
-            DominanteBandFund[0]  = DictOut['dominanteBand']
-            DominanteBandFundA[0] = DictOut['dominanteBandA']
-            Vrms_gebouwVar[0]     = DictOut['varH']  # fundering apart
-            Vrms_bodemVar[0]      = DictOut['varV']  # vanuit oogpunt fundeirng
-            Fmu        =  FX * CgeoX * Y*axi2line * Y_ratio
-            Fvariantie = (FX * CgeoX * np.diagonal(cov_FX))**2 * Y**2*axi2line**2 * Y_ratio**2
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[0]      = DictOut['varV']  # bron
-            
-            # vertikaal
-            Vmu     = Vrms_maaiveldZ
-            Vvariantie  =  (var_Vrms_maaiveldZ * Vmu)**2
-            Hmu     = np.array(HgebouwScenario["Hfzz"])
-            Hcovar  = np.array(HgebouwScenario["cov_Hfzz"])
-            DictOut = VloerLognormaal(Vmu,Vvariantie,Hmu,Hcovar)
-            Vrms_funderingMu[1]   = DictOut['mu']
-            Vrms_funderingVar[1]  = DictOut['var']
-            DominanteBandFund[1]  = DictOut['dominanteBand']   
-            DominanteBandFundA[1] = DictOut['dominanteBandA']
-            Vrms_gebouwVar[1]     = DictOut['varH']  # fundering apart
-            Vrms_bodemVar[1]      = DictOut['varV']  # vanuit oogpunt fundeirng
-            Fmu        =  FZ * CgeoZtrein * Y*axi2line
-            Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2*axi2line**2
-            DictOut = VloerLognormaal(Fmu,Fvariantie,Hmu,Hcovar)
-            Vrms_bronVar[1]      = DictOut['varV']  # bron            
-            # Maximum bepalen van de twee trilrichtingen
-            VrmsfunderingMax = np.max(Vrms_funderingMu)  
-            Imax             = np.argmax(Vrms_funderingMu)   
-            ## Opslaan VrmsfunderingMax voor gemiddelde per cat
-            Veffmax_fundering_scenario[scenario] = 1.95*VrmsfunderingMax *1e3 #  naar mm/s, opslaan voor gemiddelde vmax
-            # Daarmee Vmax en Vtop op de fundering uitrekenen
-            if totaalaantaltreinen[treintypenr]>=1:
-               Vmax_funderingMuss[scenario]  = 1.95 * VrmsfunderingMax * np.exp(.3*stats.t.ppf(1-1/totaalaantaltreinen[treintypenr],totaalaantaltreinen[treintypenr])) * 1e3  # in [-]
-            else:
-               Vmax_funderingMuss[scenario]  = 0
-               
-            VtopMuss[scenario]            = 2.4  * Vmax_funderingMuss[scenario]
-            # spreiding is die van dominante trilrichting
-            VtopVarss[scenario]           = Vrms_funderingVar[Imax]        # dit moet echt 1x sigma zijn !
-            Vmax_funderingVarss[scenario] = Vrms_funderingVar[Imax]        # dit moet echt 1x sigma zijn !
-            
-            # bijdrage bodem-gebouw interactie aan totale onzekerheid
-            Varcoefss[3,scenario] = Vrms_bronVar[Imax]
-            Varcoefss[4,scenario] = Vrms_bodemVar[Imax]  # bodem vanuit fundering
-            Varcoefss[5,scenario] = Vrms_gebouwVar[Imax] # 
-            
-            richtingen  = ['xx','zz']
-            frequenties = ['2 Hz','4 Hz','8 Hz','16 Hz','32 Hz','63 Hz']
-            VtopDirss.append(richtingen[Imax]) # 1..4, zz zz zx xx
-            VtopFdomss.append(frequenties[DominanteBandFundA[Imax]])
-            Vmax_funderingDirss.append(richtingen[Imax]) # 1..4, zz zz zx xx
-            Vmax_funderingFdomss.append(frequenties[DominanteBandFund[Imax]])
+                for i, (key, covkey) in enumerate(zip(vloer_keys, vloer_cov_keys)):
+                    if richting == 'Z' and i == 2:  # zx
+                        Vmu = Vrms_maaiveld * dWd
+                    else:
+                        Vmu = Vrms_maaiveld * dW # dWk voor Z en dWd voor X
+                    Vvariantie = (var_Vrms_maaiveld * Vmu)**2
+                    Hmu = np.array(HgebouwScenario[key])
+                    Hcovar = np.array(HgebouwScenario[covkey])
+                    DictOut = VloerLognormaal(Vmu, Vvariantie, Hmu, Hcovar)
+                    Vrms_vloerMu[i]   = DictOut['mu']
+                    Vrms_vloerVar[i]  = DictOut['var']
+                    DominanteBand[i]  = DictOut['dominanteBand']
+                    Vrms_overdrVar[i] = DictOut['varV'] # bron+overdracht
+                    Vrms_gebouwVar[i] = DictOut['varH'] # gebouw
+                 
+                    DictOut = VloerLognormaal(Fmu, Fvariantie, Hmu, Hcovar)
+                    Vrms_bronVar[i] = DictOut['varV'] # bron
+                    
+                # We nemen het maximum van de3 trilvormen voor Z en 1 voor X
+                VrmsvloerMax = np.max(Vrms_vloerMu)
+                Imax = np.argmax(Vrms_vloerMu)
+                
+                Vrms_vloer_scenario[richting][scenario] = VrmsvloerMax * 1e3
+                VmaxMuss[richting][scenario] = naverwerking_BTS(VrmsvloerMax, totaalaantaltreinen[treintypenr]) * 1e3
+      
+                # spreiding is die van de dominante trillingsvorm  
+                VmaxVarss[richting][scenario] = Vrms_vloerVar[Imax]
+                VarcoefbijdrageBron   = Vrms_bronVar[Imax]
+                VarcoefbijdrageOverdr = Vrms_overdrVar[Imax]
+                VarcoefbijdrageGebouw = Vrms_gebouwVar[Imax]
+                
+                #Bijdrage totale onzekerheid
+                Varcoefss[richting][6, scenario] = VarcoefbijdrageBron
+                Varcoef2verschil = VarcoefbijdrageOverdr**2 - VarcoefbijdrageBron**2
+                Varcoefss[richting][7, scenario] = np.sqrt(abs(Varcoef2verschil)) * np.sign(Varcoef2verschil)
+                Varcoefss[richting][8, scenario] = VarcoefbijdrageGebouw
+
+                frequenties = ['2 Hz', '4 Hz', '8 Hz', '16 Hz', '32 Hz', '63 Hz']
+                VmaxFdomss[richting].append(frequenties[DominanteBand[Imax]])
+
+                # Vper
+                VeffmaxMu = 1.95 * VrmsvloerMax * 1e3
+                x = np.linspace(.1, 10, 991)
+                PDF = np.exp(-(np.log(x) - np.log(VeffmaxMu))**2 / (.18)) / (x * .752)
+                aantalperiodes = [1440, 480, 960]
+                VperMu = np.zeros(3)
+                for dagdeel in range(3):
+                    dagdeelratio = aantaltreinen[treintypenr, dagdeel] / 7 / aantalperiodes[dagdeel]
+                    VperMu[dagdeel] = .1 * np.sqrt(dagdeelratio * np.sum(PDF * x**2))
+                VperVarss[richting][:, scenario] = VmaxVarss[richting][scenario]
+                VperMuss[richting][:, scenario] = VperMu
+
+                # === Fundering: Vtop (schade) en Vmaxfundering ===
+                Vrms_funderingMu   = np.zeros(1)
+                Vrms_funderingVar  = np.zeros(1)
+                DominanteBandFund  = [0]
+                DominanteBandFundA = [0]
+                Vrms_gebouwVar_f   = np.zeros(1)
+                Vrms_bodemVar_f    = np.zeros(1)
+                Vrms_bronVar_f     = np.zeros(1)
+
+                Vmu = Vrms_maaiveld
+                Vvariantie = (var_Vrms_maaiveld * Vmu)**2 # diag(Covar) == sigma relatief dus d tis sigma^2/Vmu^2 * Vmu^2 geeft absolute sigma^2 = Variantie
+                Hmu = np.array(HgebouwScenario[fundering_key])
+                Hcovar = np.array(HgebouwScenario[fundering_cov_key])
+                DictOut = VloerLognormaal(Vmu, Vvariantie, Hmu, Hcovar)
+                Vrms_funderingMu[0]   = DictOut['mu']
+                Vrms_funderingVar[0]  = DictOut['var']
+                DominanteBandFund[0]  = DictOut['dominanteBand']
+                DominanteBandFundA[0] = DictOut['dominanteBandA']
+                Vrms_gebouwVar_f[0]   = DictOut['varH'] # fundering apart
+                Vrms_bodemVar_f[0]    = DictOut['varV'] # vanuit oogpunt fundeirng
+
+                if richting == 'Z':
+                    Fmu = FZ * CgeoZtrein * Y * axi2line
+                    Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2 * axi2line**2
+                else:
+                    Fmu = FX * CgeoXtrein * Y * axi2line * Y_ratio
+                    Fvariantie = (FX * CgeoXtrein * np.diagonal(cov_FX))**2 * Y**2 * axi2line**2 * Y_ratio**2
+                DictOut = VloerLognormaal(Fmu, Fvariantie, Hmu, Hcovar)
+                Vrms_bronVar_f[0] = DictOut['varV']
+
+                # Altijd maar 1 optie want 1 waarde per ricthing
+                VrmsfunderingMax = Vrms_funderingMu[0]
+                Imax_f = 0
+
+                Vrms_fundering_scenario[richting][scenario] = VrmsfunderingMax * 1e3
+                Vmax_funderingMuss[richting][scenario] = naverwerking_BTS(VrmsfunderingMax, totaalaantaltreinen[treintypenr]) * 1e3
+              
+                VtopMuss[richting][scenario] = 2.4 * Vmax_funderingMuss[richting][scenario]
+                VtopVarss[richting][scenario] = Vrms_funderingVar[0]
+                Vmax_funderingVarss[richting][scenario] = Vrms_funderingVar[0]
+
+                Varcoefss[richting][3, scenario] = Vrms_bronVar_f[0]
+                Varcoefss[richting][4, scenario] = Vrms_bodemVar_f[0]
+                Varcoefss[richting][5, scenario] = Vrms_gebouwVar_f[0]
+
+                VtopFdomss[richting].append(frequenties[DominanteBandFundA[Imax_f]])
+                Vmax_funderingFdomss[richting].append(frequenties[DominanteBandFund[Imax_f]])
             
         
         # wrap up van de scenario's
-        IndexDominanteScenario = np.argmax(scenarioKansen)
-        Veffmax_fundering_treintype[treintypenr] = np.sum(Veffmax_fundering_scenario*scenarioKansen)    
-        Veffmax_vloer_treintype[treintypenr] = np.sum(VeffmaxMu_scenario*scenarioKansen)
-        VmaxMus[treintypenr]            = np.sum(VmaxMuss  *scenarioKansen)
-        VmaxVars[treintypenr]           = np.sum(VmaxVarss *scenarioKansen)
-        VmaxDirs.append                  (VmaxDirss [IndexDominanteScenario])
-        VmaxFdoms.append                 (VmaxFdomss[IndexDominanteScenario]) 
-        VperMus [treintypenr]           = np.sum(VperMuss  *scenarioKansen, axis=1)
-        VperVars[treintypenr]           = np.sum(VperVarss *scenarioKansen, axis=1)
-        VtopMus [treintypenr]           = np.sum(VtopMuss  *scenarioKansen)
-        VtopVars[treintypenr]           = np.sum(VtopVarss *scenarioKansen)
-        VtopDirs.append                  (VtopDirss [IndexDominanteScenario])
-        VtopFdoms.append                 (VtopFdomss[IndexDominanteScenario])
-        Vmax_funderingMus [treintypenr] = np.sum(Vmax_funderingMuss  *scenarioKansen)
-        Vmax_funderingVars[treintypenr] = np.sum(Vmax_funderingVarss *scenarioKansen)
-        Vmax_funderingDirs.append        (Vmax_funderingDirss [IndexDominanteScenario])
-        Vmax_funderingFdoms.append       (Vmax_funderingFdomss[IndexDominanteScenario])       
-        Vrms_maaiveldMus  [treintypenr] = np.sum(Vrms_maaiveldMuss   *scenarioKansen)
-        Vrms_maaiveldVars [treintypenr] = np.sum(Vrms_maaiveldVarss  *scenarioKansen)
-        Vrms_maaiveldspectraalX[:,treintypenr] = np.sum(Vrms_maaiveldspectraalXs *scenarioKansen, axis = 1)
-        Vrms_maaiveldspectraalZ[:,treintypenr] = np.sum(Vrms_maaiveldspectraalZs *scenarioKansen, axis = 1)
-        Sigma_maaiveld_spectraalX[:,treintypenr] = np.sum(Sigma_maaiveld_spectraalXs *scenarioKansen, axis = 1)
-        Sigma_maaiveld_spectraalZ[:,treintypenr] = np.sum(Sigma_maaiveld_spectraalZs *scenarioKansen, axis = 1)
-        Varcoefs[treintypenr] = np.sum(Varcoefss *scenarioKansen, axis=1)
-
+        for richting in ['Z', 'X']:
+            IndexDominanteScenario = np.argmax(scenarioKansen)
+            Vrms_fundering_treintype[richting][treintypenr] = np.sum(Vrms_fundering_scenario[richting] * scenarioKansen)
+            Vrms_vloer_treintype[richting][treintypenr]     = np.sum(Vrms_vloer_scenario[richting] * scenarioKansen)
+            VmaxMus[richting][treintypenr]                     = np.sum(VmaxMuss[richting] * scenarioKansen)
+            VmaxVars[richting][treintypenr]                    = np.sum(VmaxVarss[richting] * scenarioKansen)
+            VmaxFdoms[richting].append                         (VmaxFdomss[richting][IndexDominanteScenario])
+            VperMus[richting][treintypenr]                     = np.sum(VperMuss[richting] * scenarioKansen, axis=1)
+            VperVars[richting][treintypenr]                    = np.sum(VperVarss[richting] * scenarioKansen, axis=1)
+            VtopMus[richting][treintypenr]                     = np.sum(VtopMuss[richting] * scenarioKansen)
+            VtopVars[richting][treintypenr]                    = np.sum(VtopVarss[richting] * scenarioKansen)
+            VtopFdoms[richting].append                         (VtopFdomss[richting][IndexDominanteScenario])
+            Vmax_funderingMus[richting][treintypenr]           = np.sum(Vmax_funderingMuss[richting] * scenarioKansen)
+            Vmax_funderingVars[richting][treintypenr]          = np.sum(Vmax_funderingVarss[richting] * scenarioKansen)
+            Vmax_funderingFdoms[richting].append               (Vmax_funderingFdomss[richting][IndexDominanteScenario])
+            Vrms_maaiveldMus[richting][treintypenr]            = np.sum(Vrms_maaiveldMuss[richting] * scenarioKansen)
+            Vrms_maaiveldVars[richting][treintypenr]           = np.sum(Vrms_maaiveldVarss[richting] * scenarioKansen)
+            Vrms_maaiveldspectraal[richting][:, treintypenr]   = np.sum(Vrms_maaiveldspectraal_s[richting] * scenarioKansen, axis=1)
+            Sigma_maaiveld_spectraal[richting][:, treintypenr] = np.sum(Sigma_maaiveld_spectraal_s[richting] * scenarioKansen, axis=1)
+            Varcoefs[richting][treintypenr]                    = np.sum(Varcoefss[richting] * scenarioKansen, axis=1)
     # resultaten van alle treintypes samenbrengen, per treinklasse
     IndexReizigers = [i for i,e in enumerate(treinklasse) if e<=10]
     IndexGoederen  = [i for i,e in enumerate(treinklasse) if e>10]
@@ -928,16 +841,101 @@ def deformule(Bron,FEM,Hgebouw,Overig):
 
 
     ## Hier wordt alle output samengesteld en wordt ook Vmax,bts berekend ipv veffmax gemiddeld over de treintypes.
-    ResultatenReizigers   = OutputSamenstellen(treinklasse,IndexReizigers,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)
-    ResultatenGoederen    = OutputSamenstellen(treinklasse,IndexGoederen,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype, VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)              
-    ResultatenAlleTreinen = OutputSamenstellen(treinklasse,IndexAlles,Veffmax_fundering_treintype, Vrms_maaiveldspectraalX,Vrms_maaiveldspectraalZ,totaalaantaltreinen,Veffmax_vloer_treintype,VperVars, VperMus, VmaxMus, VmaxVars, VmaxDirs, VmaxFdoms, Varcoefs, VtopMus, VtopVars, VtopDirs, VtopFdoms, Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingDirs, Vmax_funderingFdoms, Vrms_maaiveldMus, Vrms_maaiveldVars,Sigma_maaiveld_spectraalX,Sigma_maaiveld_spectraalZ,aantaltreinen)                  
-     
-    Resultaten = { 'AlleTreinen': ResultatenAlleTreinen,      
-                   'Reizigers':   ResultatenReizigers,
-                   'Goederen':    ResultatenGoederen}
-                                    
+    Resultaten = {
+    'AlleTreinen': {},
+    'Reizigers': {},
+    'Goederen': {}
+    }   
+    for richting in ['Z', 'X']:
+        ResultatenReizigers   = OutputSamenstellen(
+            treinklasse, IndexReizigers,
+            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
+            totaalaantaltreinen, Vrms_vloer_treintype,
+            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
+            VtopMus, VtopVars, VtopFdoms,
+            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+            Vrms_maaiveldMus, Vrms_maaiveldVars,
+            Sigma_maaiveld_spectraal,
+            aantaltreinen,
+            richting
+        )
+        ResultatenGoederen    = OutputSamenstellen(
+            treinklasse, IndexGoederen,
+            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
+            totaalaantaltreinen, Vrms_vloer_treintype,
+            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
+            VtopMus, VtopVars, VtopFdoms,
+            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+            Vrms_maaiveldMus, Vrms_maaiveldVars,
+            Sigma_maaiveld_spectraal,
+            aantaltreinen,
+            richting
+        )
+        ResultatenAlleTreinen = OutputSamenstellen(
+            treinklasse, IndexAlles,
+            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
+            totaalaantaltreinen, Vrms_vloer_treintype,
+            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
+            VtopMus, VtopVars, VtopFdoms,
+            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+            Vrms_maaiveldMus, Vrms_maaiveldVars,
+            Sigma_maaiveld_spectraal,
+            aantaltreinen,
+            richting
+        )
+        
+    
+        Resultaten['AlleTreinen'][richting] = {k: v for k, v in ResultatenAlleTreinen.items() if k != 'Overzicht'}
+        Resultaten['Reizigers'][richting]   = {k: v for k, v in ResultatenReizigers.items()   if k != 'Overzicht'}
+        Resultaten['Goederen'][richting]    = {k: v for k, v in ResultatenGoederen.items()    if k != 'Overzicht'}
+
+    # Overzicht toevoegen (richting-onafhankelijk)
+    Resultaten['AlleTreinen']['Overzicht'] = ResultatenAlleTreinen['Overzicht']
+    Resultaten['Reizigers']['Overzicht']   = ResultatenReizigers['Overzicht']
+    Resultaten['Goederen']['Overzicht']    = ResultatenGoederen['Overzicht']
+            
+        
+        
+                                        
     return Resultaten
 
+def naverwerking_BTS(vrms, aantaltreinen):
+    # dit combineert lgo normaal verdelingen door een linearie combinatie te nemen in het log domein. Vervolgens wordt vanuit de gecombineerde veffmax de Bts bepaald.
+    # mu zou goed bepaald moeten worden zo en in lijn met metingen ln(X) = N(mui, 0.3^2 ) > is de set. dit zou ehtzelfde moeten zijn als sum wiui van ours
+    totaal_treinen = np.sum(aantaltreinen)
+    if  totaal_treinen  > 1:
+        # vrms is hier een vector van het aantal treinen en de bijbehorende medianen
+        veffmax = 1.95 * vrms
+        mu_totaal = np.sum(np.log(veffmax) * aantaltreinen/totaal_treinen )   # gewogen gemiddelde van de mu's
+        VmaxBTS = np.exp(mu_totaal + .3*stats.t.ppf(1-1/totaal_treinen, totaal_treinen))
+    else:
+        VmaxBTS = 0
+    return VmaxBTS
+
+def gecombineerde_onzekerheid(vrms, VmaxVars, aantaltreinen, VmaxBts):
+    totaal_treinen = np.sum(aantaltreinen)
+    if totaal_treinen > 1:
+        Veffmax = 1.95 * vrms
+        Veffmax_worstcase = Veffmax + Veffmax*VmaxVars
+        Veffmax_gemiddeld_worstcase = np.sum(np.log(Veffmax_worstcase)*aantaltreinen/totaal_treinen)     
+        Vmax_BTS_worstcase = np.exp(Veffmax_gemiddeld_worstcase + .3*stats.t.ppf(1-1/totaal_treinen,np.round(totaal_treinen)))
+        sigma_worstcase = Vmax_BTS_worstcase-VmaxBts
+        # standardeviation average van vloer 
+    else:
+        sigma_worstcase = 0  # anders krijg je NaN waarde door de stat.t.ppf
+    return sigma_worstcase
+
+def gecombineerde_onzekerheid2(aantaltreinen, VmaxVars, VmaxBts):
+    # dit combineert lgo normaal verdelingen door een linearie combinatie te nemen in het log domein. Vars is ier de VC rond de mediaan. Dus modelonzekerheid, klopt dit?
+    totaal_treinen = np.sum(aantaltreinen)
+    if totaal_treinen > 1:
+        sigma2_log = np.log(VmaxVars**2 + 1)  # sigma in log domein
+        sigma2_totaal = np.sum((aantaltreinen / totaal_treinen)**2 * sigma2_log) # Var(mu) = sum (w2 *2s2) met  w = aantaltreinen/totaal
+        VC = np.sqrt(np.exp(sigma2_totaal) - 1) # terug naar VC
+        sigma = VmaxBts * VC
+    else:
+        sigma = 0
+    return sigma
 
 def montecarloMetCovariantieNormaal(X, varX, MCgrootte):
     covX = np.ones([6, 6]) * np.transpose(varX[np.newaxis]) * varX  # maximale relaties tussen banden
@@ -986,10 +984,3 @@ if __name__ == "__main__":
     # NB: error -1 nog afvangen     
     write_json(uitfile,Uitvoer);                                           # write output to json file 
  
-
-#Invoer  = read_json("INPUTjson_case7_deltaris_combined.json");                                        # reads input json file
-#Invoer  = read_json("Source1_Meting7_invoer.json");
-#Uitvoer = deformule(Invoer["Bron"],Invoer["FEM"],Invoer["Hgebouw"],Invoer["Overig"]);   # do the work
-#uitfile = "UitvoerAangepast.json"                 
-# NB: error -1 nog afvangen     
-#write_json(uitfile,Uitvoer);                                           # write output to json file 

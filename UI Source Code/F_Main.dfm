@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'OURS 2.10'
-  ClientHeight = 800
-  ClientWidth = 1200
+  ClientHeight = 561
+  ClientWidth = 984
   Color = clBtnFace
   Constraints.MinHeight = 600
   Constraints.MinWidth = 1000
@@ -18,13 +18,13 @@ object frmMain: TfrmMain
   OnDestroy = FormDestroy
   OnResize = FormResize
   DesignSize = (
-    1200
-    800)
+    984
+    561)
   TextHeight = 13
   object Splitter: TSplitter
     Left = 0
-    Top = 607
-    Width = 1200
+    Top = 368
+    Width = 984
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -38,8 +38,8 @@ object frmMain: TfrmMain
     AlignWithMargins = True
     Left = 0
     Top = 41
-    Width = 1200
-    Height = 566
+    Width = 984
+    Height = 327
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -47,12 +47,14 @@ object frmMain: TfrmMain
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 1200
+    ExplicitHeight = 566
     object pagesData: TPageControl
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 1200
-      Height = 566
+      Width = 984
+      Height = 327
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -62,6 +64,8 @@ object frmMain: TfrmMain
       MultiLine = True
       TabOrder = 0
       TabWidth = 86
+      ExplicitWidth = 1200
+      ExplicitHeight = 566
       object tabInput: TTabSheet
         Caption = 'Input'
         object mmoInput: TMemo
@@ -172,14 +176,13 @@ object frmMain: TfrmMain
         object mmoDerived: TMemo
           Left = 0
           Top = 0
-          Width = 1192
-          Height = 538
+          Width = 976
+          Height = 281
           Align = alClient
           BorderStyle = bsNone
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
-          ExplicitTop = 4
         end
       end
       object tabUncertainty: TTabSheet
@@ -247,8 +250,8 @@ object frmMain: TfrmMain
   object pnlDB: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 610
-    Width = 1200
+    Top = 371
+    Width = 984
     Height = 150
     Margins.Left = 0
     Margins.Top = 0
@@ -260,11 +263,13 @@ object frmMain: TfrmMain
     Constraints.MinWidth = 200
     TabOrder = 1
     VerticalAlignment = taAlignTop
+    ExplicitTop = 610
+    ExplicitWidth = 1200
     object pagesDB: TPageControl
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 1200
+      Width = 984
       Height = 150
       Margins.Left = 0
       Margins.Top = 0
@@ -276,13 +281,14 @@ object frmMain: TfrmMain
       TabOrder = 0
       TabWidth = 100
       OnChanging = pagesDBChanging
+      ExplicitWidth = 1200
       object tabMessages: TTabSheet
         Caption = 'Messages'
         object mmoMessages: TRichEdit
           AlignWithMargins = True
           Left = 0
           Top = 0
-          Width = 1192
+          Width = 976
           Height = 122
           Margins.Left = 0
           Margins.Top = 0
@@ -300,38 +306,43 @@ object frmMain: TfrmMain
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
+          ExplicitWidth = 1192
         end
       end
     end
   end
   object btnExit: TButton
-    Left = 1111
-    Top = 767
+    Left = 895
+    Top = 528
     Width = 85
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Exit'
     TabOrder = 2
     OnClick = btnExitClick
+    ExplicitLeft = 1111
+    ExplicitTop = 767
   end
   object btnCancel: TButton
     Left = 8
-    Top = 767
+    Top = 528
     Width = 85
     Height = 25
     Anchors = [akLeft, akBottom]
     Caption = 'Cancel'
     TabOrder = 3
     OnClick = btnCancelClick
+    ExplicitTop = 767
   end
   object pnlButtons: TPanel
     Left = 0
     Top = 0
-    Width = 1200
+    Width = 984
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 4
+    ExplicitWidth = 1200
     object btnOpen: TButton
       AlignWithMargins = True
       Left = 4
@@ -379,7 +390,7 @@ object frmMain: TfrmMain
     end
     object btnLicense: TButton
       AlignWithMargins = True
-      Left = 1111
+      Left = 895
       Top = 8
       Width = 85
       Height = 25
@@ -391,6 +402,7 @@ object frmMain: TfrmMain
       Caption = 'License...'
       TabOrder = 3
       OnClick = btnLicenseClick
+      ExplicitLeft = 1111
     end
   end
   object saveDlg: TSaveDialog
