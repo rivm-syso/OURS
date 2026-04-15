@@ -455,6 +455,8 @@ def deformule(Bron,FEM,Hgebouw,Overig):
 
     if "brontype" in Overig:
         brontype = Overig["brontype"] # met lengte aantal afstanden, dus voorlopig 1
+        if isinstance(brontype, list): # unwrap naar scalar
+            brontype = brontype[0]   
     else:
         brontype = 1
         print('Warning: brontype niet opgegeven, dus we gaan uit van doorgaand spoor')
