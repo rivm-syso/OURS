@@ -1086,20 +1086,8 @@ end;
 // -------------------------------------------------------------------------------------------------
 
 function TOursTrain.getAverageV: Double;
-var
-  Qd, Qe, Qn, Qtot: Double;
 begin
-  // aantallen treinen per week per periode
-  Qd   := getQweek(1);  // dag
-  Qe   := getQweek(2);  // avond
-  Qn   := getQweek(3);  // nacht
-  Qtot := Qd + Qe + Qn;
-
-  if Qtot > 0 then
-    Result := Round((Qd * vd + Qe * ve + Qn * vn) / Qtot)
-  else
-    // fallback als er geen treinen zijn
-    Result := 0;
+  Result := Round((vd + ve + vn)/3);
 end;
 
 // -------------------------------------------------------------------------------------------------
