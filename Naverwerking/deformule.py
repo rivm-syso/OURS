@@ -23,8 +23,8 @@ MCgrootte = 33*333    # streven: 333
 np.random.seed(1235)  # fixeren laatste decimaal in de output
 
 def Bronkracht(Bron: dict, Idx, stijfheidsratioZ,stijfheidsratioX, covar_sZ,covar_sX, V):    
-    FzMcArray = np.ones([MCgrootte, 6])
-    FxMcArray = np.ones([MCgrootte, 6])
+    FzMcArray = np.zeros([MCgrootte, 6])
+    FxMcArray = np.zeros([MCgrootte, 6])
     sZmcArray = np.zeros([MCgrootte, 6])
     sXmcArray = np.zeros([MCgrootte, 6])
     sZmcArray = np.random.multivariate_normal(stijfheidsratioZ, covar_sZ, MCgrootte)
@@ -48,10 +48,10 @@ def Bronkracht(Bron: dict, Idx, stijfheidsratioZ,stijfheidsratioX, covar_sZ,cova
         dFX1 = np.array(refbron["dFX1"])  # 1x6  varcoef
         dn0  = float(refbron["dn0"])   # 1    std of minmax
         dn1  = float(refbron["dn1"])   # 1    std of minmax      
-        FZ0[np.where(FZ0 == 0)] = 1
-        FZ1[np.where(FZ1 == 0)] = 1
-        FX0[np.where(FX0 == 0)] = 1
-        FX1[np.where(FX1 == 0)] = 1
+        FZ0[np.where(FZ0 == 0)] = 0.001 # zorgen dat het nooit helamaal 0 is, nu wordt er altijd ordegrootte van 1 N in elke band toegevoegd
+        FZ1[np.where(FZ1 == 0)] = 0.001
+        FX0[np.where(FX0 == 0)] = 0.001
+        FX1[np.where(FX1 == 0)] = 0.001
         # eigenlijk hier covars maken van dF
         n0mcArray = np.random.normal(n0, dn0, MCgrootte)
         n0mcArray = np.transpose(np.array([n0mcArray for _ in range(6)]))
