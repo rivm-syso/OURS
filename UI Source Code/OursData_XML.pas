@@ -328,34 +328,51 @@ end;
 
 function TOursProjectHelper.ResultsToXML: TXmlVerySimple;
 const
-  Richtingen: array[0..1] of string = ('X-richting', 'Z-richting');
-  TreinSoorten: array[0..2] of string = ('alleTreinen', 'goederen', 'reizigers');
+  Richtingen: array[0..1] of string = ('X-Richting', 'Z-Richting');
+  TreinSoorten: array[0..2] of string = ('AlleTreinen', 'Goederen', 'Reizigers');
+var
+  str: string;
+  vdHasCfg: Boolean;
+  vdValue: Boolean;
+  pHasCfg: Boolean;
+  pValue: Double;
 begin
   Result := TXmlVerySimple.Create;
   Result.Encoding := 'utf-8';
-  Result.AddChild('OURS_Output').SetAttribute('version', 'V2.1');
+  Result.AddChild('OURS_Output').SetAttribute('version', 'V3.0');
 
-  var Node := Result.DocumentElement.AddChild('Project', ntElement);
-  Node.Attributes['name'] := name;
-  Node.Attributes['description'] := description;
+  var ProjectNode := Result.DocumentElement.AddChild('Project', ntElement);
+  ProjectNode.Attributes['Name'] := name;
+  ProjectNode.Attributes['Description'] := description;
 
-  Node := Node.AddChild('Receptors', ntElement);
+  // settings onder Project
+  vdValue := TOursFileUtils.GetVdFromConfig(vdHasCfg);
+  pValue := 0.8;
+  TOursFileUtils.GetPFromConfig(pHasCfg, pValue);
+
+  var settingsNode := ProjectNode.AddChild('Settings', ntElement);
+  with settingsNode.AddChild('Vd', ntElement) do
+    SetText(BoolToStr(vdValue, True));  // 'True' / 'False'
+  with settingsNode.AddChild('p', ntElement) do
+    SetText(Format('%.2f', [pValue]));
+
+  var Node := ProjectNode.AddChild('Receptors', ntElement);
   for var receptor in Receptors do
   begin
-    var recNode := Node.AddChild('receptor', ntElement);
-    with recNode.AddChild('name') do
+    var recNode := Node.AddChild('Receptor', ntElement);
+    with recNode.AddChild('Name') do
       SetText(receptor.name);
-    with recNode.AddChild('description') do
+    with recNode.AddChild('Description') do
       SetText(receptor.description);
 
     for var source in receptor.Sources do
     begin
-      var srcNode := recNode.AddChild('source', ntElement);
-      with srcNode.AddChild('name') do
+      var srcNode := recNode.AddChild('Source', ntElement);
+      with srcNode.AddChild('Name') do
         SetText(source.Track.name);
-      with srcNode.AddChild('description') do
+      with srcNode.AddChild('Description') do
         SetText(source.Track.description);
-      with srcNode.AddChild('distance', ntElement) do
+      with srcNode.AddChild('Distance', ntElement) do
         SetText(TOursMath.dist(receptor.pos, source.pos).ToString);
 
       var _result := source.Results.MainResults;
@@ -366,21 +383,21 @@ begin
         var trainDirections: TTrainDirections := nil;
 
         case treinSoortIdx of
-          0: begin resNode := srcNode.AddChild('alleTreinen', ntElement); trainDirections := _result.AlleTreinen; end;
-          1: begin resNode := srcNode.AddChild('goederen', ntElement);    trainDirections := _result.Goederen; end;
-          2: begin resNode := srcNode.AddChild('reizigers', ntElement);   trainDirections := _result.Reizigers; end;
+          0: begin resNode := srcNode.AddChild('AlleTreinen', ntElement); trainDirections := _result.AlleTreinen; end;
+          1: begin resNode := srcNode.AddChild('Goederen', ntElement);    trainDirections := _result.Goederen; end;
+          2: begin resNode := srcNode.AddChild('Reizigers', ntElement);   trainDirections := _result.Reizigers; end;
         end;
 
         // Overzicht
-        var tmpNode := resNode.AddChild('overzicht', ntElement);
-        with tmpNode.AddChild('aantaltreinen_pw', ntElement) do
-          SetText(trainDirections.Overzicht.Aantaltreinen_pw.ToString);
-        with tmpNode.AddChild('aantaltreinen_dag', ntElement) do
-          SetText(trainDirections.Overzicht.Aantaltreinen_dag.ToString);
-        with tmpNode.AddChild('aantaltreinen_avond', ntElement) do
-          SetText(trainDirections.Overzicht.Aantaltreinen_avond.ToString);
-        with tmpNode.AddChild('aantaltreinen_nacht', ntElement) do
-          SetText(trainDirections.Overzicht.Aantaltreinen_nacht.ToString);
+        var tmpNode := resNode.AddChild('Overzicht', ntElement);
+        with tmpNode.AddChild('AantalTreinen_pw', ntElement) do
+          SetText(Format('%.1f', [trainDirections.Overzicht.Aantaltreinen_pw]));
+        with tmpNode.AddChild('AantalTreinen_dag', ntElement) do
+          SetText(Format('%.1f', [trainDirections.Overzicht.Aantaltreinen_dag]));
+        with tmpNode.AddChild('AantalTreinen_avond', ntElement) do
+          SetText(Format('%.1f', [trainDirections.Overzicht.Aantaltreinen_avond]));
+        with tmpNode.AddChild('AantalTreinen_nacht', ntElement) do
+          SetText(Format('%.1f', [trainDirections.Overzicht.Aantaltreinen_nacht]));
 
         // Richtingen X en Z
         for var richtingIdx := 0 to 1 do
@@ -388,110 +405,79 @@ begin
           var richtingNaam := Richtingen[richtingIdx];
           var dirNode := resNode.AddChild(richtingNaam, ntElement);
           var trainClass: TTrainClass;
-          if richtingIdx = 0 then trainClass := trainDirections.X else trainClass := trainDirections.Z;
+          if richtingIdx = 0 then
+            trainClass := trainDirections.X
+          else
+            trainClass := trainDirections.Z;
 
           // Fundering
-          var fundNode := dirNode.AddChild('fundering', ntElement);
-          with fundNode.AddChild('vmax', ntElement) do
-            SetText(trainClass.Fundering.Vmax.ToString);
-          with fundNode.AddChild('vmax_sigma', ntElement) do
-            SetText(trainClass.Fundering.Vmax_sigma.ToString);
-          with fundNode.AddChild('vmax_Fdom', ntElement) do
+          var fundNode := dirNode.AddChild('Fundering', ntElement);
+          with fundNode.AddChild('Vmax_50', ntElement) do
+            SetText(trainClass.Fundering.Vmax_50.ToString);
+          with fundNode.AddChild('Vmax_p', ntElement) do
+            SetText(trainClass.Fundering.Vmax_p.ToString);
+          with fundNode.AddChild('Vmax_Fdom', ntElement) do
             SetText(trainClass.Fundering.Vmax_Fdom);
-          with fundNode.AddChild('maatgevende_cat', ntElement) do
+          with fundNode.AddChild('Maatgevende_cat', ntElement) do
             SetText(trainClass.Fundering.Maatgevende_cat);
-          with fundNode.AddChild('vtop', ntElement) do
-            SetText(trainClass.Fundering.Vtop.ToString);
-          with fundNode.AddChild('vtop_sigma', ntElement) do
-            SetText(trainClass.Fundering.Vtop_sigma.ToString);
-          with fundNode.AddChild('vtop_Fdom', ntElement) do
+          with fundNode.AddChild('Vtop_50', ntElement) do
+            SetText(trainClass.Fundering.Vtop_50.ToString);
+          with fundNode.AddChild('Vtop_p', ntElement) do
+            SetText(trainClass.Fundering.Vtop_p.ToString);
+          with fundNode.AddChild('Vtop_Fdom', ntElement) do
             SetText(trainClass.Fundering.Vtop_Fdom);
-          with fundNode.AddChild('vtop_Vd', ntElement) do
+          with fundNode.AddChild('Vtop_Vd', ntElement) do
             SetText(trainClass.Fundering.Vtop_Vd.ToString);
 
-          var str := '';
-          for var j := 0 to Length(trainClass.Fundering.variatiecoeffs)-1 do
-          begin
-            if str <> '' then str := str + '; ';
-            str := str + trainClass.Fundering.variatiecoeffs[j].ToString;
-          end;
-          with fundNode.AddChild('variatiecoeffs', ntElement) do
-            SetText(str);
-
           // Gebouw
-          var gebNode := dirNode.AddChild('gebouw', ntElement);
-          with gebNode.AddChild('vmax', ntElement) do
-            SetText(trainClass.Gebouw.Vmax.ToString);
-          with gebNode.AddChild('vmax_sigma', ntElement) do
-            SetText(trainClass.Gebouw.Vmax_sigma.ToString);
-          with gebNode.AddChild('vmax_Fdom', ntElement) do
+          var gebNode := dirNode.AddChild('Gebouw', ntElement);
+          with gebNode.AddChild('Vmax_50', ntElement) do
+            SetText(trainClass.Gebouw.Vmax_50.ToString);
+          with gebNode.AddChild('Vmax_p', ntElement) do
+            SetText(trainClass.Gebouw.Vmax_p.ToString);
+          with gebNode.AddChild('Vmax_Fdom', ntElement) do
             SetText(trainClass.Gebouw.Vmax_Fdom);
-          with gebNode.AddChild('maatgevende_cat', ntElement) do
+          with gebNode.AddChild('Maatgevende_cat', ntElement) do
             SetText(trainClass.Gebouw.Maatgevende_cat);
 
+          // Vper_50
           str := '';
-          for var j := 0 to Length(trainClass.Gebouw.Vper)-1 do
+          for var j := 0 to Length(trainClass.Gebouw.Vper_50)-1 do
           begin
             if str <> '' then str := str + '; ';
-            str := str + trainClass.Gebouw.Vper[j].ToString;
+            str := str + trainClass.Gebouw.Vper_50[j].ToString;
           end;
-          with gebNode.AddChild('vper', ntElement) do
+          with gebNode.AddChild('Vper_50', ntElement) do
             SetText(str);
 
+          // Vper_p
           str := '';
-          for var j := 0 to Length(trainClass.Gebouw.Vper_sigma)-1 do
+          for var j := 0 to Length(trainClass.Gebouw.Vper_p)-1 do
           begin
             if str <> '' then str := str + '; ';
-            str := str + trainClass.Gebouw.Vper_sigma[j].ToString;
+            str := str + trainClass.Gebouw.Vper_p[j].ToString;
           end;
-          with gebNode.AddChild('vper_sigma', ntElement) do
-            SetText(str);
-
-          str := '';
-          for var j := 0 to Length(trainClass.Gebouw.variatiecoeffs)-1 do
-          begin
-            if str <> '' then str := str + '; ';
-            str := str + trainClass.Gebouw.variatiecoeffs[j].ToString;
-          end;
-          with gebNode.AddChild('variatiecoeffs', ntElement) do
+          with gebNode.AddChild('Vper_p', ntElement) do
             SetText(str);
 
           // Maaiveld
-          var maaiveldNode := dirNode.AddChild('maaiveld', ntElement);
-          with maaiveldNode.AddChild('vrms', ntElement) do
-            SetText(trainClass.Maaiveld.Vrms.ToString);
-          with maaiveldNode.AddChild('vrms_sigma', ntElement) do
-            SetText(trainClass.Maaiveld.Vrms_sigma.ToString);
-          with maaiveldNode.AddChild('maatgevende_cat', ntElement) do
+          var maaiveldNode := dirNode.AddChild('Maaiveld', ntElement);
+          with maaiveldNode.AddChild('Vrms_50', ntElement) do
+            SetText(trainClass.Maaiveld.Vrms_50.ToString);
+          with maaiveldNode.AddChild('Vrms_p', ntElement) do
+            SetText(trainClass.Maaiveld.Vrms_p.ToString);
+          with maaiveldNode.AddChild('Maatgevende_cat', ntElement) do
             SetText(trainClass.Maaiveld.Maatgevende_cat);
 
+          // Vrms_spectraal_50
           str := '';
-          for var j := 0 to Length(trainClass.Maaiveld.variatiecoeffs)-1 do
+          for var j := 0 to Length(trainClass.Maaiveld.Vrms_spectraal_50)-1 do
           begin
             if str <> '' then str := str + '; ';
-            str := str + trainClass.Maaiveld.variatiecoeffs[j].ToString;
+            str := str + trainClass.Maaiveld.Vrms_spectraal_50[j].ToString;
           end;
-          with maaiveldNode.AddChild('variatiecoeffs', ntElement) do
+          with maaiveldNode.AddChild('Vrms_spectraal_50', ntElement) do
             SetText(str);
-
-          str := '';
-          for var j := 0 to Length(trainClass.Maaiveld.Vrms_spectraal)-1 do
-          begin
-            if str <> '' then str := str + '; ';
-            str := str + trainClass.Maaiveld.Vrms_spectraal[j].ToString;
-          end;
-          with maaiveldNode.AddChild('vrms_spectraal', ntElement) do
-            SetText(str);
-
-          str := '';
-          for var j := 0 to Length(trainClass.Maaiveld.Vrms_sigma_spectraal)-1 do
-          begin
-            if str <> '' then str := str + '; ';
-            str := str + trainClass.Maaiveld.Vrms_sigma_spectraal[j].ToString;
-          end;
-          with maaiveldNode.AddChild('vrms_sigma_spectraal', ntElement) do
-            SetText(str);
-
         end; // richting
       end; // treinSoort
     end; // source

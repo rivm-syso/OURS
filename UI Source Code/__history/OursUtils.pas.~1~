@@ -180,10 +180,6 @@ type
       Example:  BRO=C:\Projects\OURS_UI\DATA
     }
     class function TryGetConfigValue(const key: string; out value: string): Boolean;
-
-    class function GetVdFromConfig(out HasValue: Boolean): Boolean;
-
-    class function GetPFromConfig(out HasValue: Boolean; out PValue: Double): Boolean;
   end;
 
 // -------------------------------------------------------------------------------------------------
@@ -344,57 +340,6 @@ begin
   Result := TOursFileUtils.CommonDocumentsDir;
 end;
 
-// -------------------------------------------------------------------------------------------------
-class function TOursFileUtils.GetVdFromConfig(out HasValue: Boolean): Boolean;
-var
-  S: string;
-begin
-  // Default: geen waarde gevonden
-  HasValue := False;
-  Result := False; // default = false
-
-  if not TryGetConfigValue('VD', S) then
-    Exit;             // geen key => HasValue blijft False, Result = False
-
-  HasValue := True;   // we hebben wel een waarde in de config
-  S := Trim(LowerCase(S));
-
-  // Beschouw deze vormen als "waar"
-  if (S = '1') or (S = 'true') or (S = 'yes') or (S = 'ja') then
-    Result := True
-  else
-    Result := False;  // alles anders is false (ook 0, false, no, nee)
-end;
-
-// -------------------------------------------------------------------------------------------------
-class function TOursFileUtils.GetPFromConfig(out HasValue: Boolean; out PValue: Double): Boolean;
-var
-  S: string;
-  tmp: Double;
-begin
-  HasValue := False;
-  PValue := 0.8;  // default
-  Result := False;
-
-  // Lees key "P" uit de config
-  if not TryGetConfigValue('P', S) then
-    Exit; // geen key P => HasValue blijft False, PValue=0.8, Result=False
-
-  HasValue := True;
-  S := Trim(S);
-
-  // Probeer naar double te converteren
-  tmp := TOursConv.AsFloat(S, 0.0);
-
-  // Beperk tot [0,1]
-  if tmp < 0.0 then
-    tmp := 0.0
-  else if tmp > 1.0 then
-    tmp := 1.0;
-
-  PValue := tmp;
-  Result := True;
-end;
 // -------------------------------------------------------------------------------------------------
 
 class function TOursFileUtils.TryGetConfigValue(const key: string; out value: string): Boolean;

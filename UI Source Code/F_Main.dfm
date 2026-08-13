@@ -47,8 +47,6 @@ object frmMain: TfrmMain
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 1200
-    ExplicitHeight = 566
     object pagesData: TPageControl
       AlignWithMargins = True
       Left = 0
@@ -64,8 +62,6 @@ object frmMain: TfrmMain
       MultiLine = True
       TabOrder = 0
       TabWidth = 86
-      ExplicitWidth = 1200
-      ExplicitHeight = 566
       object tabInput: TTabSheet
         Caption = 'Input'
         object mmoInput: TMemo
@@ -263,8 +259,6 @@ object frmMain: TfrmMain
     Constraints.MinWidth = 200
     TabOrder = 1
     VerticalAlignment = taAlignTop
-    ExplicitTop = 610
-    ExplicitWidth = 1200
     object pagesDB: TPageControl
       AlignWithMargins = True
       Left = 0
@@ -281,7 +275,6 @@ object frmMain: TfrmMain
       TabOrder = 0
       TabWidth = 100
       OnChanging = pagesDBChanging
-      ExplicitWidth = 1200
       object tabMessages: TTabSheet
         Caption = 'Messages'
         object mmoMessages: TRichEdit
@@ -306,7 +299,6 @@ object frmMain: TfrmMain
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
-          ExplicitWidth = 1192
         end
       end
     end
@@ -320,8 +312,6 @@ object frmMain: TfrmMain
     Caption = 'Exit'
     TabOrder = 2
     OnClick = btnExitClick
-    ExplicitLeft = 1111
-    ExplicitTop = 767
   end
   object btnCancel: TButton
     Left = 8
@@ -332,7 +322,6 @@ object frmMain: TfrmMain
     Caption = 'Cancel'
     TabOrder = 3
     OnClick = btnCancelClick
-    ExplicitTop = 767
   end
   object pnlButtons: TPanel
     Left = 0
@@ -342,7 +331,6 @@ object frmMain: TfrmMain
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 4
-    ExplicitWidth = 1200
     object btnOpen: TButton
       AlignWithMargins = True
       Left = 4
@@ -402,7 +390,6 @@ object frmMain: TfrmMain
       Caption = 'License...'
       TabOrder = 3
       OnClick = btnLicenseClick
-      ExplicitLeft = 1111
     end
   end
   object saveDlg: TSaveDialog

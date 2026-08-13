@@ -44,19 +44,15 @@ type
 type
   TMaaiveldClass = class(TTrainClassPart)
   private
-    FVrms: Extended;
-    FVrms_sigma: Extended;
+    FVrms_50: Extended;
+    FVrms_p: Extended;
     FMaatgevende_cat: String;
-    FVariatiecoeffs: TArray<Extended>;
-    FVrms_spectraal: TArray<Extended>;
-    FVrms_sigma_spectraal: TArray<Extended>;
+    FVrms_spectraal_50: TArray<Extended>;
   public
-    property Vrms: Extended read FVrms write FVrms;
-    property Vrms_sigma: Extended read FVrms_sigma write FVrms_sigma;
+    property Vrms_50: Extended read FVrms_50 write FVrms_50;
+    property Vrms_p: Extended read FVrms_p write FVrms_p;
     property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
-    property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
-    property Vrms_spectraal: TArray<Extended> read FVrms_spectraal write FVrms_spectraal;
-    property Vrms_sigma_spectraal: TArray<Extended> read FVrms_sigma_spectraal write FVrms_sigma_spectraal;
+    property Vrms_spectraal_50: TArray<Extended> read FVrms_spectraal_50 write FVrms_spectraal_50;
 
     procedure Assign(Value: TMaaiveldClass);
 
@@ -69,21 +65,19 @@ type
 type
   TGebouwClass = class(TTrainClassPart)
   private
-    FVmax: Extended;
+    FVmax_50: Extended;
+    FVmax_p: Extended;
     FVmax_Fdom: String;
-    FVmax_sigma: Extended;
     FMaatgevende_cat: String;
-    FVper: TArray<Extended>;
-    FVper_sigma: TArray<Extended>;
-    FVariatiecoeffs: TArray<Extended>;
+    FVper_50: TArray<Extended>;
+    FVper_p: TArray<Extended>;
   public
-    property Vmax: Extended read FVmax write FVmax;
-    property Maatgevende_cat: STring read FMaatgevende_cat write FMaatgevende_cat;
+    property Vmax_50: Extended read FVmax_50 write FVmax_50;
+    property Vmax_p: Extended read FVmax_p write FVmax_p;
     property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
-    property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
-    property Vper: TArray<Extended> read FVper write FVper;
-    property Vper_sigma: TArray<Extended> read FVper_sigma write FVper_sigma;
-    property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
+    property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
+    property Vper_50: TArray<Extended> read FVper_50 write FVper_50;
+    property Vper_p: TArray<Extended> read FVper_p write FVper_p;
 
     procedure Assign(Value: TGebouwClass);
 
@@ -96,25 +90,23 @@ type
 type
   TFunderingClass = class(TTrainClassPart)
   private
-    FVmax: Extended;
-    FVmax_Fdom: String;
-    FVmax_sigma: Extended;
+    FVmax_50: Extended;
+    FVmax_p: Extended;
     FMaatgevende_cat: String;
-    FVtop: Extended;
+    FVmax_Fdom: String;
+    FVtop_50: Extended;
+    FVtop_p: Extended;
     FVtop_Fdom: String;
     FVtop_Vd: Extended;
-    FVtop_sigma: Extended;
-    FVariatiecoeffs: TArray<Extended>;
   public
-    property Vmax: Extended read FVmax write FVmax;
-    property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
-    property Vmax_sigma: Extended read FVmax_sigma write FVmax_sigma;
+    property Vmax_50: Extended read FVmax_50 write FVmax_50;
+    property Vmax_p: Extended read FVmax_p write FVmax_p;
     property Maatgevende_cat: String read FMaatgevende_cat write FMaatgevende_cat;
-    property Vtop: Extended read FVtop write FVtop;
+    property Vmax_Fdom: String read FVmax_Fdom write FVmax_Fdom;
+    property Vtop_50: Extended read FVtop_50 write FVtop_50;
+    property Vtop_p: Extended read FVtop_p write FVtop_p;
     property Vtop_Fdom: String read FVtop_Fdom write FVtop_Fdom;
     property Vtop_Vd: Extended read FVtop_Vd write FVtop_Vd;
-    property Vtop_sigma: Extended read FVtop_sigma write FVtop_sigma;
-    property variatiecoeffs: TArray<Extended> read FVariatiecoeffs write FVariatiecoeffs;
 
     procedure Assign(Value: TFunderingClass);
 
@@ -130,12 +122,10 @@ type
     FFundering: TFunderingClass;
     FGebouw: TGebouwClass;
     FMaaiveld: TMaaiveldClass;
-    FOverzicht: TOverzichtClass;
   public
     property Fundering: TFunderingClass read FFundering write FFundering;
     property Gebouw: TGebouwClass read FGebouw write FGebouw;
     property Maaiveld: TMaaiveldClass read FMaaiveld write FMaaiveld;
-    property Overzicht: TOverzichtClass read FOverzicht write FOverzicht;
 
     constructor Create;
     destructor Destroy; override;
@@ -214,7 +204,7 @@ begin
     else
       Result := '[';
 
-    Result := Result + Format('%.f', [AnArray[i]]);
+    Result := Result + Format('%.6f', [AnArray[i]]);
   end;
   Result := Result + ']';
 end;
@@ -227,10 +217,10 @@ function TOverzichtClass.ToJsonString: string;
 begin
   Result :=
     '{' + CRLF +
-    '    "Aantaltreinen_pw":' + Format('%f', [Aantaltreinen_pw]) + ',' + CRLF +
-    '    "Aantaltreinen_dag":' + Format('%f', [Aantaltreinen_dag]) + ',' + CRLF +
-    '    "Aantaltreinen_avond":' + Format('%f', [Aantaltreinen_avond]) + ',' + CRLF +
-    '    "Aantaltreinen_nacht":' + Format('%f', [Aantaltreinen_nacht]) + CRLF +
+    '    "AantalTreinen_pw":' + Format('%.6f', [Aantaltreinen_pw]) + ',' + CRLF +
+    '    "AantalTreinen_dag":' + Format('%.6f', [Aantaltreinen_dag]) + ',' + CRLF +
+    '    "AantalTreinen_avond":' + Format('%.6f', [Aantaltreinen_avond]) + ',' + CRLF +
+    '    "AantalTreinen_nacht":' + Format('%.6f', [Aantaltreinen_nacht]) + CRLF +
     '}';
 end;
 
@@ -259,48 +249,33 @@ end;
 
 function TMaaiveldClass.ToJsonString: string;
 begin
-  Result := '            "Maaiveld":'                                                             + CRLF +
-            '            {'                                                                       + CRLF +
-            '                "Vrms":' + Format('%.f', [Vrms]) + ','                               + CRLF +
-            '                "Vrms_sigma":' + Format('%.f', [Vrms_sigma])  + ','                  + CRLF +
-            '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(Variatiecoeffs)                     + CRLF +
-            '                "Vrms_spectraal":' + ArrayToJSON(Vrms_spectraal) + ','               + CRLF +
-            '                "Vrms_sigma_spectraal":' + ArrayToJSON(Vrms_sigma_spectraal)         + CRLF +
-            '            }'                                                                       + CRLF;
+  Result :=
+    '            "Maaiveld":' + CRLF +
+    '            {' + CRLF +
+    '                "Vrms_50": ' + Format('%.6f', [Vrms_50]) + ',' + CRLF +
+    '                "Vrms_p": ' + Format('%.6f', [Vrms_p]) + ',' + CRLF +
+    '                "Maatgevende_cat": "' + Maatgevende_cat + '",' + CRLF +
+    '                "Vrms_spectraal_50": ' + ArrayToJSON(Vrms_spectraal_50) + CRLF +
+    '            }' + CRLF;
 end;
-
-
-//--------------------------------------------------------------------------------------------------
 
 class function TMaaiveldClass.FromJsonString(AJsonString: string): TMaaiveldClass;
 begin
   Result := TJson.JsonToObject<TMaaiveldClass>(AJsonString)
 end;
 
-//--------------------------------------------------------------------------------------------------
-
 procedure TMaaiveldClass.Assign(Value: TMaaiveldClass);
 begin
   if not Assigned(Value) then
     Exit;
 
-  FVrms := Value.Vrms;
-  FVrms_sigma := Value.Vrms_sigma;
+  FVrms_50         := Value.Vrms_50;
+  FVrms_p          := Value.Vrms_p;
   FMaatgevende_cat := Value.Maatgevende_cat;
 
-  SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
-  for var i := 0 to Length(Value.Variatiecoeffs)-1 do
-    FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
-
-  SetLength(FVrms_spectraal, Length(Value.Vrms_spectraal));
-  for var i := 0 to Length(Value.Vrms_spectraal)-1 do
-    FVrms_spectraal[i] := Value.Vrms_spectraal[i];
-
-  SetLength(FVrms_sigma_spectraal, Length(Value.Vrms_sigma_spectraal));
-  for var i := 0 to Length(Value.Vrms_sigma_spectraal)-1 do
-    FVrms_sigma_spectraal[i] := Value.Vrms_sigma_spectraal[i];
-
+  SetLength(FVrms_spectraal_50, Length(Value.Vrms_spectraal_50));
+  for var i := 0 to Length(Value.Vrms_spectraal_50) - 1 do
+    FVrms_spectraal_50[i] := Value.Vrms_spectraal_50[i];
 end;
 
 //==================================================================================================
@@ -309,47 +284,40 @@ end;
 
 function TGebouwClass.ToJsonString: string;
 begin
-  Result := '            "Gebouw":'                                                              + CRLF +
-            '            {'                                                                      + CRLF +
-            '                "Vmax":' + Format('%.f', [Vmax]) + ','                              + CRLF +
-            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                  + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                   + CRLF +
-            '                "maatgevende_cat":' + Maatgevende_cat  + ','                        + CRLF +
-            '                "Vper":' + ArrayToJSON(Vper) + ','                                  + CRLF +
-            '                "Vper_sigma":' + ArrayToJSON(Vper_sigma) + ','                      + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                    + CRLF +
-            '            }'                                                                      + CRLF;
+  Result :=
+    '            "Gebouw":' + CRLF +
+    '            {' + CRLF +
+    '                "Vmax_50": ' + Format('%.6f', [Vmax_50]) + ',' + CRLF +
+    '                "Vmax_p": ' + Format('%.6f', [Vmax_p]) + ',' + CRLF +
+    '                "Vmax_Fdom": "' + Vmax_Fdom + '",' + CRLF +
+    '                "Maatgevende_cat": "' + Maatgevende_cat + '",' + CRLF +
+    '                "Vper_50": ' + ArrayToJSON(Vper_50) + ',' + CRLF +
+    '                "Vper_p": ' + ArrayToJSON(Vper_p) + CRLF +
+    '            }' + CRLF;
 end;
-
-//--------------------------------------------------------------------------------------------------
 
 class function TGebouwClass.FromJsonString(AJsonString: string): TGebouwClass;
 begin
   Result := TJson.JsonToObject<TGebouwClass>(AJsonString)
 end;
 
-//--------------------------------------------------------------------------------------------------
-
 procedure TGebouwClass.Assign(Value: TGebouwClass);
 begin
   if not Assigned(Value) then
     Exit;
-  FVmax := Value.Vmax;
-  FVmax_Fdom := Value.Vmax_Fdom;
-  FVmax_sigma := Value.Vmax_sigma;
+
+  FVmax_50         := Value.Vmax_50;
+  FVmax_p          := Value.Vmax_p;
+  FVmax_Fdom       := Value.Vmax_Fdom;
   FMaatgevende_cat := Value.Maatgevende_cat;
 
-  SetLength(FVper, Length(Value.Vper));
-  for var i := 0 to Length(Value.Vper)-1 do
-    FVper[i] := Value.Vper[i];
+  SetLength(FVper_50, Length(Value.Vper_50));
+  for var i := 0 to Length(Value.Vper_50) - 1 do
+    FVper_50[i] := Value.Vper_50[i];
 
-  SetLength(FVper_sigma, Length(Value.Vper_sigma));
-  for var i := 0 to Length(Value.Vper_sigma)-1 do
-    FVper_sigma[i] := Value.Vper_sigma[i];
-
-  SetLength(FVariatiecoeffs, Length(Value.Variatiecoeffs));
-  for var i := 0 to Length(Value.Variatiecoeffs)-1 do
-    FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
+  SetLength(FVper_p, Length(Value.Vper_p));
+  for var i := 0 to Length(Value.Vper_p) - 1 do
+    FVper_p[i] := Value.Vper_p[i];
 end;
 
 //==================================================================================================
@@ -358,47 +326,38 @@ end;
 
 function TFunderingClass.ToJsonString: string;
 begin
-  Result := '            "Fundering":'                                                            + CRLF +
-            '            {'                                                                       + CRLF +
-            '                "Vmax":' + Format('%.f', [Vmax]) + ','                               + CRLF +
-            '                "Vmax_sigma":' + Format('%.f', [Vmax_sigma]) + ','                   + CRLF +
-            '                "Vmax_Fdom":"' + Vmax_Fdom + '",'                                    + CRLF +
-            '                "maatgevende_cat":' + Maatgevende_cat  + ','                         + CRLF +
-            '                "Vtop":' + Format('%.f', [Vtop]) + ','                               + CRLF +
-            '                "Vtop_sigma":' + Format('%.f', [Vtop_sigma]) + ','                   + CRLF +
-            '                "Vtop_Fdom":"' + Vtop_Fdom + '",'                                    + CRLF +
-            '                "Vtop_Vd":' + Format('%.f', [Vtop_Vd]) + ','                         + CRLF +
-            '                "variatiecoeffs":' + ArrayToJSON(variatiecoeffs)                     + CRLF +
-            '            }'                                                                       + CRLF;
+  Result :=
+    '            "Fundering":' + CRLF +
+    '            {' + CRLF +
+    '                "Vmax_50": ' + Format('%.6f', [Vmax_50]) + ',' + CRLF +
+    '                "Vmax_p": ' + Format('%.6f', [Vmax_p]) + ',' + CRLF +
+    '                "Vmax_Fdom": "' + Vmax_Fdom + '",' + CRLF +
+    '                "Maatgevende_cat": "' + Maatgevende_cat + '",' + CRLF +
+    '                "Vtop_50": ' + Format('%.6f', [Vtop_50]) + ',' + CRLF +
+    '                "Vtop_p": ' + Format('%.6f', [Vtop_p]) + ',' + CRLF +
+    '                "Vtop_Fdom": "' + Vtop_Fdom + '",' + CRLF +
+    '                "Vtop_Vd": ' + Format('%.6f', [Vtop_Vd]) + CRLF +
+    '            }' + CRLF;
 end;
-
-
-//--------------------------------------------------------------------------------------------------
 
 class function TFunderingClass.FromJsonString(AJsonString: string): TFunderingClass;
 begin
   Result := TJson.JsonToObject<TFunderingClass>(AJsonString)
 end;
 
-//--------------------------------------------------------------------------------------------------
-
 procedure TFunderingClass.Assign(Value: TFunderingClass);
 begin
   if not Assigned(Value) then
     Exit;
 
-  FVmax := Value.Vmax;
-  FVmax_Fdom := Value.Vmax_Fdom;
-  FVmax_sigma := Value.Vmax_sigma;
-  FVtop := Value.Vtop;
-  FVtop_Fdom := Value.Vtop_Fdom;
-  FVtop_Vd := Value.Vtop_Vd;
-  FVtop_sigma := Value.Vtop_sigma;
+  FVmax_50         := Value.Vmax_50;
+  FVmax_p          := Value.Vmax_p;
+  FVmax_Fdom       := Value.Vmax_Fdom;
   FMaatgevende_cat := Value.Maatgevende_cat;
-
-  SetLength(FVariatiecoeffs, Length(Value.variatiecoeffs));
-  for var i := 0 to Length(Value.Variatiecoeffs)-1 do
-    FVariatiecoeffs[i] := Value.Variatiecoeffs[i];
+  FVtop_50         := Value.Vtop_50;
+  FVtop_p          := Value.Vtop_p;
+  FVtop_Fdom       := Value.Vtop_Fdom;
+  FVtop_Vd         := Value.Vtop_Vd;
 end;
 
 //==================================================================================================
@@ -408,25 +367,18 @@ end;
 constructor TTrainClass.Create;
 begin
   inherited;
-  FOverzicht := TOverzichtClass.Create();
-  FFundering := TFunderingClass.Create();
-  FGebouw := TGebouwClass.Create();
-  FMaaiveld := TMaaiveldClass.Create();
+  FFundering := TFunderingClass.Create;
+  FGebouw := TGebouwClass.Create;
+  FMaaiveld := TMaaiveldClass.Create;
 end;
-
-//--------------------------------------------------------------------------------------------------
 
 destructor TTrainClass.Destroy;
 begin
-
-  FOverzicht.Free;
   FFundering.Free;
   FGebouw.Free;
   FMaaiveld.Free;
   inherited;
 end;
-
-//--------------------------------------------------------------------------------------------------
 
 function TTrainClass.ToJsonString: string;
 begin
@@ -436,21 +388,16 @@ begin
     FGebouw.ToJsonString;
 end;
 
-//--------------------------------------------------------------------------------------------------
-
 class function TTrainClass.FromJsonString(AJsonString: string): TTrainClass;
 begin
-  result := TJson.JsonToObject<TTrainClass>(AJsonString)
+  Result := TJson.JsonToObject<TTrainClass>(AJsonString)
 end;
-
-//--------------------------------------------------------------------------------------------------
 
 procedure TTrainClass.Assign(Value: TTrainClass);
 begin
   if not Assigned(Value) then
     Exit;
 
-  FOverzicht.Assign(Value.Overzicht);
   FFundering.Assign(Value.Fundering);
   FGebouw.Assign(Value.Gebouw);
   FMaaiveld.Assign(Value.Maaiveld);
@@ -494,10 +441,10 @@ function TTrainDirections.ToJsonString: string;
 begin
   Result :=
     '    "Overzicht": ' + FOverzicht.ToJsonString + ',' + CRLF +
-    '    "X-richting": {' + CRLF +
+    '    "X-Richting": {' + CRLF +
     FX.ToJsonString + CRLF +
     '    },' + CRLF +
-    '    "Z-richting": {' + CRLF +
+    '    "Z-Richting": {' + CRLF +
     FZ.ToJsonString + CRLF +
     '    }';
 end;

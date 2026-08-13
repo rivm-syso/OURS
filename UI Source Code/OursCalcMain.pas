@@ -57,6 +57,10 @@ type
     }
     function _Vd(AResults: TOursResults): string;
 
+
+    { @abstract(Creates the JSON part the chance to get a lower value than p * 100% (onderschrijdingskans).) }
+    function _p(AResults: TOursResults): string;
+
     { @abstract(Creates the JSON part of the CgeoZ for the receptor/source.)
       Currently unknown; fixed value:[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     }
@@ -182,6 +186,7 @@ begin
      Format('        "brontype":[%s],', [_brontype(AResults)])                         + CRLF +
      Format('        "aantaltreinenPerWeek":[%s],', [_aantaltreinenPerWeek(AResults)]) + CRLF +
      Format('        "Vd":%s,', [_Vd(AResults)])                                       + CRLF +
+     Format('        "p":%s,', [_p(AResults)])                                         + CRLF +
      Format('        "CgeoZ":%s,', [_CgeoZ(AResults)])                                 + CRLF +
      Format('        "CgeoX":%s,', [_CgeoX(AResults)])                                 + CRLF +
      Format('        "scenarioKansen":[%s],', [_scenarioKansen(AResults)])             + CRLF +
@@ -245,11 +250,27 @@ end;
 
 // -------------------------------------------------------------------------------------------------
 
-function TOursMainCalculator._vd(AResults: TOursResults): string;
+function TOursMainCalculator._Vd(AResults: TOursResults): string;
+var
+  hasCfg: Boolean;
 begin
-  Result := 'false'; // Default value.
-  if FProject.vd = 1 then
-    Result := 'true';
+  // Lees uit config, default = false
+  if TOursFileUtils.GetVdFromConfig(hasCfg) then
+    Result := 'true'
+  else
+    Result := 'false';
+end;
+
+// -------------------------------------------------------------------------------------------------
+function TOursMainCalculator._p(AResults: TOursResults): string;
+var
+  hasCfg: Boolean;
+  pValue: Double;
+begin
+  if TOursFileUtils.GetPFromConfig(hasCfg, pValue) and hasCfg then
+    Result := Format('%.6f', [pValue])
+  else
+    Result := '0.8';
 end;
 
 // -------------------------------------------------------------------------------------------------
