@@ -1,36 +1,5 @@
-
-UI Source Code/__history/OursResultMain.pas.~10~
-UI Source Code/__history/F_Main.dfm.~3~
-UI Source Code/__recovery/OursResultMain.pas
-UI Source Code/__recovery/F_Main.pas
-UI Source Code/__recovery/F_Main.dfm
-UI Source Code/__recovery/__recovery.ini
-UI Source Code/__history/OursResultMain.pas.~9~
-UI Source Code/__history/OursResultMain.pas.~8~
-UI Source Code/__history/OursResultMain.pas.~7~
-UI Source Code/__history/OursResultMain.pas.~6~
-UI Source Code/__history/OursResultMain.pas.~5~
-UI Source Code/__history/OursResultMain.pas.~4~
-UI Source Code/__history/OursResultMain.pas.~2~
-UI Source Code/__history/OursResultMain.pas.~1~
-UI Source Code/__history/OursResultMain.pas.~13~
-UI Source Code/__history/OursResultMain.pas.~12~
-UI Source Code/__history/OursResultMain.pas.~11~
-UI Source Code/__history/OursResultMain.pas.~1~
-UI Source Code/__history/OursResultMain.pas.~2~
-UI Source Code/__history/OursData_XML.pas.~4~
-UI Source Code/__history/OursData_XML.pas.~3~
-UI Source Code/__history/OursCalcMain.pas.~2~
-UI Source Code/__history/OursCalcMain.pas.~1~
-UI Source Code/__history/OursResultMain.pas.~15~
-UI Source Code/__history/OursResultMain.pas.~14~
-UI Source Code/__history/OursData_XML.pas.~6~
-UI Source Code/__history/OursData_XML.pas.~5~
-UI Source Code/__history/OursCalcMain.pas.~3~
-UI Source Code/__history/OursResultMain.pas.~16~
-UI Source Code/__history/OursData_XML.pas.~8~
-UI Source Code/__history/OursData_XML.pas.~7~
-UI Source Code/__history/F_Main.dfm.~5~
-UI Source Code/__history/F_Main.dfm.~4~
-UI Source Code/__history/OursResultMain.pas.~3~
-UI Source Code/__history/OursResultMain.pas.~3~
+# Algemene patronen
+*.identcache
+*.dproj.local
+__history/
+__recovery/
