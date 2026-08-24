@@ -4,20 +4,13 @@ Created on Thu Sep 12 12:16:59 2019
 
 @author: Arnold Koopman
 
-Todo:
-    - meer sporen
-    
-Version 1.0.1.01
-
-Aangepast op 21-1-2024 door Lennart Bouma
-- Eerst een gewogen gemiddelde en dan de vmax,bts toepassen
-- Spectrale data wordt nu uitgevoerd
 """
 import argparse
 import json
 import os
 import numpy as np
 from scipy import stats
+
 
 MCgrootte = 33*333    # streven: 333
 np.random.seed(1235)  # fixeren laatste decimaal in de output
@@ -276,158 +269,192 @@ def CovariantProduct(X, cov_X, Y, cov_Y):  # X,Y,factor zijn vectoren
 def OutputSamenstellen(
     treinklasse,
     Index,
-    Vrms_fundering_treintype,
     Vrms_maaiveldspectraal,
-    totaalaantaltreinen,
-    Vrms_vloer_treintype,
-    VperVars, VperMus,
-    VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
-    VtopMus, VtopVars, VtopFdoms,
-    Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+    aantaltreinen,
+    Vrms_vloerMus, Vrms_vloerVars, Vrms_vloerFdoms,
+    Vrms_funderingMus, Vrms_funderingVars, Vrms_funderingFdoms,
     Vrms_maaiveldMus, Vrms_maaiveldVars,
-    Sigma_maaiveld_spectraal,
+    VperMus, VperVars, VtopFdoms,
     aantaltreinen_dagd,
-    richting # <-- Toegevoegd
+    richting,
+    p_target
 ):
+    """
+    Output samenstellen per treincategorie (AlleTreinen/Reizigers/Goederen) en richting.
+    We werken nu met Vrms-per-trein en combineren treinverdelingen met combine_normals + naverwerking_BTS.
+    """
+
     if len(Index) > 0:
-        # Selecteer de juiste richting
-        Vrms_fundering_treintype = Vrms_fundering_treintype[richting]
-        Vrms_maaiveldspectraal = Vrms_maaiveldspectraal[richting]
-        Vrms_vloer_treintype = Vrms_vloer_treintype[richting]
-        VperVars = VperVars[richting]
-        VperMus = VperMus[richting]
-        VmaxMus = VmaxMus[richting]
-        VmaxVars = VmaxVars[richting]
-        VmaxFdoms = VmaxFdoms[richting]
-        Varcoefs = Varcoefs[richting]
-        VtopMus = VtopMus[richting]
-        VtopVars = VtopVars[richting]
-        VtopFdoms = VtopFdoms[richting]
-        Vmax_funderingMus = Vmax_funderingMus[richting]
-        Vmax_funderingVars = Vmax_funderingVars[richting]
-        Vmax_funderingFdoms = Vmax_funderingFdoms[richting]
-        Vrms_maaiveldMus = Vrms_maaiveldMus[richting]
-        Vrms_maaiveldVars = Vrms_maaiveldVars[richting]
-        Sigma_maaiveld_spectraal = Sigma_maaiveld_spectraal[richting]
-        
-        Aantaltreinen = np.sum(totaalaantaltreinen[Index])
+        # Selecteer de juiste richting en juiste treincategorien
+        Vrms_maaiveldspectraal_r = Vrms_maaiveldspectraal[richting][:, Index]
+        Vrms_vloerMus_r          = Vrms_vloerMus[richting][Index]
+        Vrms_vloerVars_r         = Vrms_vloerVars[richting][Index]
+        Vrms_vloerFdoms_r        = np.array(Vrms_vloerFdoms[richting])[Index]
+        Vrms_funderingMus_r      = Vrms_funderingMus[richting][Index]
+        Vrms_funderingVars_r     = Vrms_funderingVars[richting][Index]
+        Vrms_funderingFdoms_r    = np.array(Vrms_funderingFdoms[richting])[Index]
+        Vrms_maaiveldMus_r       = Vrms_maaiveldMus[richting][Index]
+        Vrms_maaiveldVars_r      = Vrms_maaiveldVars[richting][Index]
+        VperMus_r                = VperMus[richting][Index]
+        VperVars_r               = VperVars[richting][Index]
+        VtopFdoms_r              = np.array(VtopFdoms[richting])[Index]
+        aantaltreinen_r          = aantaltreinen[Index]
+        treinklasse              = np.array(treinklasse)[Index]
+        # Totale aantallen treinen in deze categorie
+        Aantaltreinen        = np.sum(aantaltreinen_r)
         Aantaltreinen_dagdeel = np.sum(aantaltreinen_dagd[Index, :], axis=0)
+        n_types = len(aantaltreinen_r) 
+
+        w_i = aantaltreinen_r / Aantaltreinen 
+
+        # Vloer     
+        Vrms_vloerdMu = np.exp(np.sum(np.log(Vrms_vloerMus_r) * w_i))
+        mu_v_p = lognormal_quantile_from_median_cv(Vrms_vloerMus_r,Vrms_vloerVars_r,p_target)
+        Vrms_vloerdMuP = np.exp(np.sum(np.log(mu_v_p) * w_i))
         
-        VmaxBTS_gem = naverwerking_BTS(Vrms_vloer_treintype[Index], totaalaantaltreinen[Index])
-        VmaxBTS_gem_fundering = naverwerking_BTS(Vrms_fundering_treintype[Index], totaalaantaltreinen[Index])
+        # Fudnering
+        Vrms_funderingMu = np.exp(np.sum(np.log(Vrms_funderingMus_r) * w_i))
+        mu_f_p = lognormal_quantile_from_median_cv(Vrms_funderingMus_r,Vrms_funderingVars_r,p_target)
+        Vrms_funderingMuP = np.exp(np.sum(np.log(mu_f_p) * w_i))
+        # BTS vanaf gecombineerde vrms-verdelingen, de functie verwacht mu in het echte domein en sigma in het log domein
+        Vmax50_gebouw    = naverwerking_BTS(Vrms_vloerdMu,    0.3,    Aantaltreinen)
+        Vmaxp_gebouw     = naverwerking_BTS(Vrms_vloerdMuP,    0.3,    Aantaltreinen)
+
+        Vmax50_fundering = naverwerking_BTS(Vrms_funderingMu,    0.3,    Aantaltreinen)
+        Vmaxp_fundering  = naverwerking_BTS(Vrms_funderingMuP,    0.3,    Aantaltreinen)
         
-        sigma_gem = gecombineerde_onzekerheid2(totaalaantaltreinen[Index], VmaxVars[Index], VmaxBTS_gem)
-        sigma_gem_fundering = gecombineerde_onzekerheid2(totaalaantaltreinen[Index], Vmax_funderingVars[Index], VmaxBTS_gem_fundering)
+        # Vtop
+        Vmax_fundering_pertrein = []
+        for i in range(n_types):
+            Vmax_fundering_pertrein.append(naverwerking_BTS(Vrms_funderingMus_r[i], sigma=0.3, aantaltreinen = aantaltreinen_r[i]))
+
+        Imax                     = np.argmax(Vmax_fundering_pertrein)   
+        Vtop50                   = 2.4 * Vmax_fundering_pertrein[Imax]
+        Vtopp                    = lognormal_quantile_from_median_cv(Vtop50, Vrms_funderingVars_r[Imax], p_target)
+        VtopVd                   = 1.6 * (lognormal_quantile_from_median_cv(Vtop50, Vrms_funderingVars_r[Imax], 0.95))
+        VtopFdom                = VtopFdoms_r[Imax]
         
-        VperSigs = VperVars[Index] * VperMus[Index]
-        VperSig = np.sqrt(np.sum(VperSigs**2 * VperMus[Index]**2, axis=0) / np.sum(1e-18 + VperMus[Index]**2, axis=0))
-        VperMu = np.sqrt(np.sum(VperMus[Index]**2, axis=0) + np.sum(VperSigs**2, axis=0) - VperSig**2)
+        # === Maaiveld: Vrms 50 en p, plus spectraal 50 ===
+        # 50%-mediaan 
+        Vrms_maaiveldMu = np.exp(np.sum(np.log(Vrms_maaiveldMus_r) * w_i))
+        mu_m_p = lognormal_quantile_from_median_cv(Vrms_maaiveldMus_r,Vrms_maaiveldVars_r,p_target)
+        Vrms_maaiveldMuP = np.exp(np.sum(np.log(mu_m_p) * w_i))
+
+        # spectraal is gewoon het gemiddelde spectrum van alle treinen
+        n_bands = Vrms_maaiveldspectraal_r.shape[0]
+        Vrms_spectraal_mu = np.zeros(n_bands)
+        for k in range(n_bands):
+            mu_ki = Vrms_maaiveldspectraal_r[k, :]
+            mu_ki = np.where(mu_ki <= 0, 1e-11, mu_ki)  # voorkom log(0)
+            Vrms_spectraal_mu[k] = np.exp(np.sum(np.log(mu_ki) * w_i))
+
+        # === Vper 50 en p voor gebouw/vloer ===
+        # VperMus_r[i,:] is per treintype (dag, avond, nacht), VperVars_r idem
+        # We nemen de maatgevende treinklasse voor gebouw op basis van Vrms_vloerMus_r
+        Imax_vloer = np.argmax(Vrms_vloerMus_r)
+        Maatgevende_klasse_vloer = str(treinklasse[Imax_vloer])
+        VmaxFdom = Vrms_vloerFdoms_r[Imax_vloer]
         
-        Imax = Index[np.argmax(VmaxMus[Index])]
-        Maatgevende_klasse_vloer = str(treinklasse[Imax])
-        VmaxFdom = VmaxFdoms[Imax]
-        Varcoef = Varcoefs[Imax, [6,7,8]]
-        Varcoef_maaiveld = Varcoefs[Imax, [0,1,2]]
-        Varcoef_fundering = Varcoefs[Imax, [3,4,5]]
+        # === Vper 50  ===
+        VperSigs = VperVars_r * VperMus_r                     
+        num = np.sum(VperSigs**2 * VperMus_r**2, axis=0)      
+        den = np.sum(1e-18 + VperMus_r**2, axis=0)
+        VperSig = np.sqrt(num / den)                          
+        Vper50  = np.sqrt(np.sum(VperMus_r**2, axis=0) +
+                          np.sum(VperSigs**2, axis=0) - VperSig**2)  
         
-        VtopMu = np.max(VtopMus[Index])
-        Imax_top = Index[np.argmax(VtopMus[Index])]
-        VtopSig = VtopMu * VtopVars[Imax_top]
-        VtopVd = 1.6 * (VtopMu + 1.66*VtopSig)
-        VtopFdom = VtopFdoms[Imax_top]
-        
-        Maatgevende_klasse_fundering = str(treinklasse[Imax])
-        Vmax_funderingFdom = Vmax_funderingFdoms[Imax]
-        
-        Vrms_maaiveldMu = np.max(Vrms_maaiveldMus[Index])
-        Imax_maaiveld = Index[np.argmax(Vrms_maaiveldMus[Index])]
+        CV_per = VperSig / Vper50                             # gecombineerde CV per dagdeel
+        Vperp  = lognormal_quantile_from_median_cv(Vper50, CV_per, p_target)
+
+
+        # Maatgevende klasse fundering 
+        Imax_fundering = np.argmax(Vrms_funderingMus_r)
+        Maatgevende_klasse_fundering = str(treinklasse[Imax_fundering])
+        Vmax_funderingFdom           = Vrms_funderingFdoms_r[Imax_fundering]
+    
+        # Maatgevende klasse maaiveld 
+        Imax_maaiveld = np.argmax(Vrms_maaiveldMus_r)
         Maatgevende_klasse_maaiveld = str(treinklasse[Imax_maaiveld])
-        Vrms_maaiveldSig = Vrms_maaiveldVars[Imax_maaiveld] * Vrms_maaiveldMu
-        Imax_spec = np.argmax(Vrms_maaiveldspectraal[:,Index], axis=1)
-        Vrmsmax_maaiveldspectraal = np.max(Vrms_maaiveldspectraal[:,Index], axis=1)
-        Sigmamax_maaiveld_spectraal = Sigma_maaiveld_spectraal[np.arange(Sigma_maaiveld_spectraal.shape[0]), Imax_spec]
         
         # Afronden
-        Vrms_maaiveldMu = np.round(Vrms_maaiveldMu, 2)
-        Vrmsmax_maaiveldspectraal = np.round(Vrmsmax_maaiveldspectraal, 3)
-        Sigmamax_maaiveld_spectraal = np.round(Sigmamax_maaiveld_spectraal, 3)
-        Vrms_maaiveldSig = np.round(Vrms_maaiveldSig, 3)
-        VtopMu = np.round(VtopMu, 2)
-        VtopSig = np.round(VtopSig, 3)
-        VtopVd = np.round(VtopVd, 2)
-        VperMu = np.round(VperMu, 3)
-        VperSig = np.round(VperSig, 4)
-        Varcoef = np.round(Varcoef, 2)
-        Varcoef_maaiveld = np.round(Varcoef_maaiveld, 2)
-        Varcoef_fundering = np.round(Varcoef_fundering, 2)
-        Aantaltreinen = np.round(Aantaltreinen, 1)
+        Vrms_maaiveldMu  = np.round(Vrms_maaiveldMu, 2)
+        Vrms_maaiveldMuP = np.round(Vrms_maaiveldMuP, 2)
+        Vrms_spectraal_mu = np.round(Vrms_spectraal_mu, 3)
+
+        Vmax50_gebouw    = np.round(Vmax50_gebouw, 2)
+        Vmaxp_gebouw     = np.round(Vmaxp_gebouw, 2)
+        Vmax50_fundering = np.round(Vmax50_fundering, 2)
+        Vmaxp_fundering  = np.round(Vmaxp_fundering, 2)
+        Vtop50      = np.round(Vtop50, 2)
+        Vtopp        = np.round(Vtopp, 2)
+        VtopVd  = np.round(VtopVd, 2)
+
+        Vper50  = np.round(Vper50, 3)
+        Vperp   = np.round(Vperp, 3)
+        Aantaltreinen        = np.round(Aantaltreinen, 1)
         Aantaltreinen_dagdeel = np.round(Aantaltreinen_dagdeel, 1)
-        sigma_gem = np.round(sigma_gem, 3)
-        sigma_gem_fundering = np.round(sigma_gem_fundering, 3)
-        VmaxBTS_gem = np.round(VmaxBTS_gem, 2)
-        VmaxBTS_gem_fundering = np.round(VmaxBTS_gem_fundering, 2)
+
     else:
         # Lege output
-        VmaxBTS_gem_fundering = np.zeros(1)
-        VmaxBTS_gem = np.zeros(1)
-        Vrmsmax_maaiveldspectraal = np.zeros(6)
-        Sigmamax_maaiveld_spectraal = np.zeros(6)
-        Vrms_maaiveldMu = np.zeros(1)
-        Vrms_maaiveldSig = np.zeros(1)
-        VtopMu = np.zeros(1)
-        VtopSig = np.zeros(1)
-        VtopVd = np.zeros(1)
-        VperMu = np.zeros(3)
-        VperSig = np.zeros(3)
-        Varcoef = np.zeros(3)
-        Varcoef_maaiveld = np.zeros(3)
-        Varcoef_fundering = np.zeros(3)
+        Aantaltreinen        = np.zeros(1)
+        Aantaltreinen_dagdeel = np.zeros(3)
+
+        Vrms_maaiveldMu  = np.zeros(1)
+        Vrms_maaiveldMuP = np.zeros(1)
+        Vrms_spectraal_mu = np.zeros(6)
+
+        Vmax50_gebouw    = np.zeros(1)
+        Vmaxp_gebouw     = np.zeros(1)
+        Vmax50_fundering = np.zeros(1)
+        Vmaxp_fundering  = np.zeros(1)
+        Vtop50           = np.zeros(1)
+        Vtopp            = np.zeros(1)
+        VtopVd  = np.zeros(1)
+
+        Vper50  = np.zeros(3)
+        Vperp   = np.zeros(3)
         VmaxFdom = ''
         VtopFdom = ''
         Vmax_funderingFdom = ''
         Maatgevende_klasse_fundering = ''
         Maatgevende_klasse_maaiveld = ''
         Maatgevende_klasse_vloer = ''
-        Aantaltreinen = np.zeros(1)
-        Aantaltreinen_dagdeel = np.zeros(3)
-        sigma_gem_fundering = np.zeros(1)
-        sigma_gem = np.zeros(1)
 
+    # Overzicht
     Aantaltreinen_dic = {
         'Aantaltreinen_pw': Aantaltreinen.item(0),
         'Aantaltreinen_dag': Aantaltreinen_dagdeel.item(0),
         'Aantaltreinen_avond': Aantaltreinen_dagdeel.item(1),
         'Aantaltreinen_nacht': Aantaltreinen_dagdeel.item(2)
     }
+
     Maaiveld = {
-        'Vrms': Vrms_maaiveldMu.item(0),
-        'Vrms_sigma': Vrms_maaiveldSig.item(0),
+        'Vrms_50': Vrms_maaiveldMu.item(0),
+        'Vrms_p': Vrms_maaiveldMuP.item(0),
         'Maatgevende_cat': Maatgevende_klasse_maaiveld,
-        'variatiecoeffs': Varcoef_maaiveld.tolist(),
-        'Vrms_spectraal': Vrmsmax_maaiveldspectraal.tolist(),
-        'Vrms_sigma_spectraal': Sigmamax_maaiveld_spectraal.tolist()
+        'Vrms_spectraal_50': Vrms_spectraal_mu.tolist()
     }
+
     Fundering = {
-        'Vmax': VmaxBTS_gem_fundering.item(0),
-        'Vmax_sigma': sigma_gem_fundering.item(0),
+        'Vmax_50': Vmax50_fundering.item(0),
+        'Vmax_p': Vmaxp_fundering.item(0),
         'Maatgevende_cat': Maatgevende_klasse_fundering,
-        'Vtop': VtopMu.item(0),
-        'Vtop_sigma': VtopSig.item(0),
+        'Vtop_50': Vtop50.item(0),        
+        'Vtop_p': Vtopp.item(0),      
         'Vtop_Vd': VtopVd.item(0),
         'Vtop_Fdom': VtopFdom,
-        'Vmax_Fdom': Vmax_funderingFdom,
-        'variatiecoeffs': Varcoef_fundering.tolist()
+        'Vmax_Fdom': Vmax_funderingFdom
     }
+
     Gebouw = {
-        'Vmax': VmaxBTS_gem.item(0),
-        'Vmax_sigma': sigma_gem.item(0),
+        'Vmax_50': Vmax50_gebouw.item(0),
+        'Vmax_p': Vmaxp_gebouw.item(0),
         'Maatgevende_cat': Maatgevende_klasse_vloer,
-        'Vper': VperMu.tolist(),
-        'Vper_sigma': VperSig.tolist(),
-        'Vmax_Fdom': VmaxFdom,
-        'variatiecoeffs': Varcoef.tolist()
+        'Vper_50': Vper50.tolist(),
+        'Vper_p': Vperp.tolist(),
+        'Vmax_Fdom': VmaxFdom
     }
-    
+
     Resultaten = {
         'Overzicht': Aantaltreinen_dic,
         'Maaiveld': Maaiveld,
@@ -439,8 +466,9 @@ def OutputSamenstellen(
 def deformule(Bron,FEM,Hgebouw,Overig):
     ## dit is de hoofd functie
     # wat invoer uitpakken (rest gaat direct naar subfuncties)
+    p_target = float(Overig.get("percentiel", [0.8])[0]) # scalar met 0.8 als default
     snelheid = np.array(Overig["snelheid"])   # met lengte aantaltreintypes
-    Vd       = bool(Overig["Vd"])         # boolean, switch
+    Vd       = bool(Overig["Vd"])             # boolean, switch
     R        = np.array(Overig["R"])          # afstand, scalar
     CgeoZ    = np.array(Overig["CgeoZ"])      # 1x6
     CgeoX    = np.array(Overig["CgeoX"])      # 1x6
@@ -456,7 +484,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
     if "brontype" in Overig:
         brontype = Overig["brontype"] # met lengte aantal afstanden, dus voorlopig 1
         if isinstance(brontype, list): # unwrap naar scalar
-            brontype = brontype[0]   
+            brontype = brontype[0]
     else:
         brontype = 1
         print('Warning: brontype niet opgegeven, dus we gaan uit van doorgaand spoor')
@@ -479,11 +507,10 @@ def deformule(Bron,FEM,Hgebouw,Overig):
     if not(isinstance(treinklasse,list)):
         treinklasse=[treinklasse]
 
-    if len(treinklasse)==0:         
+    if len(treinklasse)==0:
         treinklasse = [0]   # 0 = onbekend / alles, 1 = reizigers 2= goederen
-
     elif len(treinklasse)>1 and (0 in treinklasse):   # gekke situatie, mag niet
-        exit(204) 
+        exit(204)
 
     if len(treinklasse)>1 and not(len(treinklasse)==aantaltreintypes):
         exit(205)
@@ -496,129 +523,145 @@ def deformule(Bron,FEM,Hgebouw,Overig):
         if len(Bron)==1: # dan blijkbaar zelfde trein bij verschillende snelheden
             for treinnr in range(aantaltreintypes-1):
                 Bron.append(Bron[0])
-
         elif  aantaltreintypes==1: # blijkbaar meerdere treintypes met zelfde snelheid
             aantaltreintypes = len(Bron)
             snelheid = np.ones(aantaltreintypes)*snelheid
-
         else:
             exit(201)
 
-    totaalaantaltreinen = np.zeros(aantaltreintypes)      # per type
+    totaalaantaltreinen = np.zeros(aantaltreintypes)
+
+    # per type
     aantaltreinen       = np.zeros([aantaltreintypes,3])  # per type, per dagdeel
 
-    if aantaltreintypes>1: 
+    if aantaltreintypes>1:
         if np.ndim(aantaltreinenPW)==2:
             if np.size(aantaltreinenPW,axis=0)==aantaltreintypes and np.size(aantaltreinenPW,axis=1)==3:
                 aantaltreinen       = aantaltreinenPW
-                totaalaantaltreinen = np.sum(aantaltreinen,axis=1) 
+                totaalaantaltreinen = np.sum(aantaltreinen,axis=1)
             elif np.size(aantaltreinenPW,axis=0)==1 or np.size(aantaltreinenPW,axis=1)==1: # vector of zelfs scalar
                 aantaltreinenPW = aantaltreinenPW[0]  # bij de volgende if verder bestuderen.
             else: # something rotten in the state of Denmark
                 exit(202)
-        
-        if np.ndim(aantaltreinenPW)<2: # probleem: geen 2D array maar een 1D of een scalar
-            if len(aantaltreinenPW)==1: # scalar zelfs
-                for treinnr in range(aantaltreintypes):
-                    totaalaantaltreinen[treinnr] = aantaltreinenPW/aantaltreintypes # ik interpreteer dat we aantal treinen maar moeten gaan verdelen
-                    aantaltreinen[treinnr] = np.array([12,4,2])*totaalaantaltreinen[treinnr]/18
-            else: # array maar met wat er in?
-                if len(aantaltreinenPW)==3 and not(aantaltreintypes==3): # array van dagdelen
+
+            if np.ndim(aantaltreinenPW)<2: # probleem: geen 2D array maar een 1D of een scalar
+                if len(aantaltreinenPW)==1: # scalar zelfs
                     for treinnr in range(aantaltreintypes):
-                        aantaltreinen[treinnr] = aantaltreinenPW/aantaltreintypes
-                    totaalaantaltreinen = np.sum(aantaltreinen,axis=1)   
-                elif len(aantaltreinenPW)==aantaltreintypes and not(aantaltreintypes==3): # array van treintupen
-                    totaalaantaltreinen = aantaltreinenPW
-                    for treinnr in range(aantaltreintypes):
+                        totaalaantaltreinen[treinnr] = aantaltreinenPW/aantaltreintypes # ik interpreteer dat we aantal treinen maar moeten gaan verdelen
                         aantaltreinen[treinnr] = np.array([12,4,2])*totaalaantaltreinen[treinnr]/18
-                else:
-                    exit(202)  # 3 getallen bij 3 treintypes, onduidelijk hoe te interpreteren    
-    else:
+                else: # array maar met wat er in?
+                    if len(aantaltreinenPW)==3 and not(aantaltreintypes==3): # array van dagdelen
+                        for treinnr in range(aantaltreintypes):
+                            aantaltreinen[treinnr] = aantaltreinenPW/aantaltreintypes
+                        totaalaantaltreinen = np.sum(aantaltreinen,axis=1)
+                    elif len(aantaltreinenPW)==aantaltreintypes and not(aantaltreintypes==3): # array van treintupen
+                        totaalaantaltreinen = aantaltreinenPW
+                        for treinnr in range(aantaltreintypes):
+                            aantaltreinen[treinnr] = np.array([12,4,2])*totaalaantaltreinen[treinnr]/18
+                    else:
+                        exit(202)  # 3 getallen bij 3 treintypes, onduidelijk hoe te interpreteren
+        else:
+            if np.ndim(aantaltreinenPW)<2: # repareren
+                aantaltreinenPW = np.expand_dims(aantaltreinenPW,axis=0)
+            if np.size(aantaltreinenPW,axis=1)==1:   # scalar, ik verdeel ze over de dagdelen, met reizigersritme
+                totaalaantaltreinen[0] = aantaltreinenPW[0,0]
+                aantaltreinen[0] = np.array([12,4,2])*aantaltreinenPW[0,0]/18
+            elif np.size(aantaltreinenPW,axis=1)==3:    # array van dagdelen
+                totaalaantaltreinen[0] = np.sum(aantaltreinenPW[0])
+                aantaltreinen = aantaltreinenPW
+            else:
+                exit(203) # verkeerde lengte van een input
+
+    else: # één treintype
         if np.ndim(aantaltreinenPW)<2: # repareren
             aantaltreinenPW = np.expand_dims(aantaltreinenPW,axis=0)
-        if np.size(aantaltreinenPW,axis=1)==1:   # scalar, ik verdeel ze over de dagdelen, met reizigersritme
+        if np.size(aantaltreinenPW,axis=1)==1:   # scalar
             totaalaantaltreinen[0] = aantaltreinenPW[0,0]
             aantaltreinen[0] = np.array([12,4,2])*aantaltreinenPW[0,0]/18
-        elif np.size(aantaltreinenPW,axis=1)==3:    # array van dagdelen
+        elif np.size(aantaltreinenPW,axis=1)==3: # dagdelen
             totaalaantaltreinen[0] = np.sum(aantaltreinenPW[0])
             aantaltreinen = aantaltreinenPW
         else:
-            exit(203) # verkeerde lengte van een input
-     
-    if isinstance(R, list):         # indien scalar, dan list van maken
+            exit(203)
+
+    if isinstance(R, list):
         aantalafstanden = len(R)   # doen we nu nog nix mee, zal UI nu moeten doen
     else:
         R = [R]
         aantalafstanden = 1
     if aantalafstanden>1:
         exit(206)
-        
-    aantalScenarios  = len(scenarioKansen) 
-    axi2lineExponent = (1-np.sqrt(2))/np.sqrt(8) ## Dit is niet heel makkelijk af te leiden maar is een formule voor lijnbron van spoor
+
+    aantalScenarios  = len(scenarioKansen)
+
+    axi2lineExponent = (1-np.sqrt(2))/np.sqrt(8)
     if R[0]<25 or not brontype==1:
         axi2line = 1
     else:
-        axi2line = (25/R[0])**(axi2lineExponent) 
+        axi2line = (25/R[0])**(axi2lineExponent)
 
-    VmaxMus        = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    VmaxVars       = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    VmaxFdoms      = {'Z': [], 'X': []}
-    VperMus        = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
-    VperVars       = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
-    VtopMus        = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    VtopVars       = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    VtopFdoms      = {'Z': [], 'X': []}
-    Vrms_maaiveldMus  = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    Vrms_maaiveldVars = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    Vmax_funderingMus     = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    Vmax_funderingVars    = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    Vmax_funderingFdoms   = {'Z': [], 'X': []}
+    # Output-arrays per treintype
+    Vrms_maaiveldMus       = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_maaiveldVars      = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
     Vrms_maaiveldspectraal = {'Z': np.zeros([6, aantaltreintypes]), 'X': np.zeros([6, aantaltreintypes])}
-    Sigma_maaiveld_spectraal = {'Z': np.zeros([6, aantaltreintypes]), 'X': np.zeros([6, aantaltreintypes])}
+    
+    Vrms_funderingMus      = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_funderingVars     = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_funderingFdoms    = {'Z': [], 'X': []}
+
+    Vrms_vloerMus          = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_vloerVars         = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
+    Vrms_vloerFdoms        = {'Z': [], 'X': []}
+    
+    VperMus                = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
+    VperVars               = {'Z': np.zeros([aantaltreintypes, 3]), 'X': np.zeros([aantaltreintypes, 3])}
+   
+    VtopFdoms              = {'Z': [], 'X': []}
     # resp. Bronkracht, Bron-bodem interactie, Totale Bron, Bodem, Bodem-Gebouw, Totale gebouw:
     Varcoefs = {'Z': np.zeros([aantaltreintypes, 9]), 'X': np.zeros([aantaltreintypes, 9])}
-    Vrms_vloer_treintype     = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    Vrms_fundering_treintype = {'Z': np.zeros(aantaltreintypes), 'X': np.zeros(aantaltreintypes)}
-    for treintypenr in range(aantaltreintypes): 
-        BronInfo = Bron[treintypenr] 
+
+    for treintypenr in range(aantaltreintypes):
+
+        BronInfo = Bron[treintypenr]
+
         # constanten:
-        aantalBronnen            = len(BronInfo)    # aantal gevonden bronmetingen, grootte van Bron
-        VmaxMuss      = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        VmaxVarss     = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        VmaxFdomss    = {'Z': [], 'X': []}
-        VperMuss      = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
-        VperVarss     = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
-        VtopMuss      = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        VtopVarss     = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        VtopFdomss    = {'Z': [], 'X': []}
+        aantalBronnen = len(BronInfo)    # aantal gevonden bronmetingen, grootte van Bron
+        
         Vrms_maaiveldMuss  = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
         Vrms_maaiveldVarss = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        Vmax_funderingMuss    = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        Vmax_funderingVarss   = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        Vmax_funderingFdomss  = {'Z': [], 'X': []}
-        Varcoefss = {'Z': np.zeros([9, aantalScenarios]), 'X': np.zeros([9, aantalScenarios])}
         Vrms_maaiveldspectraal_s = {'Z': np.zeros([6, aantalScenarios]), 'X': np.zeros([6, aantalScenarios])}
-        Sigma_maaiveld_spectraal_s = {'Z': np.zeros([6, aantalScenarios]), 'X': np.zeros([6, aantalScenarios])}
-        Vrms_vloer_scenario           = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        Vrms_fundering_scenario   = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
-        # vertaalspoorligging (bij 130km/uur) naar snelheid van deze trein 
-        CgeoZtrein               = shiftCgeoSpectrum(CgeoZ,130,snelheid[treintypenr]) 
-        CgeoXtrein               =  shiftCgeoSpectrum(CgeoX,130,snelheid[treintypenr])
         
-        for scenario in range(aantalScenarios): ## hier loopen we over het aantal scenarios, dus loop in een loop
+        Vrms_funderingMuss   = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_funderingVarss       = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_funderingFdomss      = {'Z': [], 'X': []}
+
+        Vrms_vloerMuss           = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_vloerVarss           = {'Z': np.zeros(aantalScenarios), 'X': np.zeros(aantalScenarios)}
+        Vrms_vloerFdomss                = {'Z': [], 'X': []}
+        
+        VperMuss      = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
+        VperVarss     = {'Z': np.zeros([3, aantalScenarios]), 'X': np.zeros([3, aantalScenarios])}
+       
+        VtopFdomss    = {'Z': [], 'X': []}
+
+        Varcoefss = {'Z': np.zeros([9, aantalScenarios]), 'X': np.zeros([9, aantalScenarios])}
+
+        # vertaal spoorligging (bij 130km/uur) naar snelheid van deze trein
+        CgeoZtrein = shiftCgeoSpectrum(CgeoZ,130,snelheid[treintypenr])
+        CgeoXtrein = shiftCgeoSpectrum(CgeoX,130,snelheid[treintypenr])
+
+        for scenario in range(aantalScenarios): 
             FEMscenario     = FEM[scenario]
             HgebouwScenario = Hgebouw[scenario]
-            Y           = np.array(FEMscenario["Y"])             # 1x6 uit FEM, naar ontvangpunt
+            Y           = np.array(FEMscenario["Y"])
             Y_ratio     = np.array(FEMscenario["Y_ratio"])       # 1x6
             varY        = np.array(FEMscenario["var_Y"])         # 6x6 covariantiecoefficient
-            #varY_ratio  = np.array(FEMscenario["var_Y_ratio"])   # nog neit in gebruik
-            
+
             # van covariantiecoefficienten echte covariantiematrices maken
             cov_Y       = np.ones([6,6]) * np.transpose(varY[np.newaxis]) * varY # maximale relaties tussen banden
-           # cov_Y_ratio = np.ones([6,6]) * np.transpose(varY_ratio[np.newaxis]) * varY_ratio # maximale relaties tussen banden
 
-            # Eerst maar eens de brongegevens bepalen, door ze te kiezen uit de gemeten bronnen kiezen
-            if aantalBronnen==1:    # dan kiezen we nu die meting, in feite zonder de bronkracht te modificeren
+            # brongegevens kiezen
+            if aantalBronnen==1:
                 BronIdxHoogLaag  = [0,0]
                 sZ     = np.ones(6)
                 sX     = np.ones(6)
@@ -626,71 +669,65 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 covar_sX = np.zeros([6,6])
             elif aantalBronnen==2:
                 BronIdxHoogLaag = [0,1]
-                DictOut   = Stijfheidsratio(FEMscenario,BronInfo,BronIdxHoogLaag)  # structure: stijfheidsratio.x (1x6) stijfheidsratio.z (1x6)
+                DictOut   = Stijfheidsratio(FEMscenario,BronInfo,BronIdxHoogLaag)
                 sZ        = DictOut['muZ']
                 sX        = DictOut['muX']
                 covar_sZ  = DictOut['covarZ']
                 covar_sX  = DictOut['covarX']
-            else:                    # >2 cases, we gaan per band de dichtstbij omliggende kiezen, wel tricky eigenlijk
+            else:
                 Yo   = np.array(FEMscenario["Yo"])
                 afstand = np.zeros(aantalBronnen)
                 for i1 in range(aantalBronnen):
-                   BronIn = BronInfo[i1]
-                   Zo   = np.array(BronIn["Zo"]) 
-                   afstand[i1] = np.mean(np.log(Yo[1:5]*Zo[1:5]))
+                    BronIn = BronInfo[i1]
+                    Zo   = np.array(BronIn["Zo"])
+                    afstand[i1] = np.mean(np.log(Yo[1:5]*Zo[1:5]))
                 afstand = np.argsort(abs(afstand))
                 BronIdxHoogLaag = afstand[range(2)]
 
-                DictOut   = Stijfheidsratio(FEMscenario,BronInfo,BronIdxHoogLaag)  # structure: stijfheidsratio.x (1x6) stijfheidsratio.z (1x6)
+                DictOut   = Stijfheidsratio(FEMscenario,BronInfo,BronIdxHoogLaag)
                 sZ        = DictOut['muZ']
                 sX        = DictOut['muX']
                 covar_sZ  = DictOut['covarZ']
                 covar_sX  = DictOut['covarX']
-            
-            # dan de bronkracht corrigeren cq vaststellen
-            DictOut = Bronkracht(BronInfo,BronIdxHoogLaag,sZ,sX,covar_sZ,covar_sX,snelheid[treintypenr])          # structure F:   F.x,F.z
+
+            # bronkracht corrigeren cq vaststellen
+            DictOut = Bronkracht(BronInfo,BronIdxHoogLaag,sZ,sX,covar_sZ,covar_sX,snelheid[treintypenr])
             FZ      = DictOut['muZ']
             FX      = DictOut['muX']
             cov_FZ  = DictOut['covZ']     # covariantiecoefficient
             cov_FX  = DictOut['covX']
-            #### verwerking per richting
+
+            # verwerking per richting
             for richting in ['Z', 'X']:
                 if richting == 'Z':
                     Vrms_maaiveld = FZ * CgeoZtrein * Y * axi2line # kernformule
                     cov_Vrms_maaiveld = CovariantProduct(FZ * CgeoZtrein, cov_FZ, Y * axi2line, cov_Y)
                     DictOut= RSSmetCovarLognormaal(FZ, cov_FZ)
                     dW = dWk
-                    # Specifiek voor vloerberekeningen
                     vloer_indices = [0, 1, 2]
                     vloer_keys = ['Hzz1', 'Hzz2', 'Hzx']
                     vloer_cov_keys = ['cov_Hzz1', 'cov_Hzz2', 'cov_Hzx']
                     fundering_key = 'Hfzz'
                     fundering_cov_key = 'cov_Hfzz'
-                   # richtingen_vloer = ['zz1', 'zz2', 'zx'] # dit voeren we niet meer uit
-                   # richting_fundering = 'zz'
                 else:
-                    Vrms_maaiveld = FX * CgeoXtrein * Y * Y_ratio * axi2line # kernformule
+                    Vrms_maaiveld = FX * CgeoXtrein * Y * Y_ratio * axi2line
                     cov_Vrms_maaiveld = CovariantProduct(FX * CgeoXtrein, cov_FX, Y * axi2line * Y_ratio, cov_Y)
                     DictOut = RSSmetCovarLognormaal(FX, cov_FX)
                     dW = dWd
-                    # Specifiek voor vloerberekeningen
                     vloer_indices = [3]      # Alleen xx
                     vloer_keys = ['Hxx']
                     vloer_cov_keys = ['cov_Hxx']
                     fundering_key = 'Hfxx'
                     fundering_cov_key = 'cov_Hfxx'
-                    #richtingen_vloer = ['xx']
-                    #richting_fundering = 'xx'
 
                 # Onzekerheid in bron (per richting)
-                Varcoefss[richting][1, scenario] = DictOut['var'] # bron onzekerheid pr richting
+                Varcoefss[richting][1, scenario] = DictOut['var'] # bron onzekerheid per richting
 
                 # Uitvoer maaiveld
-                Vrms_maaiveldspectraal_s[richting][:, scenario] = Vrms_maaiveld * 1e3
-                Sigma_maaiveld_spectraal_s[richting][:, scenario] = np.diagonal(cov_Vrms_maaiveld) * Vrms_maaiveld * 1e3 # diagonaal is relatieve sigma, dit is relatief dus maal Vrms_maaiveld
+                Vrms_maaiveldspectraal_s[richting][:, scenario] = Vrms_maaiveld * 1e3 
 
                 DictOut_mu = RSSmetCovarLognormaal(Vrms_maaiveld, cov_Vrms_maaiveld)
-                Vrms_maaiveldMuss[richting][scenario]  = DictOut_mu['mu'] * 1.05 * 1e3 # 5 procent therstel voor verlies octaafbanddecompositie
+                Vrms_maaiveldMuss[richting][scenario]  = DictOut_mu['mu'] * 1.05 * 1e3 # 5 procent herstel
                 Vrms_maaiveldVarss[richting][scenario] = DictOut_mu['var']
 
                 Varcoefverschil = Vrms_maaiveldVarss[richting][scenario]**2 - Varcoefss[richting][1, scenario]**2
@@ -704,11 +741,10 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 Vrms_gebouwVar = np.zeros(n_vloer)
                 Vrms_bronVar   = np.zeros(n_vloer)
                 DominanteBand  = [0]*n_vloer
-                var_Vrms_maaiveld = np.diagonal(cov_Vrms_maaiveld) # quick fix, liever straks de hele covar Vloer
-                
-                # Bron is di tneit gwn Vrms? Daardoor beetje vearnderd. Want verschlvan Vmu en Fmu is dan allene de weiging
+                var_Vrms_maaiveld = np.diagonal(cov_Vrms_maaiveld)
+
                 if richting == 'Z':
-                    Fmu = FZ * CgeoZtrein * Y * axi2line # is dit niet gewoon vrms?
+                    Fmu = FZ * CgeoZtrein * Y * axi2line
                     Fvariantie = (FZ * CgeoZtrein * np.diagonal(cov_FZ))**2 * Y**2 * axi2line**2
                 else:
                     Fmu = FX * CgeoXtrein * Y * axi2line * Y_ratio
@@ -718,7 +754,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                     if richting == 'Z' and i == 2:  # zx
                         Vmu = Vrms_maaiveld * dWd
                     else:
-                        Vmu = Vrms_maaiveld * dW # dWk voor Z en dWd voor X
+                        Vmu = Vrms_maaiveld * dW
                     Vvariantie = (var_Vrms_maaiveld * Vmu)**2
                     Hmu = np.array(HgebouwScenario[key])
                     Hcovar = np.array(HgebouwScenario[covkey])
@@ -728,31 +764,29 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                     DominanteBand[i]  = DictOut['dominanteBand']
                     Vrms_overdrVar[i] = DictOut['varV'] # bron+overdracht
                     Vrms_gebouwVar[i] = DictOut['varH'] # gebouw
-                 
+
                     DictOut = VloerLognormaal(Fmu, Fvariantie, Hmu, Hcovar)
                     Vrms_bronVar[i] = DictOut['varV'] # bron
-                    
-                # We nemen het maximum van de3 trilvormen voor Z en 1 voor X
+
+                # We nemen het maximum van de trilvormen voor Z en 1 voor X
                 VrmsvloerMax = np.max(Vrms_vloerMu)
                 Imax = np.argmax(Vrms_vloerMu)
-                
-                Vrms_vloer_scenario[richting][scenario] = VrmsvloerMax * 1e3
-                VmaxMuss[richting][scenario] = naverwerking_BTS(VrmsvloerMax, totaalaantaltreinen[treintypenr]) * 1e3
-      
-                # spreiding is die van de dominante trillingsvorm  
-                VmaxVarss[richting][scenario] = Vrms_vloerVar[Imax]
+
+                Vrms_vloerMuss[richting][scenario] = VrmsvloerMax * 1e3
+
+                # spreiding is die van de dominante trillingsvorm
+                Vrms_vloerVarss[richting][scenario] = Vrms_vloerVar[Imax]
                 VarcoefbijdrageBron   = Vrms_bronVar[Imax]
                 VarcoefbijdrageOverdr = Vrms_overdrVar[Imax]
                 VarcoefbijdrageGebouw = Vrms_gebouwVar[Imax]
-                
-                #Bijdrage totale onzekerheid
+
                 Varcoefss[richting][6, scenario] = VarcoefbijdrageBron
                 Varcoef2verschil = VarcoefbijdrageOverdr**2 - VarcoefbijdrageBron**2
                 Varcoefss[richting][7, scenario] = np.sqrt(abs(Varcoef2verschil)) * np.sign(Varcoef2verschil)
                 Varcoefss[richting][8, scenario] = VarcoefbijdrageGebouw
 
                 frequenties = ['2 Hz', '4 Hz', '8 Hz', '16 Hz', '32 Hz', '63 Hz']
-                VmaxFdomss[richting].append(frequenties[DominanteBand[Imax]])
+                Vrms_vloerFdomss[richting].append(frequenties[DominanteBand[Imax]])
 
                 # Vper
                 VeffmaxMu = 1.95 * VrmsvloerMax * 1e3
@@ -763,10 +797,10 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 for dagdeel in range(3):
                     dagdeelratio = aantaltreinen[treintypenr, dagdeel] / 7 / aantalperiodes[dagdeel]
                     VperMu[dagdeel] = .1 * np.sqrt(dagdeelratio * np.sum(PDF * x**2))
-                VperVarss[richting][:, scenario] = VmaxVarss[richting][scenario]
+                VperVarss[richting][:, scenario] = Vrms_vloerVarss[richting][scenario]
                 VperMuss[richting][:, scenario] = VperMu
 
-                # === Fundering: Vtop (schade) en Vmaxfundering ===
+                # === Fundering: Vrms_fundering en Vtop ===
                 Vrms_funderingMu   = np.zeros(1)
                 Vrms_funderingVar  = np.zeros(1)
                 DominanteBandFund  = [0]
@@ -776,7 +810,7 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 Vrms_bronVar_f     = np.zeros(1)
 
                 Vmu = Vrms_maaiveld
-                Vvariantie = (var_Vrms_maaiveld * Vmu)**2 # diag(Covar) == sigma relatief dus d tis sigma^2/Vmu^2 * Vmu^2 geeft absolute sigma^2 = Variantie
+                Vvariantie = (var_Vrms_maaiveld * Vmu)**2
                 Hmu = np.array(HgebouwScenario[fundering_key])
                 Hcovar = np.array(HgebouwScenario[fundering_cov_key])
                 DictOut = VloerLognormaal(Vmu, Vvariantie, Hmu, Hcovar)
@@ -784,8 +818,8 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 Vrms_funderingVar[0]  = DictOut['var']
                 DominanteBandFund[0]  = DictOut['dominanteBand']
                 DominanteBandFundA[0] = DictOut['dominanteBandA']
-                Vrms_gebouwVar_f[0]   = DictOut['varH'] # fundering apart
-                Vrms_bodemVar_f[0]    = DictOut['varV'] # vanuit oogpunt fundeirng
+                Vrms_gebouwVar_f[0]   = DictOut['varH']
+                Vrms_bodemVar_f[0]    = DictOut['varV']
 
                 if richting == 'Z':
                     Fmu = FZ * CgeoZtrein * Y * axi2line
@@ -796,148 +830,111 @@ def deformule(Bron,FEM,Hgebouw,Overig):
                 DictOut = VloerLognormaal(Fmu, Fvariantie, Hmu, Hcovar)
                 Vrms_bronVar_f[0] = DictOut['varV']
 
-                # Altijd maar 1 optie want 1 waarde per ricthing
-                VrmsfunderingMax = Vrms_funderingMu[0]
-                Imax_f = 0
-
-                Vrms_fundering_scenario[richting][scenario] = VrmsfunderingMax * 1e3
-                Vmax_funderingMuss[richting][scenario] = naverwerking_BTS(VrmsfunderingMax, totaalaantaltreinen[treintypenr]) * 1e3
-              
-                VtopMuss[richting][scenario] = 2.4 * Vmax_funderingMuss[richting][scenario]
-                VtopVarss[richting][scenario] = Vrms_funderingVar[0]
-                Vmax_funderingVarss[richting][scenario] = Vrms_funderingVar[0]
+                Vrms_funderingMuss[richting][scenario] = Vrms_funderingMu[0] * 1e3
+                Vrms_funderingVarss[richting][scenario] = Vrms_funderingVar[0]
 
                 Varcoefss[richting][3, scenario] = Vrms_bronVar_f[0]
                 Varcoefss[richting][4, scenario] = Vrms_bodemVar_f[0]
                 Varcoefss[richting][5, scenario] = Vrms_gebouwVar_f[0]
 
-                VtopFdomss[richting].append(frequenties[DominanteBandFundA[Imax_f]])
-                Vmax_funderingFdomss[richting].append(frequenties[DominanteBandFund[Imax_f]])
-            
-        
-        # wrap up van de scenario's
+                VtopFdomss[richting].append(frequenties[DominanteBandFundA[0]])
+                Vrms_funderingFdomss[richting].append(frequenties[DominanteBandFund[0]])
+
+        # wrap up van de scenario's per treintypenr
         for richting in ['Z', 'X']:
             IndexDominanteScenario = np.argmax(scenarioKansen)
-            Vrms_fundering_treintype[richting][treintypenr] = np.sum(Vrms_fundering_scenario[richting] * scenarioKansen)
-            Vrms_vloer_treintype[richting][treintypenr]     = np.sum(Vrms_vloer_scenario[richting] * scenarioKansen)
-            VmaxMus[richting][treintypenr]                     = np.sum(VmaxMuss[richting] * scenarioKansen)
-            VmaxVars[richting][treintypenr]                    = np.sum(VmaxVarss[richting] * scenarioKansen)
-            VmaxFdoms[richting].append                         (VmaxFdomss[richting][IndexDominanteScenario])
-            VperMus[richting][treintypenr]                     = np.sum(VperMuss[richting] * scenarioKansen, axis=1)
-            VperVars[richting][treintypenr]                    = np.sum(VperVarss[richting] * scenarioKansen, axis=1)
-            VtopMus[richting][treintypenr]                     = np.sum(VtopMuss[richting] * scenarioKansen)
-            VtopVars[richting][treintypenr]                    = np.sum(VtopVarss[richting] * scenarioKansen)
-            VtopFdoms[richting].append                         (VtopFdomss[richting][IndexDominanteScenario])
-            Vmax_funderingMus[richting][treintypenr]           = np.sum(Vmax_funderingMuss[richting] * scenarioKansen)
-            Vmax_funderingVars[richting][treintypenr]          = np.sum(Vmax_funderingVarss[richting] * scenarioKansen)
-            Vmax_funderingFdoms[richting].append               (Vmax_funderingFdomss[richting][IndexDominanteScenario])
-            Vrms_maaiveldMus[richting][treintypenr]            = np.sum(Vrms_maaiveldMuss[richting] * scenarioKansen)
-            Vrms_maaiveldVars[richting][treintypenr]           = np.sum(Vrms_maaiveldVarss[richting] * scenarioKansen)
+            
+            Vrms_vloerMus[richting][treintypenr]     = np.sum(Vrms_vloerMuss[richting] * scenarioKansen)
+            Vrms_vloerVars[richting][treintypenr]          = np.sum(Vrms_vloerVarss[richting] * scenarioKansen)
+            Vrms_vloerFdoms[richting].append               (Vrms_vloerFdomss[richting][IndexDominanteScenario])
+            
+            VperMus[richting][treintypenr]                 = np.sum(VperMuss[richting] * scenarioKansen, axis=1)
+            VperVars[richting][treintypenr]                = np.sum(VperVarss[richting] * scenarioKansen, axis=1)
+
+            VtopFdoms[richting].append                     (VtopFdomss[richting][IndexDominanteScenario])
+            
+            Vrms_funderingMus[richting][treintypenr]       = np.sum(Vrms_funderingMuss[richting] * scenarioKansen)
+            Vrms_funderingVars[richting][treintypenr]      = np.sum(Vrms_funderingVarss[richting] * scenarioKansen)
+            Vrms_funderingFdoms[richting].append           (Vrms_funderingFdomss[richting][IndexDominanteScenario])
+            
+            Vrms_maaiveldMus[richting][treintypenr]        = np.sum(Vrms_maaiveldMuss[richting] * scenarioKansen)
+            Vrms_maaiveldVars[richting][treintypenr]       = np.sum(Vrms_maaiveldVarss[richting] * scenarioKansen)
             Vrms_maaiveldspectraal[richting][:, treintypenr]   = np.sum(Vrms_maaiveldspectraal_s[richting] * scenarioKansen, axis=1)
-            Sigma_maaiveld_spectraal[richting][:, treintypenr] = np.sum(Sigma_maaiveld_spectraal_s[richting] * scenarioKansen, axis=1)
+            
             Varcoefs[richting][treintypenr]                    = np.sum(Varcoefss[richting] * scenarioKansen, axis=1)
+
     # resultaten van alle treintypes samenbrengen, per treinklasse
     IndexReizigers = [i for i,e in enumerate(treinklasse) if e<=10]
     IndexGoederen  = [i for i,e in enumerate(treinklasse) if e>10]
-    IndexAlles     = range(aantaltreintypes)
 
-
-    ## Hier wordt alle output samengesteld en wordt ook Vmax,bts berekend ipv veffmax gemiddeld over de treintypes.
     Resultaten = {
-    'AlleTreinen': {},
-    'Reizigers': {},
-    'Goederen': {}
-    }   
+        'Reizigers': {},
+        'Goederen': {}
+    }
+
     for richting in ['Z', 'X']:
-        ResultatenReizigers   = OutputSamenstellen(
-            treinklasse, IndexReizigers,
-            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
-            totaalaantaltreinen, Vrms_vloer_treintype,
-            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
-            VtopMus, VtopVars, VtopFdoms,
-            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
+        ResultatenReizigers = OutputSamenstellen(
+            treinklasse,
+            IndexReizigers,
+            Vrms_maaiveldspectraal,
+            totaalaantaltreinen,
+            Vrms_vloerMus, Vrms_vloerVars, Vrms_vloerFdoms,
+            Vrms_funderingMus, Vrms_funderingVars, Vrms_funderingFdoms,
             Vrms_maaiveldMus, Vrms_maaiveldVars,
-            Sigma_maaiveld_spectraal,
+            VperMus, VperVars, VtopFdoms,
             aantaltreinen,
-            richting
+            richting,
+            p_target
         )
-        ResultatenGoederen    = OutputSamenstellen(
-            treinklasse, IndexGoederen,
-            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
-            totaalaantaltreinen, Vrms_vloer_treintype,
-            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
-            VtopMus, VtopVars, VtopFdoms,
-            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
-            Vrms_maaiveldMus, Vrms_maaiveldVars,
-            Sigma_maaiveld_spectraal,
-            aantaltreinen,
-            richting
-        )
-        ResultatenAlleTreinen = OutputSamenstellen(
-            treinklasse, IndexAlles,
-            Vrms_fundering_treintype, Vrms_maaiveldspectraal,
-            totaalaantaltreinen, Vrms_vloer_treintype,
-            VperVars, VperMus, VmaxMus, VmaxVars, VmaxFdoms, Varcoefs,
-            VtopMus, VtopVars, VtopFdoms,
-            Vmax_funderingMus, Vmax_funderingVars, Vmax_funderingFdoms,
-            Vrms_maaiveldMus, Vrms_maaiveldVars,
-            Sigma_maaiveld_spectraal,
-            aantaltreinen,
-            richting
-        )
-        
     
-        Resultaten['AlleTreinen'][richting] = {k: v for k, v in ResultatenAlleTreinen.items() if k != 'Overzicht'}
+        ResultatenGoederen = OutputSamenstellen(
+            treinklasse,
+            IndexGoederen,
+            Vrms_maaiveldspectraal,
+            totaalaantaltreinen,
+            Vrms_vloerMus, Vrms_vloerVars, Vrms_vloerFdoms,
+            Vrms_funderingMus, Vrms_funderingVars, Vrms_funderingFdoms,
+            Vrms_maaiveldMus, Vrms_maaiveldVars,
+            VperMus, VperVars, VtopFdoms,
+            aantaltreinen,
+            richting,
+            p_target
+        )
+    
+
         Resultaten['Reizigers'][richting]   = {k: v for k, v in ResultatenReizigers.items()   if k != 'Overzicht'}
         Resultaten['Goederen'][richting]    = {k: v for k, v in ResultatenGoederen.items()    if k != 'Overzicht'}
 
     # Overzicht toevoegen (richting-onafhankelijk)
-    Resultaten['AlleTreinen']['Overzicht'] = ResultatenAlleTreinen['Overzicht']
     Resultaten['Reizigers']['Overzicht']   = ResultatenReizigers['Overzicht']
     Resultaten['Goederen']['Overzicht']    = ResultatenGoederen['Overzicht']
-            
-        
-        
-                                        
+
     return Resultaten
 
-def naverwerking_BTS(vrms, aantaltreinen):
-    # dit combineert lgo normaal verdelingen door een linearie combinatie te nemen in het log domein. Vervolgens wordt vanuit de gecombineerde veffmax de Bts bepaald.
-    # mu zou goed bepaald moeten worden zo en in lijn met metingen ln(X) = N(mui, 0.3^2 ) > is de set. dit zou ehtzelfde moeten zijn als sum wiui van ours
-    totaal_treinen = np.sum(aantaltreinen)
-    if  totaal_treinen  > 1:
-        # vrms is hier een vector van het aantal treinen en de bijbehorende medianen
-        veffmax = 1.95 * vrms
-        mu_totaal = np.sum(np.log(veffmax) * aantaltreinen/totaal_treinen )   # gewogen gemiddelde van de mu's
-        VmaxBTS = np.exp(mu_totaal + .3*stats.t.ppf(1-1/totaal_treinen, totaal_treinen))
+
+def lognormal_quantile_from_median_cv(muY, CV, p):
+    """
+    Berekent de p-kwantiel van een lognormale variabele
+    gegeven de gemiddelde/representatieve waarde muY
+    en de variatiecoëfficiënt CV = sigma_Y / muY.
+    
+    muY, CV kunnen scalars of numpy-arrays zijn.
+    """
+    z_p = stats.norm.ppf(p)
+    sigmaX = np.sqrt(np.log(1 + CV**2))     # log-sigma
+    muX    = np.log(muY)                    # log-mu
+    muX_p  = muX + z_p * sigmaX             # p-werkpunt op log-schaal
+    Y_p    = np.exp(muX_p)                  # terug naar echte schaal
+    return Y_p
+
+
+def naverwerking_BTS(mu,sigma, aantaltreinen):
+    if  aantaltreinen  > 1:
+        veffmax = 1.95 * mu        
+        VmaxBTS = veffmax *  np.exp(sigma*stats.t.ppf(1-1/aantaltreinen, aantaltreinen))
     else:
         VmaxBTS = 0
     return VmaxBTS
-
-def gecombineerde_onzekerheid(vrms, VmaxVars, aantaltreinen, VmaxBts):
-    totaal_treinen = np.sum(aantaltreinen)
-    if totaal_treinen > 1:
-        Veffmax = 1.95 * vrms
-        Veffmax_worstcase = Veffmax + Veffmax*VmaxVars
-        Veffmax_gemiddeld_worstcase = np.sum(np.log(Veffmax_worstcase)*aantaltreinen/totaal_treinen)     
-        Vmax_BTS_worstcase = np.exp(Veffmax_gemiddeld_worstcase + .3*stats.t.ppf(1-1/totaal_treinen,np.round(totaal_treinen)))
-        sigma_worstcase = Vmax_BTS_worstcase-VmaxBts
-        # standardeviation average van vloer 
-    else:
-        sigma_worstcase = 0  # anders krijg je NaN waarde door de stat.t.ppf
-    return sigma_worstcase
-
-def gecombineerde_onzekerheid2(aantaltreinen, VmaxVars, VmaxBts):
-    # dit combineert lgo normaal verdelingen door een linearie combinatie te nemen in het log domein. Vars is ier de VC rond de mediaan. Dus modelonzekerheid, klopt dit?
-    totaal_treinen = np.sum(aantaltreinen)
-    if totaal_treinen > 1:
-        sigma2_log = np.log(VmaxVars**2 + 1)  # sigma in log domein
-        sigma2_totaal = np.sum((aantaltreinen / totaal_treinen)**2 * sigma2_log) # Var(mu) = sum (w2 *2s2) met  w = aantaltreinen/totaal
-        VC = np.sqrt(np.exp(sigma2_totaal) - 1) # terug naar VC
-        sigma = VmaxBts * VC
-    else:
-        sigma = 0
-    return sigma
 
 def montecarloMetCovariantieNormaal(X, varX, MCgrootte):
     covX = np.ones([6, 6]) * np.transpose(varX[np.newaxis]) * varX  # maximale relaties tussen banden
@@ -986,3 +983,4 @@ if __name__ == "__main__":
     # NB: error -1 nog afvangen     
     write_json(uitfile,Uitvoer);                                           # write output to json file 
  
+
