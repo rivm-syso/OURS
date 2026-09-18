@@ -329,7 +329,7 @@ end;
 function TOursProjectHelper.ResultsToXML: TXmlVerySimple;
 const
   Richtingen: array[0..1] of string = ('X-Richting', 'Z-Richting');
-  TreinSoorten: array[0..2] of string = ('AlleTreinen', 'Goederen', 'Reizigers');
+  TreinSoorten: array[0..1] of string = ('Goederen', 'Reizigers');
 var
   str: string;
   vdHasCfg: Boolean;
@@ -377,15 +377,14 @@ begin
 
       var _result := source.Results.MainResults;
 
-      for var treinSoortIdx := 0 to 2 do
+      for var treinSoortIdx := 0 to 1 do
       begin
         var resNode: TXmlNode := nil;
         var trainDirections: TTrainDirections := nil;
 
         case treinSoortIdx of
-          0: begin resNode := srcNode.AddChild('AlleTreinen', ntElement); trainDirections := _result.AlleTreinen; end;
-          1: begin resNode := srcNode.AddChild('Goederen', ntElement);    trainDirections := _result.Goederen; end;
-          2: begin resNode := srcNode.AddChild('Reizigers', ntElement);   trainDirections := _result.Reizigers; end;
+          0: begin resNode := srcNode.AddChild('Goederen', ntElement);    trainDirections := _result.Goederen; end;
+          1: begin resNode := srcNode.AddChild('Reizigers', ntElement);   trainDirections := _result.Reizigers; end;
         end;
 
         // Overzicht

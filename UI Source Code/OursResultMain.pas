@@ -161,11 +161,9 @@ type
   }
   TOursMainOutput = class
   private
-    FAlleTreinen: TTrainDirections;
     FGoederen: TTrainDirections;
     FReizigers: TTrainDirections;
   public
-    property AlleTreinen: TTrainDirections  read FAlleTreinen write FAlleTreinen;
     property Goederen: TTrainDirections  read FGoederen write FGoederen;
     property Reizigers: TTrainDirections  read FReizigers write FReizigers;
 
@@ -463,7 +461,6 @@ end;
 constructor TOursMainOutput.Create;
 begin
   inherited;
-  FAlleTreinen := TTrainDirections.Create;
   FGoederen := TTrainDirections.Create;
   FReizigers := TTrainDirections.Create;
 end;
@@ -472,7 +469,6 @@ end;
 
 destructor TOursMainOutput.Destroy;
 begin
-  FAlleTreinen.Free;
   FGoederen.Free;
   FReizigers.Free;
   inherited;
@@ -484,9 +480,6 @@ function TOursMainOutput.ToJsonString: string;
 begin
   Result :=
     '{' + CRLF +
-    '  "AlleTreinen": {' + CRLF +
-    FAlleTreinen.ToJsonString + CRLF +
-    '  },' + CRLF +
     '  "Goederen": {' + CRLF +
     FGoederen.ToJsonString + CRLF +
     '  },' + CRLF +
@@ -508,7 +501,6 @@ end;
 
 procedure TOursMainOutput.Assign(Value: TOursMainOutput);
 begin
-  FAlleTreinen.Assign(Value.AlleTreinen);
   FGoederen.Assign(Value.Goederen);
   FReizigers.Assign(Value.Reizigers);
 end;

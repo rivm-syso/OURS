@@ -6,6 +6,7 @@ import os
 import json
 import argparse
 import sys
+
 # import OURS packages
 from CPTtool import bro
 from CPTtool import log_handler
@@ -21,20 +22,26 @@ def define_methods(input_file):
     :return: methods: dictionary with the methods for CPT correlations
     """
     # possible keys:
-    keys = ["gamma", "vs", "OCR", "radius"]
+    keys = ["gamma", "vs", "OCR", "radius", "SourceAcc", "ROUND_RES"]
     # possible key-values
     gamma_keys = ["Lengkeek", "Robertson", "all"]
     vs_keys = ["Mayne", "Robertson", "Andrus", "Zang", "Ahmed", "all"]
     OCR_keys = ["Mayne", "Robertson"]
-    rad = 600.
+
+    rad = 600.0
+    sourceacc = 50.0
+    round_res = 50.0
 
     # if no file is available: -> uses default values
     if not input_file:
-        methods = {"gamma": gamma_keys[0],
-                   "vs": vs_keys[0],
-                   "OCR": OCR_keys[0],
-                   "radius": rad,
-                   }
+        methods = {
+            "gamma": gamma_keys[0],
+            "vs": vs_keys[0],
+            "OCR": OCR_keys[0],
+            "radius": rad,
+            "SourceAcc": sourceacc,
+            "ROUND_RES": round_res,
+        }
         return methods
 
     # check if input file exists
@@ -46,9 +53,9 @@ def define_methods(input_file):
     with open(input_file, "r") as f:
         data = json.load(f)
 
-    # # checks if the keys are correct
+    # checks if the keys are correct
     for i in data.keys():
-        if not any(i in k for k in keys):
+        if i not in keys:
             print("Error: Key " + i + " is not known. Keys must be: " + ', '.join(keys))
             sys.exit(5)
 
@@ -58,23 +65,32 @@ def define_methods(input_file):
         sys.exit(5)
     # check if the key-values are correct for vs
     if not any(data["vs"] in k for k in vs_keys):
-        print("Error: gamma key is not known. vs keys must be: " + ', '.join(vs_keys))
+        print("Error: vs key is not known. vs keys must be: " + ', '.join(vs_keys))
         sys.exit(5)
     # check if the key-values are correct for OCR
     if not any(data["OCR"] in k for k in OCR_keys):
-        print("Error: gamma key is not known. OCR keys must be: " + ', '.join(OCR_keys))
+        print("Error: OCR key is not known. OCR keys must be: " + ', '.join(OCR_keys))
         sys.exit(5)
-    # check if radius is a float
+    # check if radius,sourceacc and roundres is a float
     if not isinstance(data["radius"], (int, float)):
         print("Error: radius is not known. must be a float")
         sys.exit(5)
+    if not isinstance(data["SourceAcc"], (int, float)):
+        print("Error: SourceAcc is not known. must be a float")
+        sys.exit(5)
+    if not isinstance(data["ROUND_RES"], (int, float)):
+        print("Error: ROUND_RES is not known. must be a float")
+        sys.exit(5)
 
-    # add to dicionary
-    methods = {"gamma": data["gamma"],
-               "vs": data["vs"],
-               "OCR": data["OCR"],
-               "radius": float(data["radius"])
-               }
+    # add to dictionary
+    methods = {
+        "gamma": data["gamma"],
+        "vs": data["vs"],
+        "OCR": data["OCR"],
+        "radius": float(data["radius"]),
+        "SourceAcc": float(data["SourceAcc"]),
+        "ROUND_RES": float(data["ROUND_RES"]),
+    }
     return methods
 
 
@@ -157,8 +173,8 @@ def read_json(input_file):
     return data
 
 
-def read_cpt(cpt_BRO, methods, settings, output_folder, input_dictionary, make_plots, index_coordinate, log_file,
-             jsn, scenario):
+def read_cpt(cpt_BRO, methods, settings, output_folder, input_dictionary, make_plots,
+             index_coordinate, log_file, jsn, scenario, cpt_cache=None):
     """
     Read CPT
 
@@ -176,32 +192,53 @@ def read_cpt(cpt_BRO, methods, settings, output_folder, input_dictionary, make_p
     :param log_file: Log file for the analysis
     :param jsn: dictionary with the scenarios
     :param scenario: scenario number
+    :param cpt_cache: cache dictionary {BRO_id: CPT_object}
     :return: json file with results, bool (True/False) if there results are not empty
     """
 
     is_jsn_modified = False
     # dictionary for the results
     results_cpt = {}
+
     for idx_cpt in range(len(cpt_BRO)):
+        bro_id = cpt_BRO[idx_cpt]["id"]
+
+        # reuse CPT if already processed
+        if cpt_cache is not None and bro_id in cpt_cache:
+            cpt = cpt_cache[bro_id]
+            log_file.info_message("Reusing processed CPT: " + bro_id)
+            results_cpt.update({bro_id: cpt})
+            continue
+
         # add message to log file
-        log_file.info_message("Reading CPT: " + cpt_BRO[idx_cpt]["id"])
+        log_file.info_message("Reading CPT: " + bro_id)
+
         # initialise CPT module
         cpt = cpt_module.CPT(output_folder)
+
         # read data from BRO
-        data_quality = cpt.parse_bro(cpt_BRO[idx_cpt],
-                                     minimum_length=settings["minimum_length"], minimum_samples=settings["minimum_samples"],
-                                     minimum_ratio=settings["minimum_ratio"], convert_to_kPa=settings["convert_to_kPa"])
+        data_quality = cpt.parse_bro(
+            cpt_BRO[idx_cpt],
+            minimum_length=settings["minimum_length"],
+            minimum_samples=settings["minimum_samples"],
+            minimum_ratio=settings["minimum_ratio"],
+            convert_to_kPa=settings["convert_to_kPa"]
+        )
+
         # check data quality from the BRO file
         if data_quality is not True:
             # If the quality is not good skip this cpt file
             log_file.error_message(data_quality)
             continue
+
         # smooth data
         cpt.smooth(nb_points=settings["nb_points"], limit=settings["limit"])
         # compute qc
         cpt.qt_calc()
         # compute unit weight
-        cpt.gamma_calc(method=methods["gamma"], gamma_min=settings["gamma_min"], gamma_max=settings["gamma_max"])
+        cpt.gamma_calc(method=methods["gamma"],
+                       gamma_min=settings["gamma_min"],
+                       gamma_max=settings["gamma_max"])
         # compute density
         cpt.rho_calc()
         # compute water pressure level
@@ -215,37 +252,79 @@ def read_cpt(cpt_BRO, methods, settings, output_folder, input_dictionary, make_p
         # compute shear wave velocity and shear modulus
         cpt.vs_calc(method=methods["vs"])
         # compute damping
-        cpt.damp_calc(method=methods["OCR"], d_min=settings["d_min"], Cu=settings["Cu"], D50=settings["D50"],
-                      Ip=settings["Ip"], freq=settings["freq"])
+        cpt.damp_calc(method=methods["OCR"],
+                      d_min=settings["d_min"],
+                      Cu=settings["Cu"],
+                      D50=settings["D50"],
+                      Ip=settings["Ip"],
+                      freq=settings["freq"])
         # compute Poisson ratio
         cpt.poisson_calc()
         # filter values
-        cpt.filter(lithologies=settings["lithologies"], key=settings["key"], value=settings["value"])
+        cpt.filter(lithologies=settings["lithologies"],
+                   key=settings["key"],
+                   value=settings["value"])
         # make the plots (optional)
         if make_plots:
             cpt.write_csv()
             cpt.plot_cpt()
             cpt.plot_lithology()
+
+        # cache CPT object
+        if cpt_cache is not None:
+            cpt_cache[bro_id] = cpt
+
         # update scenario
-        results_cpt.update({cpt_BRO[idx_cpt]["id"]: cpt})
+        results_cpt.update({bro_id: cpt})
         # add to log file that the analysis is successful
-        log_file.info_message("Analysis succeeded for: " + cpt_BRO[idx_cpt]["id"])
+        log_file.info_message("Analysis succeeded for: " + bro_id)
 
     # Check if the data of all the cpts are empty. If they are skip processing them
     if bool(results_cpt):
         # perform interpolation
-        result_interp = tools_utils.interpolation(results_cpt, [input_dictionary['Receiver_x'][index_coordinate],
-                                                                input_dictionary['Receiver_y'][index_coordinate]],
-                                                  power=settings["power"])
+        result_interp = tools_utils.interpolation(
+            results_cpt,
+            [input_dictionary['Receiver_x'][index_coordinate],
+             input_dictionary['Receiver_y'][index_coordinate]],
+            power=settings["power"]
+        )
 
         # merge the layers thickness
-        depth_json, indx_json, lithology_json = tools_utils.merge_thickness(result_interp,
-                                                                            float(input_dictionary["MinLayerThickness"]))
+        depth_json, indx_json, lithology_json = tools_utils.merge_thickness(
+            result_interp,
+            float(input_dictionary["MinLayerThickness"])
+        )
+
         # add results to the dictionary
         jsn = tools_utils.add_json(jsn, scenario, depth_json, indx_json, lithology_json, result_interp)
         is_jsn_modified = True
+
     return jsn, is_jsn_modified
 
+def make_key(properties, methods_cpt, idx):
+    """
+    Build cache key for results per source-receiver-radius combination.
+
+    :param properties: dictionary with input properties
+    :param methods_cpt: methods dictionary (including SourceAcc and radius)
+    :param idx: index of the calculation point
+    :return: tuple used as cache key
+    """
+    source_acc = float(methods_cpt["SourceAcc"])
+
+    sx = float(properties["Source_x"][idx])
+    sy = float(properties["Source_y"][idx])
+    rx = float(properties["Receiver_x"][idx])
+    ry = float(properties["Receiver_y"][idx])
+    r = float(methods_cpt["radius"])
+
+    return (
+        round(sx / source_acc) * source_acc,
+        round(sy / source_acc) * source_acc,
+        rx,
+        ry,
+        r,
+    )
 
 def analysis(properties, methods_cpt, settings_cpt, output, plots):
     """
@@ -263,109 +342,192 @@ def analysis(properties, methods_cpt, settings_cpt, output, plots):
     # number of points
     nb_points = len(properties["Source_x"])
 
-    # for each calculation point
-    for idx in range(nb_points):
+    # BRO GPKG path
+    bro_fn = properties["BRO_data"]
 
-        # probability of scenarios
-        prob = []
+    # Use the thin shapefile instead of the full GPKG
+    geomorph_vector_path = os.path.join(os.path.dirname(bro_fn), "geomorph.pkl")
+    geomorph_layer = None  # shapefile has no layer name
 
-        # variables
-        jsn = {"scenarios": []}  # json dictionary
-        scenario = 0  # scenario number
+    # caching structures
+    cpt_cache = {}          # maps BRO id -> CPT object
+    round_res = float(methods_cpt["ROUND_RES"])
+    bro_query_cache = {}    # cache for BRO queries per rounded source coordinate
+    result_cache = {}       # cache final jsn per source-receiver-radius combo
 
-        # Define log file
-        log_file = log_handler.LogFile(output, idx)
-        log_file.info_message("Analysis started for coordinate point: (" + properties["Source_x"][idx] + ", "
-                              + properties["Source_y"][idx] + ")")
+    # Initialize BRO context once
+    with bro.BROContext(
+        bro_fn,
+        geomorph_vector_path=geomorph_vector_path,
+        geomorph_layer=geomorph_layer
+    ) as bro_ctx:
 
-        # read BRO data base
-        inpt = {"BRO_data": properties["BRO_data"],
-                "Source_x": float(properties["Source_x"][idx]), "Source_y": float(properties["Source_y"][idx]),
-                "Radius": float(methods_cpt["radius"]),
-                }
-        cpts = bro.read_bro_gpkg_version(inpt)
+        # for each calculation point
+        for idx in range(nb_points):
 
-        results = {}
-        # check points within polygons
-        cpts_polygons = {}
-        polygons_names = []
-        for zone in cpts['polygons']:
-            cpts_polygons.update({zone: {"data": list(filter(None, cpts['polygons'][zone]['data'])),
-                                         "perc": cpts['polygons'][zone]['perc']
-                                         }
-                                  })
+            # probability of scenarios
+            prob = []
 
-            for c in cpts_polygons[zone]["data"]:
-                polygons_names.append(c["id"])
+            # variables
+            jsn = {"scenarios": []}  # json dictionary
+            scenario = 0  # scenario number
 
-        # process cpts polygons
-        results.update({"polygons": {}})
-        for zone in cpts_polygons:
+            # Define log file
+            log_file = log_handler.LogFile(output, idx)
+            log_file.info_message(
+                "Analysis started for coordinate point: ("
+                + properties["Source_x"][idx] + ", "
+                + properties["Source_y"][idx] + ")"
+            )
+
+            # key for result cache (source, receiver, radius)
+            key2 = make_key(properties, methods_cpt, idx)
+
+            # reuse full result if available
+            if key2 in result_cache:
+                jsn = result_cache[key2]
+                tools_utils.dump_json(jsn, idx, output)
+                log_file.info_message(f"Using cached results for key {key2}")
+                log_file.info_message(
+                    "Analysis finished for coordinate point: ("
+                    + str(properties["Source_x"][idx]) + ", "
+                    + str(properties["Source_y"][idx]) + ")"
+                )
+                log_file.close()
+                continue
+
+            # coordinates and radius for BRO query
+            x = float(properties["Source_x"][idx])
+            y = float(properties["Source_y"][idx])
+            r = float(methods_cpt["radius"])
+
+            # rounded key for BRO query cache
+            key = (
+                round(x / round_res) * round_res,
+                round(y / round_res) * round_res
+            )
+
+            # read BRO data base (with caching)
+            if key in bro_query_cache:
+                cpts = bro_query_cache[key]
+                log_file.info_message(
+                    f"Reusing BRO CPT selection for rounded key {key}"
+                )
+            else:
+                # Use existing BRO context to get CPTs
+                cpts = bro.query_bro_at_point(bro_ctx, x, y, r)
+                bro_query_cache[key] = cpts
+
+            results = {}
+
+            # check points within polygons
+            cpts_polygons = {}
+            polygons_names = []
+            for zone in cpts['polygons']:
+                cpts_polygons.update({
+                    zone: {
+                        "data": list(filter(None, cpts['polygons'][zone]['data'])),
+                        "perc": cpts['polygons'][zone]['perc']
+                    }
+                })
+                for c in cpts_polygons[zone]["data"]:
+                    polygons_names.append(c["id"])
+
+            # process cpts polygons
+            results.update({"polygons": {}})
+            for zone in cpts_polygons:
+                # remove the nones
+                data = list(filter(None, cpts['polygons'][zone]['data']))
+                if data:
+                    jsn, is_jsn_modified = read_cpt(
+                        data, methods_cpt, settings_cpt, output,
+                        properties, plots, idx, log_file, jsn, scenario,
+                        cpt_cache=cpt_cache
+                    )
+                    if is_jsn_modified:
+                        results["polygons"].update({zone: True})
+                        prob.append(cpts['polygons'][zone]['perc'])
+                        jsn["scenarios"][scenario].update({
+                            "coordinates": [properties["Receiver_x"][idx],
+                                            properties["Receiver_y"][idx]],
+                            "probability": prob[-1]
+                        })
+                        scenario += 1
+
+            # check points within circle
+            cpts_circle = list(filter(None, cpts['circle']['data']))
+            # get cpts that are not in polygons
+            circle_names = []
+            circle_idx = []
+            for j, c in enumerate(cpts_circle):
+                circle_names.append(c["id"])
+                circle_idx.append(j)
+
+            # process only the ones that are not part of polygons
+            names_diff = list(set(circle_names) - set(polygons_names))
+            # get the indexes of the circle cpts to be processed
+            circle_idx = [circle_names.index(n) for n in names_diff]
+            cpts_circle = [cpts_circle[j] for j in circle_idx]
+
             # remove the nones
-            data = list(filter(None, cpts['polygons'][zone]['data']))
+            data = list(filter(None, cpts_circle))
+
+            # get indexes of
+            results.update({"circle": []})
             if data:
-                jsn, is_jsn_modified = read_cpt(data, methods_cpt, settings_cpt, output, properties, plots, idx,
-                                                log_file, jsn, scenario)
+                # if data exists in the circle
+                jsn, is_jsn_modified = read_cpt(
+                    data, methods_cpt, settings_cpt, output,
+                    properties, plots, idx, log_file, jsn, scenario,
+                    cpt_cache=cpt_cache
+                )
                 if is_jsn_modified:
-                    results["polygons"].update({zone: True})
-                    prob.append(cpts['polygons'][zone]['perc'])
-                    jsn["scenarios"][scenario].update({"coordinates": [properties["Receiver_x"][idx], properties["Receiver_y"][idx]],
-                                                       "probability": prob[-1]})
+                    results["circle"] = True
+                    jsn["scenarios"][scenario].update({
+                        "coordinates": [properties["Receiver_x"][idx],
+                                        properties["Receiver_y"][idx]],
+                        "probability": 1. - sum(prob)
+                    })
                     scenario += 1
+            elif jsn["scenarios"]:
+                # if circle is empty and polygons exist: update probability of polygons
+                for i in range(len(jsn["scenarios"])):
+                    jsn["scenarios"][i]["probability"] = (
+                        jsn["scenarios"][i]["probability"] / sum(prob)
+                    )
 
-        # check points within circle
-        cpts_circle = list(filter(None, cpts['circle']['data']))
-        # get cpts that are not in polygons
-        circle_names = []
-        circle_idx = []
-        for j, c in enumerate(cpts_circle):
-            circle_names.append(c["id"])
-            circle_idx.append(j)
+            # check if cpts have data or are all empty: this means that this point has no data
+            if not results["circle"] and not results["polygons"]:
+                log_file.error_message("No data in this coordinate point")
+                log_file.info_message(
+                    "Analysis finished for coordinate point: ("
+                    + str(properties["Source_x"][idx]) + ", "
+                    + str(properties["Source_y"][idx]) + ")"
+                )
+                log_file.close()
+                continue
 
-        # process only the ones that are not part of polygons
-        names_diff = list(set(circle_names) - set(polygons_names))
-        # get the indexes of the circle cpts to be processed
-        circle_idx = [circle_names.index(n) for n in names_diff]
-        cpts_circle = [cpts_circle[j] for j in circle_idx]
-
-        # remove the nones
-        data = list(filter(None, cpts_circle))
-
-        # get indexes of
-        results.update({"circle": []})
-        if data:
-            # if data exists in the circle
-            jsn, is_jsn_modified = read_cpt(data, methods_cpt, settings_cpt, output, properties, plots, idx, log_file,
-                                            jsn, scenario)
-            if is_jsn_modified:
-                results["circle"] = True
-                jsn["scenarios"][scenario].update({"coordinates": [properties["Receiver_x"][idx], properties["Receiver_y"][idx]],
-                                                   "probability": 1. - sum(prob)})
-                scenario += 1
-        elif jsn["scenarios"]:
-            # if circle is empty and polygons exist: update probability of polygons
+            # round probability to two decimals
             for i in range(len(jsn["scenarios"])):
-                jsn["scenarios"][i]["probability"] = jsn["scenarios"][i]["probability"] / sum(prob)
+                jsn["scenarios"][i]["probability"] = round(
+                    jsn["scenarios"][i]["probability"], 3
+                )
 
-        # check if cpts have data or are all empty: this mean that this point has no data
-        if not results["circle"] and not results["polygons"]:
-            log_file.error_message("No data in this coordinate point")
-            log_file.info_message("Analysis finished for coordinate point: (" + str(properties["Source_x"][idx]) + ", "
-                                  + str(properties["Source_y"][idx]) + ")")
+            # cache full result for this source-receiver-radius key
+            if jsn["scenarios"]:
+                result_cache[key2] = jsn
+
+            # dump json
+            tools_utils.dump_json(jsn, idx, output)
+
+            # processed cpts
+            log_file.info_message(
+                "Analysis finished for coordinate point: ("
+                + str(properties["Source_x"][idx]) + ", "
+                + str(properties["Source_y"][idx]) + ")"
+            )
             log_file.close()
-            continue
 
-        # round probability to two decimals
-        for i in range(len(jsn["scenarios"])):
-            jsn["scenarios"][i]["probability"] = round(jsn["scenarios"][i]["probability"], 3)
-
-        # dump json
-        tools_utils.dump_json(jsn, idx, output)
-
-        # processed cpts
-        log_file.info_message("Analysis finished for coordinate point: (" + str(properties["Source_x"][idx]) + ", "
-                              + str(properties["Source_y"][idx]) + ")")
-        log_file.close()
     return
 
 

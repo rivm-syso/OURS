@@ -156,8 +156,17 @@ class CPT:
         cpt["dataframe"] = cpt["dataframe"].loc[cpt["dataframe"]['penetrationLength'].drop_duplicates(keep="first").index]
 
         # check if there is a pre_drill. if so pad the data
-        depth, cone_resistance, friction_ratio, local_friction, pore_pressure = \
+        depth, coneResistance, frictionRatio, localFriction, pore_pressure = \
             self.define_pre_drill(cpt, length_of_average_points=minimum_samples)
+
+        # maak alles writeable NumPy-arrays, ongeacht wat define_pre_drill/get_depth_from_bro doen
+        depth         = np.array(depth, copy=True)
+        coneResistance = np.array(coneResistance, copy=True)
+        frictionRatio  = np.array(frictionRatio, copy=True)
+        localFriction  = np.array(localFriction, copy=True)
+        
+        if pore_pressure is not None:
+            pore_pressure = np.array(pore_pressure, copy=True)
 
         # parse inclination resultant
         if 'inclinationResultant' in cpt['dataframe']:
@@ -168,8 +177,8 @@ class CPT:
         # check quality of CPT
         # if more than minimum_ratio CPT is corrupted: discard CPT
         if (
-                len(cone_resistance[cone_resistance <= 0]) / len(cone_resistance) > minimum_ratio
-                or len(cone_resistance[local_friction <= 0]) / len(local_friction) > minimum_ratio
+                len(coneResistance[coneResistance <= 0]) / len(coneResistance) > minimum_ratio
+                or len(coneResistance[localFriction <= 0]) / len(localFriction) > minimum_ratio
         ):
             message = "File " + cpt["id"] + " is corrupted"
             return message
@@ -188,14 +197,14 @@ class CPT:
         # parse NAP depth
         self.depth_to_reference = self.local_reference_level - depth
         # parse tip resistance
-        self.tip = cone_resistance * unit_converter
+        self.tip = coneResistance * unit_converter
         self.tip[self.tip <= 0] = 0.
         # parse friction
-        self.friction = local_friction * unit_converter
+        self.friction = localFriction * unit_converter
         self.friction[self.friction <= 0] = 0.
 
         # parser friction number
-        self.friction_nbr = friction_ratio
+        self.friction_nbr = frictionRatio
         self.friction_nbr[self.friction_nbr <= 0] = 0.
 
         # default water is zero
@@ -233,15 +242,16 @@ class CPT:
         depth = np.array([])
         if 'depth' in cpt_BRO['dataframe']:
             if cpt_BRO['dataframe']['depth'].values.dtype == np.dtype('float64'):
-                depth = cpt_BRO['dataframe']['depth'].values
+                depth = np.array(cpt_BRO['dataframe']['depth'].values, copy=True)
         if 'inclinationResultant' in cpt_BRO['dataframe'] and depth.size == 0:
             if cpt_BRO['dataframe']['inclinationResultant'].values.dtype == np.dtype('float64'):
-                depth = self.calculate_corrected_depth(cpt_BRO['dataframe']['penetrationLength'].values,
-                                                       cpt_BRO['dataframe']['inclinationResultant'].values)
+                depth = np.array(self.calculate_corrected_depth(cpt_BRO['dataframe']['penetrationLength'].values,
+                                                       cpt_BRO['dataframe']['inclinationResultant'].values), copy=True)
         if depth.size == 0:
-            depth = cpt_BRO['dataframe']['penetrationLength'].values
+            depth = np.array(cpt_BRO['dataframe']['penetrationLength'].values, copy=True)
+            
         return depth
-
+    
     def define_pre_drill(self, cpt_BRO, length_of_average_points=3):
         r"""
         Checks the existence of pre-drill.
@@ -298,16 +308,16 @@ class CPT:
             # Enrich the Penetration Length
             depth = np.append(local_depth, local_depth[-1] + dicretisation +
                               depth - depth[0])
-            coneresistance = np.append(local_cone_res, cpt_BRO['dataframe']['coneResistance'].values)
-            frictionratio = np.append(local_fr_ratio, cpt_BRO['dataframe']['frictionRatio'].values)
-            localfriction = np.append(local_loc_fr, cpt_BRO['dataframe']['localFriction'].values)
+            coneResistance = np.append(local_cone_res, cpt_BRO['dataframe']['coneResistance'].values)
+            frictionRatio = np.append(local_fr_ratio, cpt_BRO['dataframe']['frictionRatio'].values)
+            localFriction = np.append(local_loc_fr, cpt_BRO['dataframe']['localFriction'].values)
 
         else:
             # No predrill existing: just parsing data
             depth = depth - depth[0]
-            coneresistance = cpt_BRO['dataframe']['coneResistance'].values
-            frictionratio = cpt_BRO['dataframe']['frictionRatio'].values
-            localfriction = cpt_BRO['dataframe']['localFriction'].values
+            coneResistance = cpt_BRO['dataframe']['coneResistance'].values
+            frictionRatio = cpt_BRO['dataframe']['frictionRatio'].values
+            localFriction = cpt_BRO['dataframe']['localFriction'].values
 
             # if there is pore water pressure
             for water_measurement_type in self.__water_measurement_types:
@@ -318,9 +328,9 @@ class CPT:
         if depth[0] > 0:
             # add zero
             depth = np.append(0, depth)
-            coneresistance = np.append(np.average(cpt_BRO['dataframe']['coneResistance'][:length_of_average_points]), coneresistance)
-            frictionratio = np.append(np.average(cpt_BRO['dataframe']['frictionRatio'][:length_of_average_points]), frictionratio)
-            localfriction = np.append(np.average(cpt_BRO['dataframe']['localFriction'][:length_of_average_points]), localfriction)
+            coneResistance = np.append(np.average(cpt_BRO['dataframe']['coneResistance'][:length_of_average_points]), coneResistance)
+            frictionRatio = np.append(np.average(cpt_BRO['dataframe']['frictionRatio'][:length_of_average_points]), frictionRatio)
+            localFriction = np.append(np.average(cpt_BRO['dataframe']['localFriction'][:length_of_average_points]), localFriction)
 
 
             # if there is pore water pressure
@@ -328,7 +338,7 @@ class CPT:
                 if water_measurement_type in cpt_BRO["dataframe"]:
                     pore_pressure = np.append(np.average(cpt_BRO['dataframe'][water_measurement_type][:length_of_average_points]), pore_pressure)
 
-        return depth, coneresistance, frictionratio, localfriction, pore_pressure
+        return depth, coneResistance, frictionRatio, localFriction, pore_pressure
 
     def lithology_calc(self):
         r"""
@@ -977,15 +987,15 @@ class CPT:
         return
 
     @staticmethod
-    def calculate_corrected_depth(penetration_length, inclination):
+    def calculate_corrected_depth(penetrationLength, inclination):
         """
         Correct the penetration length with the inclination angle
 
-        :param penetration_length: measured penetration length
+        :param penetrationLength: measured penetration length
         :param inclination: measured inclination of the cone
         :return: corrected depth
         """
-        corrected_d_depth = np.diff(penetration_length) * np.cos(np.radians(inclination[:-1]))
-        corrected_depth = np.concatenate((penetration_length[0], penetration_length[0] +
+        corrected_d_depth = np.diff(penetrationLength) * np.cos(np.radians(inclination[:-1]))
+        corrected_depth = np.concatenate((penetrationLength[0], penetrationLength[0] +
                                           np.cumsum(corrected_d_depth)), axis=None)
         return corrected_depth
