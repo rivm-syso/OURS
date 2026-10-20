@@ -466,7 +466,7 @@ def OutputSamenstellen(
 def deformule(Bron,FEM,Hgebouw,Overig):
     ## dit is de hoofd functie
     # wat invoer uitpakken (rest gaat direct naar subfuncties)
-    p_target = float(Overig.get("percentiel", [0.8])[0]) # scalar met 0.8 als default
+    p_target = float(Overig.get("p", 0.8)) # scalar met 0.8 als default
     snelheid = np.array(Overig["snelheid"])   # met lengte aantaltreintypes
     Vd       = bool(Overig["Vd"])             # boolean, switch
     R        = np.array(Overig["R"])          # afstand, scalar
