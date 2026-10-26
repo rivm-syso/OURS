@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OURS_Output version="V3.0">
+  <Project Name="Example Tutorial 1.0" Description="Voorbeeld modellering van 1 spoor">
+    <Settings>
+      <Vd>False</Vd>
+      <p>0.95</p>
+    </Settings>
+    <Receptors>
+      <Receptor>
+        <Name>001</Name>
+        <Description>rekenpunt 001 gevel fictief gebouw</Description>
+        <Source>
+          <Name>001</Name>
+          <Description>track 001</Description>
+          <Distance>25.7299517694979</Distance>
+          <Goederen>
+            <Overzicht>
+              <AantalTreinen_pw>0.0</AantalTreinen_pw>
+              <AantalTreinen_dag>0.0</AantalTreinen_dag>
+              <AantalTreinen_avond>0.0</AantalTreinen_avond>
+              <AantalTreinen_nacht>0.0</AantalTreinen_nacht>
+            </Overzicht>
+            <X-Richting>
+              <Fundering>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vtop_50>0</Vtop_50>
+                <Vtop_p>0</Vtop_p>
+                <Vtop_Fdom/>
+                <Vtop_Vd>0</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vper_50>0; 0; 0</Vper_50>
+                <Vper_p>0; 0; 0</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0</Vrms_50>
+                <Vrms_p>0</Vrms_p>
+                <Maatgevende_cat/>
+                <Vrms_spectraal_50>0; 0; 0; 0; 0; 0</Vrms_spectraal_50>
+              </Maaiveld>
+            </X-Richting>
+            <Z-Richting>
+              <Fundering>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vtop_50>0</Vtop_50>
+                <Vtop_p>0</Vtop_p>
+                <Vtop_Fdom/>
+                <Vtop_Vd>0</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vper_50>0; 0; 0</Vper_50>
+                <Vper_p>0; 0; 0</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0</Vrms_50>
+                <Vrms_p>0</Vrms_p>
+                <Maatgevende_cat/>
+                <Vrms_spectraal_50>0; 0; 0; 0; 0; 0</Vrms_spectraal_50>
+              </Maaiveld>
+            </Z-Richting>
+          </Goederen>
+          <Reizigers>
+            <Overzicht>
+              <AantalTreinen_pw>560.0</AantalTreinen_pw>
+              <AantalTreinen_dag>420.0</AantalTreinen_dag>
+              <AantalTreinen_avond>112.0</AantalTreinen_avond>
+              <AantalTreinen_nacht>28.0</AantalTreinen_nacht>
+            </Overzicht>
+            <X-Richting>
+              <Fundering>
+                <Vmax_50>0.15</Vmax_50>
+                <Vmax_p>0.78</Vmax_p>
+                <Vmax_Fdom>63 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vtop_50>0.37</Vtop_50>
+                <Vtop_p>1.86</Vtop_p>
+                <Vtop_Fdom>63 Hz</Vtop_Fdom>
+                <Vtop_Vd>2.98</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0.15</Vmax_50>
+                <Vmax_p>0.78</Vmax_p>
+                <Vmax_Fdom>63 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vper_50>0.007; 0.007; 0.002</Vper_50>
+                <Vper_p>0.037; 0.033; 0.012</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0.09</Vrms_50>
+                <Vrms_p>0.34</Vrms_p>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vrms_spectraal_50>0; 0.001; 0.012; 0.045; 0.037; 0.055</Vrms_spectraal_50>
+              </Maaiveld>
+            </X-Richting>
+            <Z-Richting>
+              <Fundering>
+                <Vmax_50>0.1</Vmax_50>
+                <Vmax_p>0.46</Vmax_p>
+                <Vmax_Fdom>32 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vtop_50>0.25</Vtop_50>
+                <Vtop_p>1.1</Vtop_p>
+                <Vtop_Fdom>32 Hz</Vtop_Fdom>
+                <Vtop_Vd>1.77</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0.3</Vmax_50>
+                <Vmax_p>1.43</Vmax_p>
+                <Vmax_Fdom>16 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vper_50>0.026; 0.023; 0.008</Vper_50>
+                <Vper_p>0.121; 0.108; 0.038</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0.07</Vrms_50>
+                <Vrms_p>0.26</Vrms_p>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vrms_spectraal_50>0; 0.002; 0.003; 0.041; 0.043; 0.024</Vrms_spectraal_50>
+              </Maaiveld>
+            </Z-Richting>
+          </Reizigers>
+        </Source>
+        <Source>
+          <Name>001</Name>
+          <Description>track 001</Description>
+          <Distance>34.5792332188362</Distance>
+          <Goederen>
+            <Overzicht>
+              <AantalTreinen_pw>0.0</AantalTreinen_pw>
+              <AantalTreinen_dag>0.0</AantalTreinen_dag>
+              <AantalTreinen_avond>0.0</AantalTreinen_avond>
+              <AantalTreinen_nacht>0.0</AantalTreinen_nacht>
+            </Overzicht>
+            <X-Richting>
+              <Fundering>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vtop_50>0</Vtop_50>
+                <Vtop_p>0</Vtop_p>
+                <Vtop_Fdom/>
+                <Vtop_Vd>0</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vper_50>0; 0; 0</Vper_50>
+                <Vper_p>0; 0; 0</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0</Vrms_50>
+                <Vrms_p>0</Vrms_p>
+                <Maatgevende_cat/>
+                <Vrms_spectraal_50>0; 0; 0; 0; 0; 0</Vrms_spectraal_50>
+              </Maaiveld>
+            </X-Richting>
+            <Z-Richting>
+              <Fundering>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vtop_50>0</Vtop_50>
+                <Vtop_p>0</Vtop_p>
+                <Vtop_Fdom/>
+                <Vtop_Vd>0</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0</Vmax_50>
+                <Vmax_p>0</Vmax_p>
+                <Vmax_Fdom/>
+                <Maatgevende_cat/>
+                <Vper_50>0; 0; 0</Vper_50>
+                <Vper_p>0; 0; 0</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0</Vrms_50>
+                <Vrms_p>0</Vrms_p>
+                <Maatgevende_cat/>
+                <Vrms_spectraal_50>0; 0; 0; 0; 0; 0</Vrms_spectraal_50>
+              </Maaiveld>
+            </Z-Richting>
+          </Goederen>
+          <Reizigers>
+            <Overzicht>
+              <AantalTreinen_pw>560.0</AantalTreinen_pw>
+              <AantalTreinen_dag>420.0</AantalTreinen_dag>
+              <AantalTreinen_avond>112.0</AantalTreinen_avond>
+              <AantalTreinen_nacht>28.0</AantalTreinen_nacht>
+            </Overzicht>
+            <X-Richting>
+              <Fundering>
+                <Vmax_50>0.18</Vmax_50>
+                <Vmax_p>0.92</Vmax_p>
+                <Vmax_Fdom>63 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vtop_50>0.44</Vtop_50>
+                <Vtop_p>2.2</Vtop_p>
+                <Vtop_Fdom>63 Hz</Vtop_Fdom>
+                <Vtop_Vd>3.52</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0.18</Vmax_50>
+                <Vmax_p>0.92</Vmax_p>
+                <Vmax_Fdom>63 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vper_50>0.011; 0.01; 0.004</Vper_50>
+                <Vper_p>0.057; 0.051; 0.018</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0.1</Vrms_50>
+                <Vrms_p>0.42</Vrms_p>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vrms_spectraal_50>0; 0.002; 0.014; 0.06; 0.043; 0.058</Vrms_spectraal_50>
+              </Maaiveld>
+            </X-Richting>
+            <Z-Richting>
+              <Fundering>
+                <Vmax_50>0.12</Vmax_50>
+                <Vmax_p>0.57</Vmax_p>
+                <Vmax_Fdom>32 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vtop_50>0.3</Vtop_50>
+                <Vtop_p>1.36</Vtop_p>
+                <Vtop_Fdom>16 Hz</Vtop_Fdom>
+                <Vtop_Vd>2.18</Vtop_Vd>
+              </Fundering>
+              <Gebouw>
+                <Vmax_50>0.36</Vmax_50>
+                <Vmax_p>1.77</Vmax_p>
+                <Vmax_Fdom>16 Hz</Vmax_Fdom>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vper_50>0.032; 0.029; 0.01</Vper_50>
+                <Vper_p>0.159; 0.142; 0.05</Vper_p>
+              </Gebouw>
+              <Maaiveld>
+                <Vrms_50>0.08</Vrms_50>
+                <Vrms_p>0.33</Vrms_p>
+                <Maatgevende_cat>1</Maatgevende_cat>
+                <Vrms_spectraal_50>0; 0.002; 0.005; 0.054; 0.05; 0.025</Vrms_spectraal_50>
+              </Maaiveld>
+            </Z-Richting>
+          </Reizigers>
+        </Source>
+      </Receptor>
+    </Receptors>
+  </Project>
+  <Messages>
+    <lines0>Info	21-10-2026 16:31:44	OURS 3.0 started</lines0>
+    <lines1>Info	21-10-2026 16:31:44	Table "CATEGORY" loaded</lines1>
+    <lines2>Info	21-10-2026 16:31:44	Table "MEASUREMENT" loaded</lines2>
+    <lines3>Info	21-10-2026 16:31:44	Table "PARAMETERS" loaded</lines3>
+    <lines4>Info	21-10-2026 16:31:44	Table "SOURCETYPE" loaded</lines4>
+    <lines5>Info	21-10-2026 16:31:44	Table "SPECTRUM" loaded</lines5>
+    <lines6>Info	21-10-2026 16:31:44	Table "TRAINTYPE" loaded</lines6>
+    <lines7/>
+    <lines8/>
+    <lines9/>
+    <lines10/>
+    <lines11>Info	21-10-2026 16:37:55	------------------------------------------------</lines11>
+    <lines12>Info	21-10-2026 16:37:55	Ground module started</lines12>
+    <lines13>Info	21-10-2026 16:39:59	Ground module done</lines13>
+    <lines14>Info	21-10-2026 16:39:59	------------------------------------------------</lines14>
+    <lines15>Info	21-10-2026 16:39:59	FEM calculation "Scenario 1"</lines15>
+    <lines16>Info	21-10-2026 16:43:57	FEM calculation "Scenario 2"</lines16>
+    <lines17>Info	21-10-2026 16:46:04	FEM calculation "Scenario 3"</lines17>
+    <lines18>Info	21-10-2026 16:48:21	------------------------------------------------</lines18>
+    <lines19>Info	21-10-2026 16:48:22	FEM post processing receptor "001"</lines19>
+    <lines20>Info	21-10-2026 16:48:22	- Source "001", ground "Scenario 1"</lines20>
+    <lines21>Info	21-10-2026 16:48:35	- Source "001", ground "Scenario 2"</lines21>
+    <lines22>Info	21-10-2026 16:48:45	- Source "001", ground "Scenario 3"</lines22>
+    <lines23>Info	21-10-2026 16:48:55	- Source "001", ground "Scenario 1"</lines23>
+    <lines24>Info	21-10-2026 16:49:07	- Source "001", ground "Scenario 2"</lines24>
+    <lines25>Info	21-10-2026 16:49:18	- Source "001", ground "Scenario 3"</lines25>
+    <lines26>Info	21-10-2026 16:49:28	------------------------------------------------</lines26>
+    <lines27>Info	21-10-2026 16:49:28	FEM ground uncertainty receptor "001"</lines27>
+    <lines28>Info	21-10-2026 16:49:28	- Source "001", ground "Scenario 1"</lines28>
+    <lines29>Info	21-10-2026 16:49:36	- Source "001", ground "Scenario 2"</lines29>
+    <lines30>Info	21-10-2026 16:49:45	- Source "001", ground "Scenario 3"</lines30>
+    <lines31>Info	21-10-2026 16:49:53	- Source "001", ground "Scenario 1"</lines31>
+    <lines32>Info	21-10-2026 16:50:01	- Source "001", ground "Scenario 2"</lines32>
+    <lines33>Info	21-10-2026 16:50:09	- Source "001", ground "Scenario 3"</lines33>
+    <lines34>Info	21-10-2026 16:50:17	------------------------------------------------</lines34>
+    <lines35>Info	21-10-2026 16:50:17	Building module receptor "001"</lines35>
+    <lines36>Info	21-10-2026 16:50:17	- Source "001", ground "Scenario 1"</lines36>
+    <lines37>Info	21-10-2026 16:50:23	- Source "001", ground "Scenario 2"</lines37>
+    <lines38>Info	21-10-2026 16:50:29	- Source "001", ground "Scenario 3"</lines38>
+    <lines39>Info	21-10-2026 16:50:36	- Source "001", ground "Scenario 1"</lines39>
+    <lines40>Info	21-10-2026 16:50:41	- Source "001", ground "Scenario 2"</lines40>
+    <lines41>Info	21-10-2026 16:50:47	- Source "001", ground "Scenario 3"</lines41>
+    <lines42>Info	21-10-2026 16:50:53	------------------------------------------------</lines42>
+    <lines43>Info	21-10-2026 16:50:53	Main formula for receptor "001"</lines43>
+    <lines44>Info	21-10-2026 16:50:53	- Source "001"</lines44>
+    <lines45>Info	21-10-2026 16:50:56	- Source "001"</lines45>
+    <lines46>Info	21-10-2026 16:50:59	------------------------------------------------</lines46>
+  </Messages>
+</OURS_Output>
