@@ -29,8 +29,8 @@ def define_methods(input_file):
     OCR_keys = ["Mayne", "Robertson"]
 
     rad = 600.0
-    sourceacc = 50.0
-    round_res = 50.0
+    sourceacc = 25.0
+    round_res = 25.0
 
     # if no file is available: -> uses default values
     if not input_file:
